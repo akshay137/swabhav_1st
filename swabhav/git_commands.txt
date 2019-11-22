@@ -1,0 +1,31 @@
+git commands:
+
+git init:
+	initialize new git repositary in local machine
+
+git status:
+	check status of local repositary
+
+git add <file>:
+	add files to track
+
+git add --all:
+	add all untracked files to tracking
+
+git commit -m <messge>:
+	commit changes to local repositary with message
+
+git remote add <short_name> <remote_url>:
+	set remote repositary url to shart hand
+
+git push <remote_location> <branch_name>:
+	upload local commits to remote repositary
+
+git clone <url>:
+	create local git repositary of remote repositary
+
+git pull:
+	download remote commits to local repositary
+
+git remote -v:
+	check short name of remote url
