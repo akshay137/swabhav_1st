@@ -1,5 +1,7 @@
 package com.techlabs.account;
 
+import java.io.Serializable;
+
 public class CurrentAccount extends Account {
 
 	private final int OVERDRAFT = -10000;

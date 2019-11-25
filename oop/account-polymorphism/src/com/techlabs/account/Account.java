@@ -1,6 +1,8 @@
 package com.techlabs.account;
 
-public abstract class Account {
+import java.io.*;
+
+public abstract class Account implements Serializable {
 	private int acc_no;
 	private String name;
 	protected double balance;
@@ -40,4 +42,11 @@ public abstract class Account {
 	}
 	
 	public abstract void withdraw(double amount);
+	
+	@Override
+	public String toString()
+	{
+		return String.format("hash: %x acc_no: %d name: %s balance: %.2f",
+				hashCode(), this.acc_no, this.name, this.balance);
+	}
 }
