@@ -111,6 +111,13 @@ public class Employee {
 	}
 	
 	@Override
+	public String toString()
+	{
+		return String.format("%d:%s:%.2f::%tc",
+				this.id, this.name, this.salary, this.dateOfJoining);
+	}
+	
+	@Override
 	public int hashCode()
 	{
 		return this.id;
@@ -121,6 +128,6 @@ public class Employee {
 	{
 		Employee other = (Employee)obj;
 		return (this.id == other.getId())
-				&& (this.departmentId == this.getDepartmentId());
+				&& (this.departmentId == other.getDepartmentId());
 	}
 }

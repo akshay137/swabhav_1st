@@ -5,13 +5,20 @@ import java.net.*;
 
 public class WebReader implements IReadable {
 
+	private String path;
+	
+	public WebReader(String path)
+	{
+		this.path = path;
+	}
+	
 	@Override
-	public String readFile(String path) {
-		return new String(readFileBytes(path));
+	public String readFile() {
+		return new String(readFileBytes());
 	}
 
 	@Override
-	public byte[] readFileBytes(String path) {
+	public byte[] readFileBytes() {
 		try
 		{
 			URL url = new URL(path);

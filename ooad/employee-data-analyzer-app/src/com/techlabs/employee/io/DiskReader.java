@@ -4,13 +4,20 @@ import java.io.*;
 
 public class DiskReader implements IReadable {
 
-	@Override
-	public String readFile(String path) {
-		return new String(readFileBytes(path));
+	private String path;
+	
+	public DiskReader(String path)
+	{
+		this.path = path;
 	}
 	
 	@Override
-	public byte[] readFileBytes(String path)
+	public String readFile() {
+		return new String(readFileBytes());
+	}
+	
+	@Override
+	public byte[] readFileBytes()
 	{
 		try
 		{

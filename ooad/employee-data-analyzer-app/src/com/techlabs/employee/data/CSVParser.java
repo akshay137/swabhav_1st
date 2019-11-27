@@ -14,7 +14,7 @@ public class CSVParser implements IParsable {
 		String[] lines = csv.split(System.getProperty("line.separator"));
 		for (String line : lines)
 		{
-			String[] values = line.split(",");
+			String[] values = line.replace("\r", "").split(",");
 			container.add((Object[])values);
 		}
 		return false;

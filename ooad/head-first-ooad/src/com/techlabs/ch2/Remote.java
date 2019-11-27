@@ -1,5 +1,7 @@
 package com.techlabs.ch2;
 
+import java.util.*;
+
 public class Remote {
 	private DogDoor door;
 	
@@ -11,9 +13,22 @@ public class Remote {
 	public void pressButton()
 	{
 		if (door.isOpen())
+		{
 			door.close();
+		}
 		else
+		{
 			door.open();
+			final Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				
+				@Override
+				public void run() {
+					door.close();
+					timer.cancel();
+				}
+			}, 5000);
+		}
 	}
 	
 	public DogDoor getDoor()

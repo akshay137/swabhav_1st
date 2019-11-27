@@ -1,0 +1,22 @@
+package com.techlabs.lsp.violation;
+
+public class Square extends Rectangle {
+	
+	public Square(int side)
+	{
+		super(side, side);
+	}
+	
+	@Override
+	public void setWidth(int width)
+	{
+		super.setWidth(width);
+		super.setHeight(width);
+	}
+	
+	@Override
+	public void setHeight(int height)
+	{
+		this.setWidth(height);
+	}
+}
