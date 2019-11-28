@@ -2,9 +2,9 @@ package com.techlabs.employee;
 
 public enum Designation {
 	NONE,
-	MANAGER,
+	SALESMAN,
 	CLERK,
 	ANALYST,
-	SALESMAN,
+	MANAGER,
 	PRESIDENT,
 }

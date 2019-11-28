@@ -66,6 +66,31 @@ public class EmployeeAnalyzer {
 			}
 		};
 	
+	public static final Comparator<Employee> comapreDepartment
+		= new Comparator<Employee>() {
+			
+			@Override
+			public int compare(Employee emp1, Employee emp2) {
+				if (emp1.getDepartmentId() == emp2.getDepartmentId())
+					return 0;
+				return (emp1.getDepartmentId() < emp2.getDepartmentId())
+						? -1 : 1;
+			}
+		};
+	
+	public static final Comparator<Employee> compareDesignation
+		= new Comparator<Employee>() {
+			
+			@Override
+			public int compare(Employee emp1, Employee emp2) {
+				if (emp1.getDesignation() == emp2.getDesignation())
+					return 0;
+				return (emp1.getDesignation().ordinal()
+						< emp1.getDesignation().ordinal())
+						? -1 : 1;
+			}
+		};
+	
 	public static final Comparator<Object> matchDesignation
 		= new Comparator<Object>() {
 			@Override
@@ -83,8 +108,7 @@ public class EmployeeAnalyzer {
 			public int compare(Object emp, Object condition) {
 				if (((Employee)emp).getDepartmentId() == (int) condition)
 					return 0;
-				return (((Employee)emp).getDepartmentId() < (int) condition)
-					? -1 : 1;
+				return 1;
 			}
 		};
 
