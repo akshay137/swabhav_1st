@@ -113,8 +113,8 @@ public class Employee {
 	@Override
 	public String toString()
 	{
-		return String.format("%d:%s:%.2f::%tc",
-				this.id, this.name, this.salary, this.dateOfJoining);
+		return String.format("%d:%d:%s:%.2f",
+				this.id, this.departmentId, this.name, this.salary);
 	}
 	
 	@Override

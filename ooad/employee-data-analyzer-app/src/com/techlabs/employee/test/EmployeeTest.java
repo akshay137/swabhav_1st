@@ -11,25 +11,27 @@ import com.techlabs.employee.*;
 public class EmployeeTest {
 	private static final String filePath = "assets/dataFile.txt";
 	private static final String fileURL = "https://swabhav-tech.firebaseapp.com/emp.txt";
-	
-	public static void main(String[] args)
-	{
+
+	public static void main(String[] args) {
 		DiskReader dr = new DiskReader(filePath);
 		WebReader wr = new WebReader(fileURL);
-		
+
 		EmployeeList list = new EmployeeList();
 		CSVParser parser = new CSVParser(list);
 		list.addFromSource(dr, parser);
-//		System.out.println(list.getEmployees().size());
 //		list.addFromSource(wr, parser);
-//		System.out.println(list.getEmployees().size());
-//		System.out.printf("%s\n",
-//				EmployeeAnalyzer.getHighestPaidEmployee(list.getEmployees()));
-//		for (Employee emp : list.getEmployees())
-//			System.out.println(emp);
-//		EmployeeAnalyzer.getCount(list, new Comparator<Employee>() {
-//			@Override
-//			public boolean compare()
-//		});
+		EmployeeAnalyzer analyzer = new EmployeeAnalyzer(list.getEmployees());
+		
+		Employee highestPaid = analyzer.getMax(EmployeeAnalyzer.compareSalary);
+		Employee lowestPaid = analyzer.getMin(EmployeeAnalyzer.compareSalary);
+		System.out.println("higest paid: " + highestPaid);
+		System.out.println("lowest paid: " + lowestPaid);
+		
+		int count = analyzer.countAll(EmployeeAnalyzer.matchDepartment, 20);
+		System.out.printf("employees in department 20: %d\n", count);
+		count = analyzer.countAll(EmployeeAnalyzer.matchDesignation,
+				Designation.CLERK);
+		System.out.printf("Employees with designation CLERK: %d\n", count);
+		
 	}
 }

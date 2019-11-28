@@ -8,42 +8,35 @@ public class EmployeeBuilder {
 	{
 		if (values.length < 8)
 			return null;
-		int id;
-		String name;
-		Designation designation;
-		int managerId;
-		Date dateOfJoining;
-		double salary;
-		double commision;
-		int departmentId;
 		
-		id = parseId(values[0]);
+		int id = parseId(values[0]);
 		if (id < 0)
 			return null;
 		
-		name = values[1].replace("'", "");
+		String name = values[1].replace("'", "");
 		
-		designation = parseDesignation(values[2].replace("'", ""));
+		Designation designation =
+				parseDesignation(values[2].replace("'", ""));
 		if (designation == Designation.NONE)
 			return null;
 		
-		managerId = parseId(values[3]);
+		int managerId = parseId(values[3]);
 		if (managerId < -1)
 			return null;
 		
-		dateOfJoining = parseDate(values[4]);
+		Date dateOfJoining = parseDate(values[4]);
 		if (dateOfJoining == null)
 			return null;
 		
-		salary = parseDouble(values[5]);
+		double salary = parseDouble(values[5]);
 		if (salary < 0.0)
 			return null;
 		
-		commision = parseDouble(values[6]);
+		double commision = parseDouble(values[6]);
 		if (commision < 0.0)
 			return null;
 		
-		departmentId = parseId(values[7]);
+		int departmentId = parseId(values[7]);
 		if (departmentId < 0)
 			return null;
 		
@@ -54,6 +47,12 @@ public class EmployeeBuilder {
 	
 	private static int parseId(String value)
 	{
+		if (value == null)
+			return 0;
+		if (value.length() == 0)
+			return 0;
+		if (value.toLowerCase().equals("null"))
+			return 0;
 		try
 		{
 			return Integer.parseInt(value);
