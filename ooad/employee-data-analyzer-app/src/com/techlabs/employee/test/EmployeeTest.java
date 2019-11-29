@@ -23,8 +23,8 @@ public class EmployeeTest {
 		EmployeeAnalyzer analyzer = new EmployeeAnalyzer(list.getEmployees());
 		
 		Employee highestPaid = analyzer.getMax(EmployeeAnalyzer.compareSalary);
-		Employee lowestPaid = analyzer.getMin(EmployeeAnalyzer.compareSalary);
 		System.out.println("higest paid: " + highestPaid);
+		Employee lowestPaid = analyzer.getMin(EmployeeAnalyzer.compareSalary);
 		System.out.println("lowest paid: " + lowestPaid);
 		
 		int count = analyzer.countAll(EmployeeAnalyzer.matchDepartment, 20);
