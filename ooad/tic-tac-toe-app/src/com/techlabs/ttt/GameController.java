@@ -1,7 +1,5 @@
 package com.techlabs.ttt;
 
-import java.io.*;
-
 public class GameController {
     private Game game;
     private int boardSize;
@@ -37,12 +35,12 @@ public class GameController {
     public void playGame()
     {
 	GameResult res = GameResult.GAME_RUNNING;
-	final int MAX_CELL_ID = this.boardSize * this.boardSize;
 	while (GameResult.GAME_RUNNING == res)
 	{
 	    printGameBoard();
 	    printCurrentUser();
-	    int cellId = game.getCurrentUser().decideCell(game.getBoard());
+	    int cellId = game.getCurrentUser().decideCell(
+		    game.getBoard());
 	    try
 	    {
 		res = game.play(cellId);
@@ -63,7 +61,8 @@ public class GameController {
 	switch (res)
 	{
 	case WIN:
-	    System.out.printf("%s won\n", game.getCurrentUser().getName());
+	    System.out.printf("%s won\n",
+		    game.getCurrentUser().getName());
 	    break;
 	    
 	case DRAW:
@@ -71,7 +70,7 @@ public class GameController {
 	    break;
 	    
 	default:
-	    System.out.printf("How the hell did this happened: %s\n",
+	    System.err.printf("How the hell did this happened: %s\n",
 		    res);
 	    break;
 	}
@@ -79,12 +78,14 @@ public class GameController {
     
     private void printCurrentUser()
     {
-	System.out.println(game.getCurrentUser().getName() + "'s turn");
+	System.out.printf("%s's turn [%s]\n",
+		game.getCurrentUser().getName(),
+		game.getCurrentUser().getMark());
     }
     
     private void printGameBoard()
     {
-	final char[] marks = {' ', 'O', 'X'};
+	final char[] marks = {' ', 'X', 'O'};
 	Cell[] cells = game.getBoard().getGrid();
 	System.out.println(this.header);
 	for (int i = 0; i < this.boardSize; i++)
@@ -98,5 +99,5 @@ public class GameController {
 	    }
 	    System.out.println();
 	}
-    }    
+    }
 }

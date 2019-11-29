@@ -2,8 +2,6 @@ package com.techlabs.ttt.test;
 
 import com.techlabs.ttt.*;
 
-import junit.framework.AssertionFailedError;
-
 import java.lang.reflect.*;
 import org.junit.jupiter.api.*;
 

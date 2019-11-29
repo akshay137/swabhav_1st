@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 
 public class Reflector {
     
-    public static Method getMethod(Class cls, String methodName,
+    public static Method getMethod(Class<?> cls, String methodName,
 	    int parameterCount)
     {
 	Method[] methods = cls.getDeclaredMethods();
