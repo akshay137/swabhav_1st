@@ -30,7 +30,6 @@ public class HUD extends JPanel {
     
     private void setView()
     {
-//	setLayout(new FlowLayout());
 	setLayout(new GridLayout(2, 0));
 	JLabel player1 = new JLabel("Player 1:");
 	this.add(player1);

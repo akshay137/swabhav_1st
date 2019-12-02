@@ -44,12 +44,16 @@ public class GameController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
 	JButton button = (JButton)e.getSource();
-	button.setText(String.valueOf(
-		marks[game.getCurrentUser().getMark().ordinal()]));
+
+	String value = button.getText();
+	if (value.contains("X") || value.contains("O"))
+	    return;
+	
 	button.removeActionListener(this);
 	button.setEnabled(false);
+	button.setText(String.valueOf(
+		marks[game.getCurrentUser().getMark().ordinal()]));
 	
-	String value = button.getText();
 //	System.out.println(value);
 	GameResult res = game.play(Integer.parseInt(value));
 	if (res == GameResult.GAME_RUNNING)
