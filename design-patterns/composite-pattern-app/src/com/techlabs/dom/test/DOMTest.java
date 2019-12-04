@@ -15,6 +15,7 @@ public class DOMTest {
 		inputName.setAttributes("type=\"text\"");
 		pName.add(nameSpan);
 		pName.add(inputName);
+		root.add(pName);
 		
 		DOMGroup pPass = new DOMGroup("p");
 		DOMControl passSpan = new DOMControl("span");
@@ -23,14 +24,12 @@ public class DOMTest {
 		inputPass.setAttributes("type=\"password\"");
 		pPass.add(passSpan);
 		pPass.add(inputPass);
+		root.add(pPass);
 		
 		DOMGroup pSubmit = new DOMGroup("p");
 		DOMControl inputSubmit = new DOMControl("input");
-		inputSubmit.setAttributes("type=\"submit\" value=\"submit\"");
+		inputSubmit.setAttributes("type=\"submit\" value=\"login\"");
 		pSubmit.add(inputSubmit);
-		
-		root.add(pName);
-		root.add(pPass);
 		root.add(pSubmit);
 		
 		return root;
