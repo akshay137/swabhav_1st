@@ -1,0 +1,53 @@
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, intitial-scale=1.0" />
+	<title>JS app</title>
+</head>
+
+<body>
+	<h1>Welcome to Javascript</h1>
+	<h2 id="display"></h2>
+
+	<script>
+		console.log('this', this);
+		console.log('this == window', this == window);
+		var foo = 'string';
+		console.log('foo:', foo)
+		console.log('this.foo:', this.foo);
+		console.log('window.foo:', window.foo);
+		console.log('typeof(window):', typeof (window));
+		console.log('typeof(document)', typeof (document));
+		console.log('typeof(console):', typeof (console));
+
+		console.log('typeof(foo):', typeof (foo));
+		foo = 10;
+		console.log('typeof(foo):', typeof (foo));
+		foo = 2.2;
+		console.log('typeof(foo):', typeof (foo));
+		foo = {};
+		console.log('typeof(foo):', typeof (foo));
+		foo = function () { }
+		console.log('typeof(foo):', typeof (foo));
+
+		console.log("'20' + 20 = ", '20' + 20);
+		console.log("'20' * 20 = ", '20' * 20);
+
+		var h2 = document.getElementById('display');
+		h2.innerHTML = 'by document.getElementById';
+		// debugger;
+		h2 = document.querySelector('#display');
+		h2.innerHTML = 'by document.querySelector';
+
+		function debugTest() {
+			console.log('testing debugger');
+			var foo = 0;
+			foo *= 1;
+		}
+
+		debugTest();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, intitial-scale=1.0" />
+	<title>JS app</title>
+
+</head>
+
+<body>
+	<div>
+		task:<input id="task" type="text" />
+		<button id="btnAdd">Add</button>
+	</div>
+
+	<h3>task list:</h3>
+	<div id="taskList">
+
+	</div>
+
+	<script type="text/javascript">
+		(function () {
+			var taskList = document.getElementById('taskList');
+			var btnAdd = document.getElementById('btnAdd');
+			btnAdd.onclick = function (e) {
+				var task = document.getElementById('task');
+				taskList.innerHTML = task.value;
+			}
+		})();
+	</script>
+</body>
+
+</html>
