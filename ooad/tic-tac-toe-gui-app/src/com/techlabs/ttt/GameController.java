@@ -3,7 +3,7 @@ package com.techlabs.ttt;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GameController implements ActionListener{
+public class GameController implements ActionListener {
     private Game game;
     private int boardSize;
     private TicTacToeFrame frame;
