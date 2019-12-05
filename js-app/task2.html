@@ -23,7 +23,8 @@
 			var taskList = document.getElementById('taskList');
 			var btnAdd = document.getElementById('btnAdd');
 			var last;
-			btnAdd.onclick = function (e) {
+			// btnAdd.onclick = function (e) {
+			const addTask = function (e) {
 				var task = document.getElementById('task');
 				// __m1
 				// var p = document.createElement('p');
@@ -38,6 +39,7 @@
 				taskList.insertBefore(p, last);
 				last = p;
 			}
+			btnAdd.addEventListener('click', addTask);
 		})();
 	</script>
 </body>

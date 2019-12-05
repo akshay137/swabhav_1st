@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Color</title>
+</head>
+
+<body>
+	<details>
+		<summary>color</summary>
+		<p>change page background color</p>
+	</details>
+
+	<div>
+		<span>select color: </span>
+		<select id="colors">
+			<option selected disabled>--select-color--</option>
+		</select>
+	</div>
+
+	<script type="text/javascript">
+		(function () {
+			// "use strict"
+			const colorSelector = document.getElementById('colors');
+			const setColor = function (e) {
+				document.body.style.backgroundColor = colorSelector.value;
+			}
+
+			const generateColors = function () {
+				colors.forEach((color) => {
+					var option = new Option();
+					option.innerHTML = color.name;
+					option.value = color.value;
+					colorSelector.appendChild(option);
+				});
+			}
+
+			colorSelector.addEventListener('change', setColor);
+			window.addEventListener('load', (e) => {
+				generateColors();
+			});
+
+			// list of colors
+			const colors = [
+				{ name: 'red', value: '#f00' },
+				{ name: 'green', value: '#0f0' },
+				{ name: 'blue', value: '#00f' },
+				{ name: 'cyan', value: '#0ff' },
+				{ name: 'yellow', value: '#ff0' },
+				{ name: 'magenta', value: '#f0f' },
+			];
+		})();
+	</script>
+
+</body>
+
+</html>

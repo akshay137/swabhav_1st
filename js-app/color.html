@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Color</title>
+</head>
+
+<body>
+	<details>
+		<summary>color</summary>
+		<p>change page background color</p>
+	</details>
+
+	<div>
+		<span>select color: </span>
+		<select id="colors">
+			<option selected disabled>--select-color--</option>
+			<option value="red">red</option>
+			<option value="green">green</option>
+			<option value="blue">blue</option>
+			<option value="aqua">aqua</option>
+		</select>
+	</div>
+
+	<script type="text/javascript">
+		(function () {
+			var list = document.getElementById('colors');
+			const setColor = function (e) {
+				document.body.style.backgroundColor = list.value;
+			}
+
+			list.addEventListener('change', setColor);
+			window.addEventListener('load', (e) => {
+				setColor();
+			});
+
+
+		})();
+	</script>
+
+</body>
+
+</html>

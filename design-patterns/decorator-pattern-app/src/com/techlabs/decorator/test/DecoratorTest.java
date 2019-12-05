@@ -8,6 +8,6 @@ public class DecoratorTest {
 		IBikeService service = new TyreRotation(
 				new OilChange(new BasicInspection()));
 		System.out.printf("total cost %.2f\n", service.getCost());
-		service.printDescription();
+		System.out.printf("description:\n%s\n", service.getDescription());
 	}
 }

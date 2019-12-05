@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title></title>
+</head>
+
+<body>
+	<header>
+		<details>
+			<summary>Slider test</summary>
+			<p>generate buttons from slider value</p>
+		</details>
+	</header>
+
+	<div>
+		<input type="range" min="1" max="100" step="1" id="slider" value="1" />
+		<button id="btnGenerate">Generate</button>
+		<p id="sValue"></p>
+		<div id="buttons"></div>
+	</div>
+
+
+	<script type="text/javascript">
+		(function () {
+			const slider = document.getElementById('slider');
+			const sValue = document.getElementById('sValue');
+			const buttons = document.getElementById('buttons');
+			const btnGenerate = document.getElementById('btnGenerate');
+
+			var count = 0;
+
+			const updateValue = function (e) {
+				sValue.innerHTML = slider.value;
+				count = slider.value;
+			}
+
+			const buttonClick = function (e) {
+				console.log(e.target.innerHTML);
+			}
+
+			const generateButtons = function (e) {
+				buttons.innerHTML = '';
+				for (var i = 0; i < count; i++) {
+					var button = document.createElement('button');
+					button.innerHTML = (i + 1).toString();
+					buttons.addEventListener('click', buttonClick);
+					buttons.appendChild(button);
+				}
+			}
+
+			slider.addEventListener('input', updateValue);
+			btnGenerate.addEventListener('click', generateButtons);
+			window.addEventListener('load', () => {
+				updateValue();
+				generateButtons();
+			});
+
+		})();
+	</script>
+</body>
+
+</html>

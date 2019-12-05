@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>JS app</title>
+
+</head>
+
+<body>
+	<div>
+		task:<input id="task" type="text" />
+	</div>
+
+	<h3>task list:</h3>
+	<div id="taskList">
+
+	</div>
+
+	<script type="text/javascript">
+		(function () {
+			"use strict"
+			var tasks = [];
+			var taskList = document.getElementById('taskList');
+			var taskIp = document.getElementById('task');
+			var last;
+			var counter = 0;
+
+			const saveTask = function (value) {
+				tasks.push({ id: ++counter, details: taskIp.value });
+				console.log(tasks);
+				localStorage.setItem('tasklist', JSON.stringify(tasks));
+			}
+
+			const getTasks = function () {
+				tasks = JSON.parse(localStorage.getItem('tasklist'));
+				if (tasks == null)
+					tasks = [];
+				tasks.sort((a, b) => { return a.id - b.id });
+				counter = tasks[tasks.length - 1];
+				counter = (counter == undefined) ? 0 : counter.id;
+				// console.log(counter);
+			}
+
+			const displayTasks = function () {
+
+				for (var i = tasks.length - 1; i >= 0; i--) {
+					var p = document.createElement('p');
+					p.innerHTML = tasks[i].details;
+					taskList.appendChild(p);
+					if (i == tasks.length - 1)
+						last = p;
+				}
+			}
+
+			const addTask = function (e) {
+				var p = document.createElement('p');
+				p.innerHTML = taskIp.value;
+				console.log(last);
+				taskList.insertBefore(p, last);
+				last = p;
+			}
+
+			const keydown = function (e) {
+				// console.log(e);
+				if (e.key == 'Enter') {
+					addTask();
+					saveTask();
+				}
+			}
+			taskIp.addEventListener('keydown', keydown);
+
+			window.addEventListener('load', () => {
+				getTasks();
+				displayTasks();
+			});
+		})();
+	</script>
+</body>
+
+</html>
