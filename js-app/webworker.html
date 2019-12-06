@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>WebWorkers</title>
+</head>
+
+<body>
+	<button id="btnPrint">Print</button>
+	<button id="stopPrint">Stop wroker</button>
+	<br /><br />
+	<button id="btnHello">Hello</button>
+
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			const btnPrint = document.getElementById('btnPrint');
+			const btnStop = document.getElementById('stopPrint');
+			const btnHello = document.getElementById('btnHello');
+
+			let worker = null;
+
+			const onHello = function (e) {
+				alert('clicked on hello');
+			}
+
+			const print = function (msg) {
+				console.log('worker message received', msg.data);
+			}
+
+			const onStop = function (e) {
+				if (worker != null)
+					worker.terminate();
+			}
+
+			const onPrint = function (e) {
+				console.log('web worker');
+				worker = new Worker('webworkers/simple.js');
+				worker.onmessage = print;
+			}
+
+			btnPrint.addEventListener('click', onPrint);
+			btnHello.addEventListener('click', onHello);
+			btnStop.addEventListener('click', onStop);
+
+		})();
+	</script>
+</body>
+
+</html>

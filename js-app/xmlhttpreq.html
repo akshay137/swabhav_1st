@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>XMLHttpRequest</title>
+</head>
+
+<body>
+	<h1>XMLHttpRequest</h1>
+	<div>
+		Number: <input type="text" id="number" />
+		<button id="btnSearch">Search</button>
+	</div>
+	<div>
+		<h3>data:</h3>
+		<div id="display">
+			<!-- content generated through script -->
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			const btnSearch = document.getElementById('btnSearch');
+			const input = document.getElementById('number');
+			const display = document.getElementById('display');
+
+			const apiUrl = 'http://numbersapi.com/';
+			const KEY_TRIVIAS = 'trivias';
+			let searches = [];
+
+			const getSearchResObject = function (trivia, date) {
+				// let time = `${date.getDate()}-${date.getMonth() + 1}-`
+				// 	+ `${date.getFullYear()}`;
+				return { timestamp: date, data: trivia };
+			}
+
+			const addTrivia = function (trivia, date) {
+				const searchResult = getSearchResObject(trivia, date);
+				searches.push(searchResult);
+				// console.log(searchResult);
+				localStorage.setItem(KEY_TRIVIAS, JSON.stringify(searches));
+			}
+
+			const displayTrivia = function (trivia, date) {
+				let div = document.createElement('div');
+				let text = document.createTextNode(trivia);
+				div.appendChild(text);
+				display.insertBefore(div, display.firstChild);
+			}
+
+			const onXHRStateChange = function (e) {
+				// console.log('state changed', this.readyState, this);
+				switch (this.readyState) {
+					case 4:
+						if (this.status == 200) {
+							console.log('received:', this.responseText);
+							addTrivia(this.responseText, this.searchTime);
+							displayTrivia(this.responseText, this.searchTime);
+						}
+						break;
+				}
+			}
+			const search = function (value) {
+				let xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = onXHRStateChange;
+				const finalUrl = apiUrl + value;
+				// console.log(finalUrl);
+				xhr.searchTime = new Date();
+				xhr.open('GET', finalUrl, true);
+				xhr.send();
+			}
+
+			const onClickSearch = function (e) {
+				let value = input.value;
+				search(value);
+			}
+
+			const loadTriviaFromStorage = function () {
+				searches = JSON.parse(localStorage.getItem(KEY_TRIVIAS));
+				if (searches == null)
+					searches = [];
+				searches.forEach((search) => {
+					displayTrivia(search.data);
+				});
+			}
+
+			btnSearch.addEventListener('click', onClickSearch);
+			window.addEventListener('load', (e) => {
+				loadTriviaFromStorage();
+			});
+
+		})();
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Hoisting</title>
+</head>
+
+<body>
+	<h1>Hoisting test</h1>
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			function main() {
+				console.log('inside main');
+				for (var c = 0; c <= 10; c++) {
+					console.log('count is', c);
+				}
+				console.log('end of main', c);
+			}
+
+			console.log('end of script', c);
+			main();
+		})();
+	</script>
+
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			f1();
+			function f1() {
+				console.log('inside f1');
+			}
+			f1();
+
+			f2();
+			var f2 = function () {
+				console.log('inside f2');
+			}
+			f2();
+		})();
+	</script>
+
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			var f3 = function () {
+				console.log('inside f3');
+			}();
+			console.log('typeof f3', typeof (f3));
+
+			(function f4() {
+				console.log('inside f4');
+			})();
+
+			(function f5() {
+				console.log('inside f5');
+			}());
+		})();
+	</script>
+</body>
+
+</html>

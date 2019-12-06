@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>JS app</title>
+	<title>task list</title>
 
 </head>
 
@@ -21,10 +21,10 @@
 	<script type="text/javascript">
 		(function () {
 			"use strict"
-			var tasks = [];
+			let tasks = [];
 			const taskList = document.getElementById('taskList');
 			const taskIp = document.getElementById('task');
-			var counter = 0;
+			let counter = 0;
 
 			const saveTask = function (task) {
 				if (task != null)
@@ -60,32 +60,32 @@
 					return;
 
 				tasks.splice(i, 1);
-				const taskDiv = document.getElementById(taskId.toString());
+				let taskDiv = document.getElementById(taskId.toString());
 				taskList.removeChild(taskDiv);
 				saveTask(null);
 			}
 
 			const addTask = function (task) {
-				const div = document.createElement('div');
+				let div = document.createElement('div');
 				div.id = task.id;
 
-				const p = document.createElement('span');
-				p.innerHTML = task.details;
-				div.appendChild(p);
-
-				const btnDelete = document.createElement('button');
+				let btnDelete = document.createElement('button');
 				btnDelete.innerHTML = 'X';
 				btnDelete.id = 'btn_' + task.id;
 				btnDelete.addEventListener('click', deleteTask);
-
 				div.appendChild(btnDelete);
+
+				let p = document.createElement('span');
+				p.innerHTML = task.details;
+				div.appendChild(p);
+
 				taskList.insertBefore(div, taskList.firstChild);
 			}
 
 			const keydown = function (e) {
 				// console.log(e);
 				if (e.key == 'Enter') {
-					const task = { id: ++counter, details: taskIp.value };
+					let task = { id: ++counter, details: taskIp.value };
 					saveTask(task);
 					addTask(task);
 				}
