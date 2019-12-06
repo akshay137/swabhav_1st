@@ -22,14 +22,13 @@
 		(function () {
 			"use strict"
 			var tasks = [];
-			var taskList = document.getElementById('taskList');
-			var taskIp = document.getElementById('task');
-			var last;
+			const taskList = document.getElementById('taskList');
+			const taskIp = document.getElementById('task');
 			var counter = 0;
 
-			const saveTask = function (value) {
-				tasks.push({ id: ++counter, details: taskIp.value });
-				console.log(tasks);
+			const saveTask = function (task) {
+				if (task != null)
+					tasks.push(task);
 				localStorage.setItem('tasklist', JSON.stringify(tasks));
 			}
 
@@ -44,29 +43,51 @@
 			}
 
 			const displayTasks = function () {
-
-				for (var i = tasks.length - 1; i >= 0; i--) {
-					var p = document.createElement('p');
-					p.innerHTML = tasks[i].details;
-					taskList.appendChild(p);
-					if (i == tasks.length - 1)
-						last = p;
-				}
+				tasks.forEach((task) => {
+					addTask(task);
+				})
 			}
 
-			const addTask = function (e) {
-				var p = document.createElement('p');
-				p.innerHTML = taskIp.value;
-				console.log(last);
-				taskList.insertBefore(p, last);
-				last = p;
+			const deleteTask = function (e) {
+				if (!confirm("Do you want to delete this task?"))
+					return;
+				const taskId = parseInt(e.target.id.replace('btn_', ''));
+
+				const i = tasks.findIndex((task) => {
+					return task.id === taskId;
+				});
+				if (i === -1)
+					return;
+
+				tasks.splice(i, 1);
+				const taskDiv = document.getElementById(taskId.toString());
+				taskList.removeChild(taskDiv);
+				saveTask(null);
+			}
+
+			const addTask = function (task) {
+				const div = document.createElement('div');
+				div.id = task.id;
+
+				const p = document.createElement('span');
+				p.innerHTML = task.details;
+				div.appendChild(p);
+
+				const btnDelete = document.createElement('button');
+				btnDelete.innerHTML = 'X';
+				btnDelete.id = 'btn_' + task.id;
+				btnDelete.addEventListener('click', deleteTask);
+
+				div.appendChild(btnDelete);
+				taskList.insertBefore(div, taskList.firstChild);
 			}
 
 			const keydown = function (e) {
 				// console.log(e);
 				if (e.key == 'Enter') {
-					addTask();
-					saveTask();
+					const task = { id: ++counter, details: taskIp.value };
+					saveTask(task);
+					addTask(task);
 				}
 			}
 			taskIp.addEventListener('keydown', keydown);
