@@ -1,0 +1,48 @@
+#result {
+	position: relative;
+	width: 100%;
+	background-color: #313131;
+	color: white;
+	overflow: auto;
+	padding: 0;
+	overflow: hidden;
+}
+
+#result #wrong {
+	position: relative;
+	/* max-width: 100%; */
+	float: left;
+}
+
+#wrong #wrongPercent {
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#wrong #wrongBar {
+	height: 5vh;
+	background: #f00;
+}
+
+#result #right {
+	position: relative;
+	float: right;
+}
+
+#right #rightPercent {
+	text-align: center;
+	font-size: 1.3em;
+}
+
+#right #rightBar {
+	height: 5vh;
+	background: #0f0;
+}
+
+#resText {
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 2em;
+	color: white;
+}

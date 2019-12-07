@@ -1,0 +1,83 @@
+#qUi {
+	min-width: 720px;
+	width: 100%;
+	background: cornsilk;
+	display: grid;
+	grid-template-columns: 20fr 80fr;
+	grid-template-areas:
+		"counter main"
+		"controls controls";
+	background-color: #3a3335;
+}
+
+#qUi #qCounter {
+	grid-area: counter;
+	text-align: center;
+	font-weight: bold;
+	margin-top: auto;
+	margin-bottom: auto;
+	font-size: 3em;
+	padding: 5%;
+	color: #fdf0d5;
+	/* background-color: #0f0; */
+}
+
+#qUi #questiontab {
+	grid-area: main;
+	overflow: auto;
+	background-color: #000;
+	color: white;
+	padding-top: 2%;
+	font-size: 1.5em;
+}
+
+#questiontab #qid {
+	position: relative;
+	float: left;
+	width: 20%;
+	font-size: 1.2em;
+	text-align: center;
+	/* font-weight: bold; */
+	font-style: italic;
+	/* color: #fff; */
+	color: #eeb4b3;
+	text-shadow: 2px 0px #a36590;
+}
+
+#questiontab #question {
+	position: relative;
+	float: right;
+	width: 80%;
+	font-size: 1.2em;
+	font-style: italic;
+}
+
+#questiontab #qoptions {
+	font-style: normal;
+}
+
+#qUi #buttons {
+	grid-area: controls;
+	text-align: center;
+	padding: 2%;
+	background-color: #313131;
+}
+
+#qUi #buttons button {
+	border: 0px;
+	padding: 1vh 2vw 1vh 2vw;
+	border-radius: 5%;
+	background-color: rgb(255, 0, 43);
+	color: white;
+	font-size: large;
+	font-weight: bold;
+}
+
+#qUi #buttons button:hover {
+	background-color: rgb(252, 69, 100);
+	transform: scale(1.1);
+}
+
+.overflow {
+	overflow: auto;
+}

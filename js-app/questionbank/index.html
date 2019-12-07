@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Question bank</title>
+
+	<link rel="stylesheet" href="styles/result.css" />
+	<link rel="stylesheet" href="styles/questiontab.css" />
+</head>
+
+<body>
+	<h1>Question bank</h1>
+
+	<div id="qUi">
+		<!-- <div class="overflow"> -->
+		<div id="qCounter">
+			1/5
+		</div>
+		<div id="questiontab">
+			<div id="qid">1001</div>
+			<div id="question">
+				<div id="qstring">
+					placeholder question
+				</div>
+				<div id="qoptions">
+					<form name="options">
+						<!-- options generated at runtime -->
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+		<div id="buttons">
+			<button id="btnPre">&lt;Pre</button>
+			<button id="btnNext">Next&gt;</button>
+			<button id="btnFinish">Finish</button>
+		</div>
+	</div>
+
+	<div id="result">
+		<div id="wrong">
+			<p id="wrongPercent"></p>
+			<div id="wrongBar"></div>
+		</div>
+		<div id="right">
+			<p id="rightPercent"></p>
+			<div id="rightBar"></div>
+		</div>
+		<div id="resText"></div>
+	</div>
+
+	<script type="text/javascript" src="scripts/qb.js"></script>
+
+</body>
+
+</html>

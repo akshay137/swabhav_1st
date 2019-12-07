@@ -31,14 +31,18 @@
 			}
 
 			const onStop = function (e) {
-				if (worker != null)
+				if (worker != null) {
 					worker.terminate();
+					worker = undefined;
+				}
 			}
 
 			const onPrint = function (e) {
 				console.log('web worker');
-				worker = new Worker('webworkers/simple.js');
-				worker.onmessage = print;
+				if (worker == undefined) {
+					worker = new Worker('webworkers/simple.js');
+					worker.onmessage = print;
+				}
 			}
 
 			btnPrint.addEventListener('click', onPrint);

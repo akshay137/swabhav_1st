@@ -1,0 +1,57 @@
+[
+	{
+		"id": 1001,
+		"text": "Electrons has ________ charge.",
+		"options": [
+			"negative",
+			"positive",
+			"neutral"
+		],
+		"answer": 0
+	},
+	{
+		"id": 1002,
+		"text": "How do you exit vi editor?",
+		"options": [
+			"ctrl+c",
+			":q",
+			"ctrl-d",
+			"alt+f4"
+		],
+		"answer": 1
+	},
+	{
+		"id": 1003,
+		"text": "For a 64 bit x86 processor what is its register size is?",
+		"options": [
+			"32bit",
+			"16bit",
+			"64bit",
+			"8bit",
+			"can't say"
+		],
+		"answer": 2
+	},
+	{
+		"id": 1004,
+		"text": "what is a ** b in python?",
+		"options": [
+			"a multplied by b",
+			"a multiplied by value pointed by b",
+			"none of the mentioned",
+			"a raise to the power of b"
+		],
+		"answer": 3
+	},
+	{
+		"id": 1005,
+		"text": "In software development stages, what is comes next to denial?",
+		"options": [
+			"anger",
+			"acceptance",
+			"bargaining",
+			"go and cry in corner"
+		],
+		"answer": 2
+	}
+]
