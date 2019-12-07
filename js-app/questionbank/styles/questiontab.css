@@ -1,6 +1,6 @@
 #qUi {
-	min-width: 720px;
-	width: 100%;
+	min-width: 640px;
+	/* width: 100%; */
 	background: cornsilk;
 	display: grid;
 	grid-template-columns: 20fr 80fr;
@@ -16,10 +16,10 @@
 	font-weight: bold;
 	margin-top: auto;
 	margin-bottom: auto;
-	font-size: 3em;
-	padding: 5%;
+	font-size: 2em;
 	color: #fdf0d5;
-	/* background-color: #0f0; */
+	/* overflow: hidden;
+	overflow-wrap: break-word; */
 }
 
 #qUi #questiontab {
@@ -37,9 +37,8 @@
 	width: 20%;
 	font-size: 1.2em;
 	text-align: center;
-	/* font-weight: bold; */
 	font-style: italic;
-	/* color: #fff; */
+	overflow-wrap: break-word;
 	color: #eeb4b3;
 	text-shadow: 2px 0px #a36590;
 }
@@ -65,7 +64,7 @@
 
 #qUi #buttons button {
 	border: 0px;
-	padding: 1vh 2vw 1vh 2vw;
+	padding: 1% 2% 1% 2%;
 	border-radius: 5%;
 	background-color: rgb(255, 0, 43);
 	color: white;
