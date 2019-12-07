@@ -29,10 +29,8 @@
 
 	const disableForm = function () {
 		let options = optionsForm.getElementsByTagName('input');
-		console.log(options);
-		options.forEach((option) => {
+		for (let option of options)
 			option.disabled = true;
-		})
 	}
 
 	const hideButtons = function () {
@@ -62,15 +60,10 @@
 			optionNode.value = i;
 			div.appendChild(optionNode);
 
-			// let text = document.createTextNode(options[i]);
 			let label = document.createElement('label');
 			label.for = 'option' + i;
 			label.innerHTML = options[i];
 			div.appendChild(label);
-
-			// const span = document.createElement('span');
-			// span.classList.add('checkmark');
-			// div.appendChild(span);
 
 			node.appendChild(div);
 		}
@@ -94,25 +87,22 @@
 
 	const setNextQuestion = function () {
 		currentQuestion++;
-		if (currentQuestion >= qBank.length) {
-			console.log('finished with questions, correct', correctAnswers);
+		if (currentQuestion >= qBank.length)
 			return false;
-		}
 		showQuestion();
 	}
 
 	const setPreQuestion = function () {
-		if (currentQuestion == 0)
-			return;
 		currentQuestion--;
+		if (currentQuestion < 0)
+			return false;
 		showQuestion();
 	}
 
 	const checkAnswer = function (selected, correct) {
 		console.log(selected, correct);
-		if (selected == correct) {
+		if (selected == correct)
 			correctAnswers++;
-		}
 	}
 
 	const setStartState = function () {
@@ -124,7 +114,7 @@
 	}
 
 	const showResult = function () {
-		console.log('showing result');
+		// console.log('showing result');
 		const marks = Math.round((correctAnswers / qBank.length) * 100);
 		wrongPercent.innerHTML = 'wrong:' + (100 - marks) + '%';
 		wrongDiv.style.width = (100 - marks) + '%';
@@ -169,8 +159,8 @@
 			alert('Please select answer');
 			return;
 		}
-		console.log('selected answer:', selected);
-		console.log(typeof (selected));
+		// console.log('selected answer:', selected);
+		// console.log(typeof (selected));
 		// checkAnswer
 		checkAnswer(parseInt(selected), currentAnswerIndex);
 		let state = setNextQuestion();
