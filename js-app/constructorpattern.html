@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Constructor pattern</title>
+</head>
+
+<body>
+	<h1>Constructor pattern</h1>
+	<!--scripts-->
+	<script type="text/javascript">
+		(function () {
+			'use strict'
+			function Employee() {
+				let _id, _name;
+
+				this.setEmpId = function (id) {
+					if (id > 0) {
+						_id = id;
+					}
+				}
+
+				this.setName = function (name) {
+					if (typeof (name) == 'string' && name.length > 2) {
+						_name = name;
+					}
+				}
+
+				this.getDetails = function () {
+					return 'id: ' + _id + ' name: ' + _name;
+				}
+			}
+
+			let e1 = new Employee();
+			e1.setEmpId(101);
+			e1.setName('abc');
+			console.log(e1.getDetails(), e1);
+
+			function Student(name, rollNo) {
+				this.name = name;
+				this.rollNo = rollNo;
+
+				this.getDetails = function () {
+					return 'name: ' + this.name + ' rollNo: ' + this.rollNo;
+				}
+			}
+
+			let s1 = new Student('abc', 101);
+			console.log(s1.getDetails(), s1);
+			let s2 = new Student('def', 102);
+			console.log(s2.getDetails(), s2);
+		})();
+	</script>
+</body>
+
+</html>

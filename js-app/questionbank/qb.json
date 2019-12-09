@@ -42,16 +42,5 @@
 			"a raise to the power of b"
 		],
 		"answer": 3
-	},
-	{
-		"id": 1005,
-		"text": "In software development stages, what is comes next to denial?",
-		"options": [
-			"anger",
-			"acceptance",
-			"bargaining",
-			"go and cry in corner"
-		],
-		"answer": 2
 	}
 ]

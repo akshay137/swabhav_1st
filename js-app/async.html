@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Asynchronus pattern</title>
+</head>
+
+<body>
+	<h1>Asyncronous pattern</h1>
+	<script>
+		(function () {
+			let DataService = function () {
+				let obj = {};
+				obj.getData = function () {
+					return Math.random() * 100;
+				}
+
+				obj.getDataAsync1 = function (successcb, errorcb) {
+					let r = Math.random() * 100;
+					if (r > 50) {
+						successcb({ msg: 'success', data: r });
+					} else {
+						errorcb({ msg: 'error' });
+					}
+				}
+
+				obj.getDataAsync2 = function (scb, ecb) {
+					setTimeout(function () {
+						obj.getDataAsync1(scb, ecb)
+					}, 0);
+				}
+
+				return obj;
+			}();
+
+			let r = DataService.getData();
+			console.log('r', r);
+
+			DataService.getDataAsync1(function (res) {
+				console.log(res);
+			}, function (res) {
+				console.log(res);
+			});
+			DataService.getDataAsync2(function (res) {
+				console.log(res);
+			}, function (res) {
+				console.log(res);
+			});
+
+			console.log('end of script');
+		})();
+
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Async pattern 3</title>
+</head>
+
+<body>
+	<h1>Async pattern 3</h1>
+	<script>
+		(function () {
+			'use strict'
+			function Employee(id, name) {
+				this.name = name;
+				this.id = id;
+			}
+
+			Employee.prototype.printDetails = function () {
+				let that = this;
+				setTimeout(function () {
+					console.log(this);
+					console.log(that);
+					console.log('id:', that.id, 'name:', that.name);
+				}, 3000);
+			}
+
+			let e1 = new Employee(0, 'abc');
+			e1.printDetails();
+			console.log('end of script');
+		})();
+	</script>
+</body>
+
+</html>

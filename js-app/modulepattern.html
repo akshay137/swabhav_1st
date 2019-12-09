@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Module pattern</title>
+</head>
+
+<body>
+	<h1>Module pattern</h1>
+
+	<script type="text/javascript">
+		(function () {
+			function makeEmployee() {
+				let _id, _name;
+				let emp = {};
+				console.log('inside makeEmployee');
+
+				emp.setEmpId = function (id) {
+					if (id > 0)
+						_id = id;
+				}
+
+				emp.setName = function (name) {
+					_name = name;
+				}
+
+				emp.getDetails = function () {
+					return 'id: ' + _id + ' name: ' + _name;
+				}
+
+				return emp;
+			}
+
+			let e1 = makeEmployee();
+			e1.setEmpId(101);
+			e1.setName('abc');
+			console.log(e1.getDetails());
+			console.log('e1', e1);
+
+			let e2 = makeEmployee();
+			e2.setEmpId(102);
+			e2.setName('def');
+			console.log(e2.getDetails());
+			console.log('e2', e2);
+		})();
+	</script>
+
+	<script type="text/javascript">
+		(function () {
+			let swabhav = function () {
+				let math = {};
+				console.log('inside swabhav');
+
+				math.cubeEven = function (n) {
+					if (n % 2 != 0) {
+						throw 'parameter is not even';
+					}
+					return (n * n * n);
+				}
+
+				math.isPrime = function (n) {
+					if (n < 2) {
+						return false;
+					}
+					let max = Math.floor(Math.sqrt(n));
+					for (let i = 2; i <= max; i++) {
+						if (n % i == 0)
+							return false;
+					}
+					return true;
+				}
+
+				return math;
+			}();
+
+			console.log(swabhav.cubeEven(2));
+			// console.log(swabhav.cubeEven(3));
+			console.log(swabhav.isPrime(13));
+		})();
+	</script>
+</body>
+
+</html>

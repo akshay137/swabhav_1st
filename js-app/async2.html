@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Async pattern 2</title>
+</head>
+
+<body>
+	<h1>Async pattern 2</h1>
+	<script>
+		(function () {
+			'use strict'
+			function Employee(id, name) {
+				this.name = name;
+				this.id = id;
+			}
+
+			Employee.prototype.printDetails = function () {
+				setTimeout(function () {
+					console.log(this);
+					console.log('id:', this.id, 'name:', this.name);
+				}, 3000);
+			}
+
+			let e1 = new Employee(0, 'abc');
+			e1.printDetails();
+			console.log('end of script');
+		})();
+	</script>
+</body>
+
+</html>
