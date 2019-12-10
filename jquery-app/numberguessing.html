@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Number Guessing</title>
+</head>
+
+<body>
+	<h1>Number Guessing game</h1>
+	<div>
+		<p>Can you guess the number</p>
+		Guess:
+		<input id="ip" type="number" min="1" placeholder="Enter your guess here" />
+		<button id="btnGuess">Guess</button>
+	</div>
+	<div>
+		<p id="log"></p>
+	</div>
+	<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+	<script>
+		(function () {
+			const btnGuess = $('#btnGuess');
+			const input = $('#ip');
+			const log = $('#log');
+			let number = 0;
+
+			const generateNumber = function () {
+				number = 1 + Math.round(Math.random() * 100);
+				console.log('new number:', number);
+			}
+
+			const checkGuess = function () {
+				const ip = input.val();
+				if (ip == number) {
+					log.text('You guessed correct!: [' + ip.toString() + ']'
+						+ ' can you guess another?');
+					generateNumber();
+				} else {
+					log.text('number [' + ip.toString() + '] is '
+						+ ((ip > number) ? 'greater' : 'less')
+						+ ' than the number');
+				}
+			}
+
+			$(document).ready(() => {
+				generateNumber();
+				btnGuess.click(checkGuess);
+				input.keyup((e) => {
+					if (e.key === 'Enter')
+						checkGuess();
+				})
+			});
+
+		})();
+	</script>
+</body>
+
+</html>

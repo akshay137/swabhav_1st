@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Login</title>
+
+	<style>
+		#passlog {
+			color: red;
+			font-size: 0.8em;
+		}
+
+		canvas {
+			border: 1px solid black;
+		}
+
+		#root {
+			text-align: center;
+		}
+
+		#form {
+			max-width: 500px;
+			text-align: center;
+			background: rgb(182, 1, 37);
+			border-radius: 5%;
+			padding: 5%;
+			margin: auto;
+		}
+
+		#form #ip {
+			background: rgb(255, 95, 121);
+			padding: 5%;
+		}
+
+		#form #captcha {
+			background: rgb(84, 0, 219);
+			padding: 2%;
+		}
+
+		#form button {
+			background: rgb(255, 26, 102);
+			padding: 2% 5% 2% 5%;
+			color: white;
+			font-weight: bold;
+			border: 2px solid #000;
+			border-radius: 10px;
+			font-size: 1.1em;
+
+		}
+
+		#form button:hover {
+			transform: scale(1.1, 1.1);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="root">
+		<h1>Login</h1>
+
+		<div id="form">
+			<div id="ip">
+				<input name="uname" type="text" placeholder="Username" />
+				<br /><br />
+				<input name="password" type="password" placeholder="password" />
+				<br />
+				<input type="checkbox" name="togglevisible">
+				<label for="togglevisible" id="visibleLable">show</label>
+				<span id="passlog"></span>
+			</div>
+			<br />
+			<div id="captcha">
+				<canvas id="canvas" width="200" height="100"></canvas>
+				<br />
+				<input id="input" type="text" placeholder="enter captcha">
+			</div>
+			<br />
+			<button id="btnLogin">Login</button>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="scripts/captcha.js"></script>
+	<script>
+		(function () {
+			'use strict';
+			const MIN_PASSWORD_LENTGTH = 8;
+			const btnLogin = $('#btnLogin');
+			const username = $('input[name=uname]');
+			const password = $('input[name=password]');
+			const tglVisible = $('input[name=togglevisible');
+			const tglLabel = $('#visibleLable');
+			const passlog = $('#passlog');
+
+			const captchaCanvas = $('#captcha>canvas');
+			const captchaInput = $('#captcha>input');
+			const capthca = new Captcha();
+
+			const validateUserName = function (uname) {
+				if (uname == undefined || typeof (uname) != 'string')
+					return { status: false, msg: 'username is undfined' };
+				if (uname.length == 0)
+					return { status: false, msg: 'username is empty' };
+				if (uname.match(/[[]|[\]]|[{}]|[\-]/g))
+					return {
+						status: false,
+						msg: 'username contains invalid characters'
+					};
+				return { status: true, msg: 'ok' };
+			}
+
+			const validatePassword = function (passwd) {
+				if (passwd == undefined || typeof (passwd) != 'string')
+					return { status: false, msg: 'password is undfined' };
+				if (passwd.length == 0)
+					return { status: false, msg: 'password is empty' };
+				if (passwd.length < MIN_PASSWORD_LENTGTH) {
+					return {
+						status: false,
+						msg: `password must be atleast ${MIN_PASSWORD_LENTGTH} characters long`
+					};
+				}
+				if (!passwd.match(/[a-z]/g)) {
+					return {
+						status: false,
+						msg: 'password must contain atleast one letter'
+					};
+				}
+				if (!passwd.match(/[A-Z]/g)) {
+					return {
+						status: false,
+						msg: 'password must contain atleast one uppercase letter'
+					};
+				}
+				if (!passwd.match(/[0-9]/g)) {
+					return {
+						status: false,
+						msg: 'password must contain atleast one digit'
+					};
+				}
+				if (!passwd.match(/[!@#$%\^&\*\-\_=\+()\[\]]/g)) {
+					return {
+						status: false,
+						msg: 'must contain one special characters'
+					}
+				}
+				return { status: true, msg: 'OK' };
+			}
+
+			const validate = function (data) {
+				console.log(data);
+
+				let res = validateUserName(data.uname);
+				if (!res.status) {
+					return { success: false, msg: res.msg };
+				}
+				res = validatePassword(data.passwd);
+				if (!res.status) {
+					return { success: false, msg: res.msg };
+				}
+
+				return { success: true, msg: 'Everything was OK' };
+			}
+
+			const login = function (e) {
+				if (tglVisible.is(':checked')) {
+					tglVisible.click();
+				}
+				const validation = validate({
+					uname: username.val(),
+					passwd: password.val()
+				});
+				if (!validation.success) {
+					alert('login failed\n' + validation.msg);
+					return;
+				}
+				if (!capthca.matchCaptcha(captchaInput.val())) {
+					alert('incorrect captcha');
+					return;
+				}
+
+				alert('login successfull');
+			}
+
+			const getNewCaptcha = function () {
+				capthca.newCaptcha(captchaCanvas.get(0));
+			}
+
+			$(document).ready(() => {
+				btnLogin.click(login);
+
+				password.keyup((e) => {
+					let res = validatePassword(password.val());
+					if (!res.status)
+						passlog.text('*' + res.msg);
+					else
+						passlog.text('');
+				});
+
+				tglVisible.change((e) => {
+					if (tglVisible.is(':checked')) {
+						password.prop('type', 'text');
+						tglLabel.text('hide');
+					} else {
+						password.prop('type', 'password');
+						tglLabel.text('show');
+					}
+				});
+
+				getNewCaptcha();
+			})
+
+		})();
+	</script>
+</body>
+
+</html>

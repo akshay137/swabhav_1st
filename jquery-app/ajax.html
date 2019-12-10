@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Ajax</title>
+</head>
+
+<body>
+	<div id="root">
+		<h1>jQuery AJAX demo</h1>
+
+		<div id="content">
+			<div id="input">
+				<input id="num" type="number" placeholder="enter a number">
+			</div>
+			<div id="result">
+				<h3></h3>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+	<script>
+		(function () {
+			const apiURL = 'http://numbersapi.com/'
+			const input = $('#num');
+			const result = $('#result>h3');
+
+			const showTrivia = function (res) {
+				console.log(res);
+				result.text(res);
+			}
+
+			const getTrivia = function () {
+				console.log('getting trivia');
+				const num = input.val();
+				if (!num.match(/\d+$/g)) {
+					alert('please enter a valid number');
+					return;
+				}
+				$.ajax({
+					url: apiURL + num,
+					success: showTrivia
+				})
+			}
+
+			$(document).ready(() => {
+				input.focus();
+				input.keyup((e) => {
+					if (e.key == 'Enter') {
+						getTrivia();
+					}
+				});
+			});
+		})();
+	</script>
+</body>
+
+</html>
