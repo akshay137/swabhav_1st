@@ -100,7 +100,7 @@
 
 			const validateUserName = function (uname) {
 				if (uname == undefined || typeof (uname) != 'string')
-					return { status: false, msg: 'username is undfined' };
+					return { status: false, msg: 'username is undefined' };
 				if (uname.length == 0)
 					return { status: false, msg: 'username is empty' };
 				if (uname.match(/[[]|[\]]|[{}]|[\-]/g))

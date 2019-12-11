@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Some Website</title>
+
+	<!-- stylesheets -->
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+</head>
+
+<body class="bg-light">
+	<div id="root" class="container-xl bg-dark" role="root-object">
+		<nav class="navbar sticky-top navbar-expand-sm navbar-dark">
+			<a class="navbar-brand" href="#">Something</a>
+			<button class="navbar-toggler" data-toggle="collapse"
+				data-target="#navbarAlt">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarAlt">
+				<div class="navbar-nav mr-auto">
+					<a class="nav-item nav-link" href="#">Home</a>
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#"
+							data-toggle="dropdown">About</a>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="#">Contact Us</a>
+						</div>
+					</div>
+				</div>
+				<form class="form-inline">
+					<button class="btn btn-primary" data-target="#signinpg"
+						data-toggle="modal">
+						Sign In
+					</button>
+				</form>
+			</div>
+		</nav>
+
+		<div id="signinpg" class="modal fade" role="sign-in/sign-up">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="nav nav-tabs nav-fill" id="signingpage"
+						role="tablist">
+						<div class="nav-item">
+							<a class="nav-link active" data-toggle="tab"
+								href="#signin" aria-controls="siginin"
+								aria-selected="true" role="tab" id="signin-tab">
+								SignIn
+							</a>
+						</div>
+						<div class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#signup"
+								aria-controls="signup" aria-selected="false"
+								role="tab" id="signup-tab">
+								Sign Up
+							</a>
+						</div>
+					</div>
+					<div class="tab-content" id="signingpageContent">
+						<div class="tab-pane fade show active" id="signin"
+							role="tab-panel" aria-labelledby="signin-tab">
+							sign in
+						</div>
+						<div class="tab-pane fade" id="signup" role="tab-panel"
+							aria-labelledby="signup-tab">
+							sign up
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!-- scripts -->
+	<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.bundle.js">
+	</script>
+</body>
+
+</html>

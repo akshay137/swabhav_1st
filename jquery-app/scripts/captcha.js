@@ -1,4 +1,5 @@
 const Captcha = (function () {
+	'use strict';
 	let captcha = function () {
 		this.text = '';
 	}
@@ -29,16 +30,22 @@ const Captcha = (function () {
 		ctx.fillStyle = '#313131';
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = '#aaa';
-		ctx.font = '30px Arial';
+		ctx.font = '30px Times New Roman';
 		// ctx.fillText(this.text, 10, 65);
 		ctx.save();
+		ctx.shadowOffsetX = 3;
+		ctx.shadowOffsetY = 3;
+		ctx.shadowColor = '#fff';
+		ctx.shadowBlur = 4;
 		const start = 10;
 		const offset = Math.round((canvas.width - start * 2) / CAPTHCA_SIZE);
 		const y = 50;
+		const range = (Math.PI * 0.75);
+		const halfRange = range / 2;
 		for (let i = 0; i < this.text.length; i++) {
 			let x = start + i * offset;
 			ctx.translate(x, y);
-			let angle = Math.random() * (Math.PI * 0.5);
+			let angle = Math.random() * range - halfRange;
 			ctx.rotate(angle);
 			ctx.fillText(this.text[i], 0, 0);
 			ctx.rotate(-angle);
