@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Login</title>
+
+	<style>
+		#username-log {
+			color: red;
+		}
+
+		#password-log {
+			color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="root">
+		<h2>Login</h2>
+		<form name="login" action="auth.php" method="POST">
+			<input type="text" name="username" placeholder="Username" />
+			<span id="username-log"></span>
+			<br /><br />
+			<input type="password" name="userpasswd" placeholder="Password" />
+			<span id="password-log"></span>
+			<br /><br />
+			<input type="submit" id="btnSubmit" value="Submit" />
+		</form>
+	</div>
+
+	<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+	<script>
+		(function () {
+			'use strict';
+			const form = document.forms['login'];
+			const btnSubmit = $('#btnSubmit');
+			const uname = form['username'];
+			const unameLog = $('#username-log');
+			const password = form['userpasswd'];
+			const passwdLog = $('#password-log');
+
+			const onSubmit = function (e) {
+				e.preventDefault();
+				unameLog.text('');
+				passwdLog.text('');
+				let unameOk = typeof (uname.value) == 'string'
+					&& uname.value.length > 0;
+				if (!unameOk) {
+					unameLog.text('* required');
+					return;
+				}
+				let passOk = typeof (password.value) == 'string'
+					&& password.value.length > 0;
+				if (!passOk) {
+					passwdLog.text('* required');
+					return;
+				}
+				console.log(form);
+				form.submit();
+			}
+
+			$(document).ready(() => {
+				btnSubmit.click(onSubmit);
+			});
+		})();
+	</script>
+</body>
+
+</html>

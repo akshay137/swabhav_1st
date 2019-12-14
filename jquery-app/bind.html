@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Bind</title>
+</head>
+
+<body>
+	<div id="root">
+		<h1>Bind</h1>
+
+		<label for="txt">Text</label>
+		<input type="text" id="txt" />
+		<br />
+		<label for="fontsize">Font size</label>
+		<input type="number" min="16" value="16" id="fontsize" />
+		<br />
+		<label for="bgcolor">Background Color</label>
+		<select id="bgcolor">
+			<option disabled>Select bg color</option>
+		</select>
+		<br />
+		<label for="fntcolor">Color</label>
+		<select id="fntcolor">
+			<option disabled>Select font color</option>
+		</select>
+		<br /><br />
+
+		<div id="display"></div>
+
+		<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+		<script>
+			(function () {
+				const txt = $('#txt');
+				const fontsize = $('#fontsize');
+				const bgcolorSelect = $('#bgcolor');
+				const colorSelect = $('#fntcolor');
+
+				const displayDiv = $('#display');
+
+				const colors = ['red', 'green', 'blue',
+					'cyan', 'yellow', 'magenta',
+					'black', 'white'
+				];
+
+				const generateColorOptions = function () {
+					colors.forEach((color) => {
+
+						bgcolorSelect.append(getOption());
+						colorSelect.append(getOption());
+
+						function getOption() {
+							let opt = new Option();
+							opt.name = color;
+							opt.value = color;
+							opt.innerHTML = color;
+							return opt;
+						}
+					})
+				}
+
+				const copyText = function (e) {
+					displayDiv.text(txt.val());
+				}
+
+				const updateSize = function (e) {
+					displayDiv.css('font-size', fontsize.val() + 'px');
+				}
+
+				const changeBgColor = function (e) {
+					displayDiv.css('background-color', bgcolorSelect.val());
+				}
+
+				const changeFontColor = function (e) {
+					displayDiv.css('color', colorSelect.val());
+				}
+
+				$(document).ready(() => {
+					generateColorOptions();
+					txt.on('input', copyText);
+					fontsize.on('input', updateSize);
+					bgcolorSelect.on('change', changeBgColor);
+					colorSelect.on('change', changeFontColor);
+
+					bgcolorSelect.val(colors[0]);
+					colorSelect.val(colors[3]);
+					copyText();
+					updateSize();
+					changeBgColor();
+					changeFontColor();
+				})
+			})();
+		</script>
+	</div>
+</body>
+
+</html>
