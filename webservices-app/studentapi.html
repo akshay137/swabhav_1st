@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Student API</title>
+
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+</head>
+
+<body style="background-color: whitesmoke; margin-bottom: 10%;">
+	<div id="root" class="container-sm">
+		<div class="container-sm" id="student-list">
+			<h1 class="h1 text-center">Student list</h1>
+			<div id="labels"
+				class="row bg-success text-dark h3 py-2 rounded font-weight-bold">
+				<div class="col">Roll No.</div>
+				<div class="col">Name</div>
+				<div class="col d-none d-md-block">age</div>
+				<!-- <div class="col d-none d-lg-block">email</div> -->
+				<div class="col d-none d-md-block">date</div>
+				<div class="col d-none d-md-block">Gender</div>
+			</div>
+			<!-- content added by script -->
+		</div>
+
+		<!-- Add student button -->
+		<div class="container-sm fixed-bottom">
+			<button type="button" data-toggle="modal"
+				data-target="#student-form-modal" data-type="add"
+				class="btn btn-primary btn-lg rounded-circle float-right mr-2 mb-2">
+				<span class="h1">+</span>
+			</button>
+		</div>
+
+
+		<div class="modal fade" id="student-form-modal" role="dialog"
+			aria-hidden="true" aria-labelledby="add-student-form">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="student-modal-title">
+							Add New Student:
+						</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form name="student-data-form">
+							<div class="d-none">
+								<input type="text" name="id" id="sid" />
+							</div>
+							<div class="form-group form-row px-2">
+								<label for="sroll" class="col-sm align-middle">
+									Roll No.:
+								</label>
+								<input class="form-control col-sm" type="number"
+									min="1" name="roll" id="sroll"
+									placeholder="Enter Roll number" required />
+							</div>
+							<div class="form-group px-2">
+								<label for="sname">Student Name:</label>
+								<input class="form-control" type="text"
+									name="name" id="sname"
+									placeholder="Enter student name" required />
+							</div>
+							<div class="form-group px-2">
+								<label for="semail" class="">
+									Email:
+								</label>
+								<input type="email" class="form-control"
+									id="semail" name="email"
+									placeholder="Enter Email" required />
+							</div>
+							<div class="form-group row px-2">
+								<div class="col-sm">
+									<label for="sage" class="">Age:</label>
+									<input type="number" class="form-control"
+										name="age" id="sage" min="0"
+										placeholder="Age" required />
+								</div>
+								<div class="col-sm">
+									<label for="sdate" class="">Date:</label>
+									<input type="date" class="form-control"
+										name="date" id="sdate"
+										placeholder="date" required />
+								</div>
+							</div>
+							<div class="form-group px-2">
+								<h5 class="h5">Select gender:</h5>
+								<div class="row">
+									<div class="col-sm">
+										<input type="radio" name="gender"
+											id="smale" value="male" checked />
+										<label for="smale">Male</label>
+									</div>
+									<div class="col-sm">
+										<input type="radio" name="gender"
+											id="sfemale" value="female" />
+										<label for="sfemale">Female</label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<button type="submit" id="btnSubmit"
+									class="btn btn-block btn-outline-primary">
+									<span class="h4"
+										id="btnSubmitText">Add</span>
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- scripts -->
+	<script type="text/javascript" src="scripts/jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.bundle.js">
+	</script>
+	<script type="text/javascript" src="studentapi.js"></script>
+</body>
+
+</html>
