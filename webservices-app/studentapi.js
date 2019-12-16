@@ -22,7 +22,7 @@
 	const addStudent = function (student) {
 		let div = document.createElement('div');
 		div.classList.add('row', 'bg-dark',
-			'text-light', 'h5', 'py-2', 'rounded');
+			'text-light', 'h5', 'py-2', 'border', 'rounded');
 
 		div.setAttribute('data-toggle', 'modal');
 		div.setAttribute('data-target', '#student-form-modal');
@@ -75,9 +75,10 @@
 		$.ajax({
 			url: api,
 			method: 'GET',
-			// headers: { 'Access-Control-Allow-Origin': '*' },
 			success: displayStudentList,
-			error: (res) => { }
+			error: (res) => {
+				console.log('err:', res);
+			}
 		});
 	}
 

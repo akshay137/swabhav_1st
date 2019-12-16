@@ -7,14 +7,45 @@
 	<title>Student API</title>
 
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+	<style>
+		.bg-green {
+			background-color: #5dfdcb;
+		}
+
+		.bg-grey {
+			background-color: #50514f;
+		}
+
+		.bg-creme {
+			background-color: #fdfff7;
+		}
+
+		.bg-blue {
+			background-color: #5bc0eb;
+		}
+
+		.bg-black {
+			background-color: #313131;
+		}
+
+		.bg-pink {
+			background-color: #ee4b6a;
+		}
+
+		.bg-gold {
+			background-color: #ffd700;
+		}
+	</style>
 </head>
 
-<body style="background-color: whitesmoke; margin-bottom: 10%;">
+<body class="bg-black" style="margin-bottom: 10%;">
 	<div id="root" class="container-sm">
 		<div class="container-sm" id="student-list">
-			<h1 class="h1 text-center">Student list</h1>
+			<h1 class="h1 text-center text-primary font-weight-bold">
+				Student list
+			</h1>
 			<div id="labels"
-				class="row bg-success text-dark h3 py-2 rounded font-weight-bold">
+				class="row bg-gold text-dark h3 py-2 rounded font-weight-bold">
 				<div class="col">Roll No.</div>
 				<div class="col">Name</div>
 				<div class="col d-none d-md-block">age</div>
@@ -29,7 +60,7 @@
 		<div class="container-sm fixed-bottom">
 			<button type="button" data-toggle="modal"
 				data-target="#student-form-modal" data-type="add"
-				class="btn btn-primary btn-lg rounded-circle float-right mr-2 mb-2">
+				class="btn bg-gold btn-lg rounded-circle float-right mr-2 mb-2">
 				<span class="h1">+</span>
 			</button>
 		</div>
