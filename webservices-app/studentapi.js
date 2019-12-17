@@ -17,9 +17,13 @@
 		gender: $('input[name=gender]')
 	};
 
-	console.log(studentForm);
+	studentFormData.gender.on('change', (e) => {
+		console.log(e.target.value, studentFormData.gender.val());
+	});
+	console.log(studentFormData);
 
 	const addStudent = function (student) {
+		// console.log(student);
 		let div = document.createElement('div');
 		div.classList.add('row', 'bg-dark',
 			'text-light', 'h5', 'py-2', 'border', 'rounded');
@@ -130,7 +134,12 @@
 		let finalURL = api;
 		if (studentForm.attr('method') == 'PUT')
 			finalURL += studentFormData.id.val();
-		console.log('isMale', studentFormData.gender.val());
+		let isMaleData = true;
+		studentFormData.gender.each(index => {
+			if (studentFormData.gender.get(index).checked) {
+				isMaleData = studentFormData.gender.get(index).value == 'male';
+			}
+		})
 		$.ajax({
 			url: finalURL,
 			data: {
@@ -139,13 +148,12 @@
 				"age": studentFormData.age.val(),
 				"email": studentFormData.email.val(),
 				"date": studentFormData.date.val(),
-				"isMale": studentFormData.gender.val() == 'male' ? true : false
+				"isMale": isMaleData
 			},
 			method: studentForm.attr('method'),
 			success: (res) => {
 				console.log(res);
 				studentModal.modal('hide');
-				// window.location.reload();
 				getStudentList();
 			}
 		});
