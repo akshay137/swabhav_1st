@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Async 4 [Promises]</title>
+</head>
+
+<body>
+	<h1>Promises</h1>
+
+	<script>
+		(function () {
+			'use strict';
+
+			let DataService = function () {
+				let service = {};
+
+				service.cubeEven = function (number) {
+					return new Promise(function (resolve, reject) {
+						if (number % 2 == 0) {
+							resolve({ data: number * number * number });
+						} else {
+							reject({ msg: 'Error: cant cube odd number' });
+						}
+					});
+				}
+				return service;
+			}();
+
+			DataService.cubeEven(2).then((res) => {
+				console.log('Success', res);
+			}).catch((err) => {
+				console.log('Error', err);
+			});
+
+			console.log('End of script 1');
+		})();
+	</script>
+	<script>
+		(function () {
+			'use strict';
+
+			let DataService = function () {
+				let service = {};
+
+				service.cubeEven = function (number) {
+					return new Promise(function (resolve, reject) {
+						if (number % 2 == 0) {
+							resolve({ data: number * number * number });
+						} else {
+							reject({ msg: 'Error: cant cube odd number' });
+						}
+					});
+				}
+				return service;
+			}();
+
+			DataService.cubeEven(2).then((res) => {
+				return DataService.cubeEven(res.data);
+			}).then((res) => {
+				console.log('Final', res);
+			}).catch((err) => {
+				console.log('Error', err);
+			})
+
+			console.log('End of script 2');
+		})();
+	</script>
+</body>
+
+</html>

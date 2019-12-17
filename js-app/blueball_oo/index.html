@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>BlueBall OO</title>
+
+	<style>
+		h3 {
+			text-align: center;
+		}
+
+		.gameGrid {
+			display: grid;
+			grid-template-columns: repeat(10, 10fr);
+			grid-column-gap: 0;
+			grid-row-gap: 2vh;
+		}
+
+		.gameGrid button {
+			width: 8vw;
+			height: 8vw;
+			padding: 2%;
+			border: none;
+			border-radius: 50%;
+			font-size: 1.2rem;
+		}
+
+		.gameGrid button:hover {
+			transform: scale(1.2);
+		}
+
+		.neutral {
+			background-color: #aaa;
+			color: white;
+		}
+
+		.look-ahead {
+			background-color: #0f0;
+			color: #f0f;
+		}
+
+		.look-back {
+			background-color: #f00;
+			color: #00f;
+		}
+
+		.correct {
+			background-color: #00f;
+			color: #ff0;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<details>
+			<summary>Blue Ball game</summary>
+			<p>guess where the blue ball is in allowed attempts</p>
+		</details>
+	</header>
+	<div id="menu">
+		<section>
+			<h3>Rules:</h3>
+			<ol>
+				<li>Click on the any button</li>
+				<li>If button turns red, blue ball is at lower value</li>
+				<li>If button turns green, blue ball is at higher value</li>
+				<li>Press start to play the game</li>
+			</ol>
+		</section>
+		<section id="controls">
+			<button id="btnStart">Start</button>
+		</section>
+	</div>
+	
+	<div id="gameDiv"></div>
+
+	<script type="text/javascript" src="js/ball.js"></script>
+	<script type="text/javascript" src="js/game.js"></script>
+	<script type="text/javascript" src="js/gameController.js"></script>
+	<script>
+		(function() {
+			const gameDiv = document.getElementById('gameDiv');
+			const menu = document.getElementById('menu');
+			const btnStart = document.getElementById('btnStart');
+			
+			let gameController = new GameController(0, gameDiv);
+			gameController.onEnd(showMenu);
+
+			function showMenu () {
+				menu.style.display = 'block';
+				gameDiv.style.display = 'none';
+			}
+
+			btnStart.addEventListener('click', (e) => {
+				menu.style.display = 'none';
+				gameDiv.style.display = 'block';
+				gameController.start();
+			})
+		})();
+	</script>
+</body>
+
+</html>
