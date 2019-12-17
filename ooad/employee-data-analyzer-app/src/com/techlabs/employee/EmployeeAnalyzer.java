@@ -38,6 +38,19 @@ public class EmployeeAnalyzer {
 		}
 		return found;
 	}
+	
+	public Map<Designation, Integer> getDepartmentWiseCount() {
+	    Map<Designation, Integer> map = new HashMap<Designation, Integer>();
+	    for (Employee emp : list) {
+		if (map.containsKey(emp.getDesignation())) {
+		    map.put(emp.getDesignation(),
+			    map.get(emp.getDesignation()) + 1);
+		} else {
+		    map.put(emp.getDesignation(), 1);
+		}
+	    }
+	    return map;
+	}
 
 	
 //	pre-made comparators for ease of use

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Events</title>
+</head>
+
+<body ng-app="eventMod">
+
+	<div ng-controller="eventController">
+		<button ng-click="loadData()">Load Student List</button>
+		<div id="list">
+			<div ng-repeat="st in students">
+				<img ng-src={{st.img}}>
+				<span>Name: {{st.name}}</span>
+				<span>cgpa: {{st.cgpa}}</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			angular.module('eventMod', [])
+				.controller('eventController',
+					function ($interval, $timeout, $scope) {
+						$scope.students = [];
+						$scope.counter = 0;
+
+						$scope.loadData = function () {
+							console.log('Loading');
+							$scope.students = studentList;
+							$timeout(function () {
+								$scope.students[0].name = 'abc to xyz';
+							}, 3000);
+						}
+					}).filter('displayStudent', function () {
+						return function (st) {
+							return st.name + ': ' + st.cgpa + ' CGPA';
+						}
+					});
+
+			let studentList = [
+				{ name: 'abc', cgpa: 7, img: 'images/icon_32.png' },
+				{ name: 'def', cgpa: 8, img: 'images/icon_32.png' },
+				{ name: 'ghi', cgpa: 7.5, img: 'images/icon_32.png' },
+				{ name: 'jkl', cgpa: 6.5, img: 'images/icon_32.png' }
+			];
+		})(window.angular);
+	</script>
+</body>
+
+</html>

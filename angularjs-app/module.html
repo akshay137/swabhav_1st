@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Module</title>
+</head>
+
+<body ng-app="moduleA">
+	<section ng-controller="controllerA">
+		<div>
+			<h1>Controller A</h1>
+			<h3>{{message}}</h3>
+			<h3>{{company}}</h3>
+		</div>
+	</section>
+	<hr />
+	<section ng-controller="controllerB">
+		<div>
+			<h1>Controller B</h1>
+			<h3>{{message}}</h3>
+			<h3>{{company}}</h3>
+		</div>
+	</section>
+	<hr />
+	<div>
+		<h1>root</h1>
+		<h3>{{mesage || "No message found"}}</h3>
+		<h3>{{company}}</h3>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			angular.module('moduleA', ['moduleB'])
+				.controller('controllerA', function ($scope, $rootScope) {
+					console.log('inside controllerA');
+					$scope.message = 'Hello from controllerA';
+					$rootScope.company = 'swabhav';
+				});
+
+			angular.module('moduleB', [])
+				.controller('controllerB', function ($scope, $rootScope) {
+					console.log('inside controllerB');
+					$scope.message = 'Hello from controllerB';
+				});
+		})(window.angular);
+	</script>
+</body>
+
+</html>

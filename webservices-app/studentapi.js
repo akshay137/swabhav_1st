@@ -1,7 +1,7 @@
 (function () {
 	'use strict';
 	const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
-	const studentList = $('#student-list');
+	const studentList = $('#student-list #list');
 	const studentModal = $('#student-form-modal');
 	const studentModalTitle = $('#student-modal-title');
 	const studentForm = $('form[name=student-data-form]');
@@ -66,6 +66,7 @@
 
 	const displayStudentList = function (res) {
 		console.log(res);
+		studentList.text('');
 		res.forEach((student) => {
 			addStudent(student);
 		})
@@ -129,6 +130,7 @@
 		let finalURL = api;
 		if (studentForm.attr('method') == 'PUT')
 			finalURL += studentFormData.id.val();
+		console.log('isMale', studentFormData.gender.val());
 		$.ajax({
 			url: finalURL,
 			data: {
@@ -143,7 +145,8 @@
 			success: (res) => {
 				console.log(res);
 				studentModal.modal('hide');
-				window.location.reload();
+				// window.location.reload();
+				getStudentList();
 			}
 		});
 		studentFormData.btn.attr('disabled', true);

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Events</title>
+</head>
+
+<body ng-app="eventMod">
+
+	<div ng-controller="eventController">
+		<button ng-click="loadData()">Load Student List</button>
+		<div id="list">
+			<div ng-repeat="st in students">
+				<img ng-src={{st.img}}>
+				<span>Name: {{st.name}}</span>
+				<span>cgpa: {{st.cgpa}}</span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="angular.js"></script>
+	<!-- <script type="text/javascript" src="eventDI.js"></script> -->
+	<!-- <script type="text/javascript" src="eventDI.min.js"></script> -->
+	<script type="text/javascript" src="eventDI_corrected.min.js"></script>
+</body>
+
+</html>

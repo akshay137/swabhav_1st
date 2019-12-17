@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Binding test</title>
+</head>
+
+<body>
+	<div ng-app="binding">
+		<h1>Binding</h1>
+		<hr />
+		<hr />
+		<div ng-controller="bindController">
+			<div>
+				<h2>One Way</h2>
+				<h3>Name: {{student.name}}</h3>
+				<h3>location: {{student.location}}</h3>
+			</div>
+			<hr />
+			<div>
+				<h2>Two Way</h2>
+				<input type="text" ng-model="student.name" />
+				<input type="text" ng-model="student.location" />
+				<h3>Name: {{student.name}}</h3>
+				<h3>location: {{student.location}}</h3>
+			</div>
+			<hr />
+			<div>
+				<h2>One time:</h2>
+				<h3>Name: {{::student.name}}</h3>
+				<h3>location: {{::student.location}}</h3>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			angular.module('binding', []).controller(
+				'bindController', ['$scope', function ($scope) {
+					$scope.student = {
+						name: 'Akshay',
+						location: 'Mumbai'
+					};
+				}]
+			);
+		})(window.angular);
+	</script>
+</body>
+
+</html>
