@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Blue Ball</title>
+
+	<style>
+		.btn-grid {
+			display: grid;
+			grid-template-columns: repeat(10, 8fr);
+			grid-row-gap: 2vh;
+			grid-column-gap: 2vw;
+		}
+
+		.btn-grid button {
+			border: none;
+			border-radius: 50%;
+			width: 8vw;
+			height: 8vw;
+		}
+
+		.btn-grid button:hover {
+			transform: scale(1.2);
+		}
+
+		.neutral {
+			background-color: #aaa;
+		}
+
+		.look-ahead {
+			background-color: #0f0;
+		}
+
+		.look-back {
+			background-color: #f00;
+		}
+
+		.correct {
+			background-color: #00f;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Blue Ball</h1>
+	<div ng-app="blue-ball">
+		<div id="menu" ng-controller="menu-controller" ng-show="showmenu">
+			<button id="btnStart" ng-click="startGame()">
+				Start
+			</button>
+		</div>
+		<div id="game" ng-controller="game" ng-show="showgame">
+			<div id="hud">
+				<h3>
+					Attempts Remaining: <span>{{attempts}}</span>
+				</h3>
+			</div>
+			<div id="controlls">
+				<div class="btn-grid">
+					<button type="button" ng-repeat="ball in balls"
+						class={{ball.currentClass}}
+						ng-click="checkBall(ball)" ng-disabled=ball.clicked>
+						{{ball.number}}
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../angular.js"></script>
+	<script type="text/javascript" src="blueball.js"></script>
+</body>
+</html>
