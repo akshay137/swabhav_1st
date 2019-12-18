@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Async Service</title>
+
+	<Style>
+		.default {
+			background-color: yellow;
+			padding: 2%;
+		}
+
+		.even {
+			background-color: #0f0;
+			padding: 2%;
+		}
+
+		.odd {
+			background-color: red;
+			padding: 2%;
+		}
+	</Style>
+</head>
+
+<body>
+	<h1>Async Service</h1>
+	<div ng-app="async-app">
+		<div ng-controller="svc-controller">
+			<div class={{isEvenClass}}>
+				<label for="ip">isEven:</label>
+				<input type="number" placeholder="Enter a number" id="ip"
+					ng-change="checkNumber()" ng-model="number" />
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			let asyncApp = angular.module('async-app', []);
+			asyncApp.factory('mathsvc', ['$q',
+				function ($q) {
+					let math = {};
+
+					math.isEven = function (n) {
+						return $q(function (resolve, reject) {
+							if (typeof (n) != 'number')
+								reject(false);
+							else if (n % 2 == 0)
+								resolve(true)
+							else
+								resolve(false);
+						});
+					}
+					return math;
+				}
+			]);
+
+			asyncApp.controller('svc-controller', ['$scope', 'mathsvc',
+				function ($scope, mathsvc) {
+					$scope.isEvenClass = 'default';
+					$scope.number = 0;
+
+					$scope.checkNumber = function () {
+						mathsvc.isEven($scope.number).then((res) => {
+							$scope.isEvenClass = res ? 'even' : 'odd';
+						}).catch((res) => {
+							$scope.isEvenClass = 'default';
+						});
+					}
+
+					$scope.checkNumber();
+				}
+			]);
+		})(window.angular);
+	</script>
+</body>
+
+</html>

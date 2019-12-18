@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Student API</title>
+</head>
+
+<body>
+	<h1>Student API</h1>
+	<div ng-app="student-app">
+		<div ng-controller="student-controller">
+			<table>
+				<thead>
+					<td>Roll no.</td>
+					<td>Name</td>
+					<td>email</td>
+					<td>date</td>
+				</thead>
+				<tbody>
+					<tr ng-repeat="student in students track by $index">
+						<td>{{student.rollNo}}</td>
+						<td>{{student.name}}</td>
+						<td>{{student.email}}</td>
+						<td>{{student.date}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			let studentApp = angular.module('student-app', []);
+
+			studentApp.factory('studentsvc', ['$q', '$http',
+				function ($q, $http) {
+					const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
+					let svc = {};
+
+					svc.getStudents = function () {
+						return $q(function (resolve, reject) {
+							$http.get(api)
+								.then(res => {
+									resolve({ msg: 'OK', data: res.data });
+								}).catch(err => {
+									reject({ msg: 'error', data: [] });
+								});
+						});
+					}
+
+					svc.addStudent = function (student) {
+						return $q(function (resolve, reject) {
+							$http.post(api)
+								.then(res => {
+									resolve({ msg: 'OK', data: res.data });
+								}).catch(err => {
+									reject({ msg: 'Error', data: [] });
+								})
+						});
+					}
+
+					svc.updateStudent = function (student) {
+						return $q(function (resolve, reject) {
+							$http.put(api)
+								.then(res => {
+									resolve({ msg: 'OK', data: res.data });
+								}).catch(err => {
+									reject({ msg: 'Error', data: [] });
+								})
+						});
+					}
+
+					return svc;
+				}
+			]);
+
+			studentApp.controller('student-controller', ['$scope', 'studentsvc',
+				function ($scope, studentsvc) {
+					$scope.students = [];
+
+					studentsvc.getStudents()
+						.then(res => {
+							$scope.students = res.data;
+							console.log(res);
+						}).catch(err => {
+							console.log('Error occured:', err.msg);
+							$scope.students = [];
+						})
+				}
+			]);
+		})(window.angular);
+	</script>
+</body>
+
+</html>

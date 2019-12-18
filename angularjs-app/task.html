@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TODO list</title>
+</head>
+
+<body>
+	<h1>TODO List</h1>
+	<div ng-app="todo-app">
+		<div ng-controller="todo-controller">
+			<div id="input">
+				<label for="taskip">Enter task</label>
+				<input type="text" placeholder="Enter task" ng-model="taskvalue"
+					ng-keyup="onKeyIp($event)" />
+			</div>
+			<div id="todo-list">
+				<h3>TODO:</h3>
+				<div
+					ng-repeat="task in tasklist | filter: {done: false} track by $index">
+					<input type="checkbox" id={{task.id}} ng-model="task.done"
+						ng-change="saveTasks()" />
+					<label for={{task.id}}>{{task.detail}}</label>
+				</div>
+			</div>
+			<div id="completed-list">
+				<h3>Complete:</h3>
+				<div
+					ng-repeat="task in tasklist | filter: {done: true} track by $index">
+					<input type="checkbox" id={{task.id}} ng-model="task.done"
+						ng-change="saveTasks()" />
+					<del>
+						<label for={{task.id}}>{{task.detail}}</label>
+					</del>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			let todoApp = angular.module('todo-app', []);
+
+			todoApp.factory('tasksvc', ['$q',
+				function ($q) {
+					let svc = {};
+
+					svc.createTask = function (taskDetail) {
+						return {
+							id: Date.now(),
+							time: Date.now(),
+							detail: taskDetail,
+							done: false
+						};
+					}
+
+					svc.saveTasks = function (key, tasklist) {
+						return $q(function (resolve, reject) {
+							localStorage.setItem(key, JSON.stringify(tasklist));
+							resolve(true);
+						});
+					}
+
+					svc.getTasks = function (key) {
+						return $q(function (resolve, reject) {
+							let tasks = JSON.parse(localStorage.getItem(key));
+							if (tasks == null)
+								tasks = [];
+							console.log(tasks);
+							resolve(tasks);
+						});
+					}
+
+					return svc;
+				}
+			]);
+
+			todoApp.controller('todo-controller', ['$scope', 'tasksvc',
+				function ($scope, tasksvc) {
+					$scope.tasklist = [];
+					$scope.taskvalue = '';
+
+					const KEY = 'tasklist';
+
+					tasksvc.getTasks(KEY).then(res => {
+						$scope.tasklist = res;
+					}).catch(err => {
+						$scope.tasklist = [];
+					});
+
+					$scope.onKeyIp = function ($event) {
+						if ($event.key != 'Enter')
+							return;
+						console.log($scope.taskvalue);
+						$scope.tasklist.push(
+							tasksvc.createTask($scope.taskvalue));
+						$scope.saveTasks();
+					}
+
+					$scope.saveTasks = function () {
+						tasksvc.saveTasks(KEY, $scope.tasklist);
+					}
+				}
+			]);
+		})(window.angular);
+	</script>
+</body>
+
+</html>

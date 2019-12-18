@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Numbers API</title>
+</head>
+
+<body>
+	<h1>Numbers API</h1>
+	<div ng-app="numbers-app">
+		<div ng-controller="numberctrl">
+			<input type="number" ng-model="number" placeholder="number"
+				ng-keypress="getFact($event)" />
+			<div id="facts">
+				<div ng-repeat="fact in (facts | orderBy:time:true)">
+					<p>{{fact.fact}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="angular.js"></script>
+	<script>
+		(function (angular) {
+			let numApp = angular.module('numbers-app', []);
+			numApp.factory('numsvc', ['$q', '$http',
+				function ($q, $http) {
+					let svc = {};
+
+					const api = 'http://numbersapi.com/';
+
+					svc.getFact = function (num) {
+						return $q(function (resolve, reject) {
+							$http.get(api + num)
+								.then(res => {
+									resolve(res.data);
+								}).catch(err => {
+									reject('Cant find fact for: ' + num);
+								});
+						});
+					}
+
+					return svc;
+				}
+			]);
+
+			numApp.controller('numberctrl', ['numsvc', '$scope',
+				function (numsvc, $scope) {
+					$scope.number = 0;
+					$scope.facts = [];
+
+					$scope.getFact = function ($event) {
+						if ($event.key != 'Enter')
+							return;
+						numsvc.getFact($scope.number).then(res => {
+							// console.log(res);
+							$scope.facts.push({
+								time: Date.now(),
+								fact: res
+							});
+						}).catch(err => {
+							console.log('Error:', err);
+						});
+					}
+				}
+			]);
+		})(window.angular);
+	</script>
+</body>
+
+</html>
