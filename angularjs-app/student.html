@@ -5,94 +5,192 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Student API</title>
+
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+	<style>
+		.bg-green {
+			background-color: #5dfdcb;
+		}
+
+		.bg-grey {
+			background-color: #50514f;
+		}
+
+		.bg-creme {
+			background-color: #fdfff7;
+		}
+
+		.bg-blue {
+			background-color: #5bc0eb;
+		}
+
+		.bg-black {
+			background-color: #313131;
+		}
+
+		.bg-pink {
+			background-color: #ee4b6a;
+		}
+
+		.bg-gold {
+			background-color: #ffd700;
+		}
+	</style>
 </head>
 
 <body>
-	<h1>Student API</h1>
-	<div ng-app="student-app">
-		<div ng-controller="student-controller">
-			<table>
-				<thead>
-					<td>Roll no.</td>
-					<td>Name</td>
-					<td>email</td>
-					<td>date</td>
-				</thead>
-				<tbody>
-					<tr ng-repeat="student in students track by $index">
-						<td>{{student.rollNo}}</td>
-						<td>{{student.name}}</td>
-						<td>{{student.email}}</td>
-						<td>{{student.date}}</td>
-					</tr>
-				</tbody>
-			</table>
+	<div id="root" class="container-sm">
+		<h1>Student API</h1>
+		<div ng-app="student-app">
+			<div ng-controller="student-controller">
+				<table class="table table-hover">
+					<caption>Student List</caption>
+					<thead class="thead-dark">
+						<th scope="col">#</th>
+						<th scope="col">Roll no.</th>
+						<th scope="col">Name</th>
+						<th scope="col">email</th>
+						<th scope="col">date</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="student in students track by $index"
+							ng-click="updateStudent(student)"
+							data-toggle="modal"
+							data-target="#student-form-modal">
+							<th scope="row">{{$index}}</th>
+							<td>{{student.rollNo}}</td>
+							<td>{{student.name}}</td>
+							<td>{{student.email}}</td>
+							<td>{{student.date}}</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- modal toggle button -->
+				<div class="container-sm fixed-bottom">
+					<button type="button" ng-click="addStudent()"
+						data-toggle="modal" data-target="#student-form-modal"
+						data-type="add"
+						class="btn bg-gold btn-lg rounded-circle float-right mr-2 mb-2">
+						<span class="h1">+</span>
+					</button>
+				</div>
+
+				<!-- modal -->
+				<div class="modal fade" id="student-form-modal" role="dialog"
+					aria-hidden="true" aria-labelledby="add-student-form">
+					<div class="modal-dialog modal-dialog-centered"
+						role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title"
+									id="student-modal-title">
+									{{modalTitle}}
+								</h4>
+								<button type="button" class="close"
+									data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form name="student-data-form"
+									method={{formMethod}} ng-submit="submit()">
+									<div class="d-none">
+										<input type="text" name="id" id="sid" />
+									</div>
+									<div class=" form-group form-row px-2">
+										<label for="sroll"
+											class="col-sm align-middle">
+											Roll No.:
+										</label>
+										<input class="form-control col-sm"
+											type="number" min="1" name="roll"
+											id="sroll"
+											placeholder="Enter Roll number"
+											ng-model="curStudent.rollNo"
+											required />
+									</div>
+									<div class="form-group px-2">
+										<label for="sname">Student Name:</label>
+										<input class="form-control" type="text"
+											name="name" id="sname"
+											placeholder="Enter student name"
+											ng-model="curStudent.name"
+											required />
+									</div>
+									<div class="form-group px-2">
+										<label for="semail" class="">
+											Email:
+										</label>
+										<input type="email" class="form-control"
+											id="semail" name="email"
+											placeholder="Enter Email"
+											ng-model="curStudent.email"
+											required />
+									</div>
+									<div class="form-group row px-2">
+										<div class="col-sm">
+											<label for="sage"
+												class="">Age:</label>
+											<input type="number"
+												class="form-control" name="age"
+												id="sage" min="0"
+												placeholder="Age"
+												ng-model="curStudent.age"
+												required />
+										</div>
+										<div class="col-sm">
+											<label for="sdate"
+												class="">Date:</label>
+											<!-- check here -->
+											<input type="date"
+												class="form-control" name="date"
+												id="sdate" placeholder="date"
+												required />
+										</div>
+									</div>
+									<div class="form-group px-2">
+										<h5 class="h5">Select gender:</h5>
+										<div class="row">
+											<div class="col-sm">
+												<input type="radio"
+													name="gender" id="smale"
+													ng-value="true"
+													ng-model="curStudent.isMale" />
+												<label for="smale">Male</label>
+											</div>
+											<div class="col-sm">
+												<input type="radio"
+													name="gender" id="sfemale"
+													ng-value="false"
+													ng-model="curStudent.isMale" />
+												<label
+													for="sfemale">Female</label>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<button type="submit" id="btnSubmit"
+											class="btn btn-block btn-outline-primary">
+											<span class="h4" id="btnSubmitText">
+												{{modalBtnTxt}}
+											</span>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
 
-	<script type="text/javascript" src="angular.js"></script>
-	<script>
-		(function (angular) {
-			let studentApp = angular.module('student-app', []);
 
-			studentApp.factory('studentsvc', ['$q', '$http',
-				function ($q, $http) {
-					const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
-					let svc = {};
-
-					svc.getStudents = function () {
-						return $q(function (resolve, reject) {
-							$http.get(api)
-								.then(res => {
-									resolve({ msg: 'OK', data: res.data });
-								}).catch(err => {
-									reject({ msg: 'error', data: [] });
-								});
-						});
-					}
-
-					svc.addStudent = function (student) {
-						return $q(function (resolve, reject) {
-							$http.post(api)
-								.then(res => {
-									resolve({ msg: 'OK', data: res.data });
-								}).catch(err => {
-									reject({ msg: 'Error', data: [] });
-								})
-						});
-					}
-
-					svc.updateStudent = function (student) {
-						return $q(function (resolve, reject) {
-							$http.put(api)
-								.then(res => {
-									resolve({ msg: 'OK', data: res.data });
-								}).catch(err => {
-									reject({ msg: 'Error', data: [] });
-								})
-						});
-					}
-
-					return svc;
-				}
-			]);
-
-			studentApp.controller('student-controller', ['$scope', 'studentsvc',
-				function ($scope, studentsvc) {
-					$scope.students = [];
-
-					studentsvc.getStudents()
-						.then(res => {
-							$scope.students = res.data;
-							console.log(res);
-						}).catch(err => {
-							console.log('Error occured:', err.msg);
-							$scope.students = [];
-						})
-				}
-			]);
-		})(window.angular);
-	</script>
+		<script type="text/javascript" src="angular.js"></script>
+		<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+		<script type="text/javascript"
+			src="bootstrap/js/bootstrap.bundle.js"></script>
+		<script type="text/javascript" src="student.js"></script>
 </body>
 
 </html>

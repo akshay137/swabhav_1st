@@ -16,7 +16,7 @@ git commit -m <messge>:
 	commit changes to local repositary with message
 
 git remote add <short_name> <remote_url>:
-	set remote repositary url to shart hand
+	set remote repositary url to short hand
 
 git push <remote_location> <branch_name>:
 	upload local commits to remote repositary
