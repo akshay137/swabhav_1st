@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Wiki</title>
+</head>
+
+<body>
+	<h1>Wiki</h1>
+	<div id="root">
+		<nav>
+			<a href="#history">Histroy</a>
+			<a href="#pollitics">Pollitics</a>
+			<a href="#geography">Geography</a>
+		</nav>
+
+		<article id="history">
+			<h3>Histroy</h3>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+			vel tristique mi, a tincidunt ipsum. Vestibulum luctus id orci vitae
+			convallis. Nunc egestas cursus urna, vel imperdiet magna egestas sit
+			amet. Aliquam vestibulum suscipit neque dignissim tincidunt. Quisque
+			dapibus leo eget lorem tempor, ut blandit arcu viverra. Aliquam at
+			iaculis neque. Phasellus sed felis mattis, condimentum elit nec,
+			auctor nisi. Morbi ac magna a ipsum aliquam dictum.
+
+			Aenean laoreet justo et enim feugiat facilisis. Proin molestie,
+			libero sed ultricies pellentesque, leo augue scelerisque tellus,
+			eget tempus metus ante vel magna. Fusce egestas mauris nec efficitur
+			ultricies. Donec vestibulum turpis magna, ut porta mi posuere id.
+			Maecenas mollis, urna a condimentum sollicitudin, nunc eros
+			consequat ipsum, in ullamcorper libero massa quis sem. Suspendisse
+			hendrerit tincidunt libero, ac varius erat ultrices et. Praesent nec
+			risus elementum, blandit augue vitae, tristique turpis. Vestibulum
+			vestibulum ligula non dolor rutrum, a tincidunt nibh lobortis. Nulla
+			finibus augue diam, eget commodo odio ultricies eu. Suspendisse
+			vitae turpis facilisis libero hendrerit dignissim. Vestibulum
+			finibus sem eget elit mollis, in molestie nisi blandit. Morbi
+			sodales ligula vitae ultricies suscipit. In maximus ex in nunc
+			vestibulum consequat. In ultricies, dolor non aliquam mollis, ex
+			elit feugiat magna, id semper libero nulla vitae est.
+		</article>
+
+		<article id="pollitics">
+			<h3>Pollitics</h3>
+			Vestibulum hendrerit dictum felis, sed tempus metus varius eget.
+			Duis quis ante faucibus, feugiat libero eu, faucibus mi. Sed
+			sagittis lectus eu elit faucibus, quis accumsan dolor commodo.
+			Quisque vel nisl ac purus varius cursus. Duis aliquam, nibh mollis
+			consequat tincidunt, massa dui ornare nunc, vel ullamcorper nunc
+			ligula ut turpis. Etiam efficitur nisl id dui pulvinar aliquam.
+			Suspendisse augue ante, dapibus ac porta eget, condimentum viverra
+			purus. Sed laoreet porttitor leo. Mauris dictum sollicitudin magna,
+			at vestibulum lorem pretium nec. Suspendisse molestie, elit id
+			tincidunt tincidunt, ante augue volutpat est, vitae euismod velit
+			dolor eget nisi. Nullam faucibus rhoncus ex. In posuere vitae urna
+			non fermentum.
+
+			Sed lacinia mattis urna quis vehicula. Maecenas sollicitudin metus
+			sed rutrum bibendum. Mauris pharetra consequat lorem eu tincidunt.
+			Sed ut urna ac orci consequat pellentesque vitae non ipsum. Sed
+			pretium finibus sapien, sed sodales libero. Morbi consequat neque
+			imperdiet, scelerisque turpis sed, blandit urna. Nulla id sapien
+			commodo, pellentesque quam eu, volutpat lacus. Vestibulum viverra
+			orci vel semper vulputate.
+		</article>
+
+		<article id="geography">
+			<h3>Geography</h3>
+			Nunc ultricies, mauris eu finibus iaculis, nulla ipsum tempor ipsum,
+			vel tempor metus massa sit amet justo. Donec dignissim lorem nec
+			pharetra vulputate. Proin pellentesque bibendum convallis. Integer
+			faucibus auctor venenatis. In accumsan leo sit amet aliquam
+			dignissim. Praesent pretium eleifend dapibus. In ac venenatis est,
+			efficitur mollis magna. Aenean elementum ex nec fringilla dignissim.
+			Vestibulum vehicula erat fermentum viverra faucibus. Vestibulum nisi
+			mauris, eleifend vitae faucibus non, vehicula non massa. Mauris
+			rhoncus ipsum mollis lectus maximus sagittis. Nulla volutpat
+			sollicitudin nunc a aliquam. Aenean sodales cursus dui, eget
+			pulvinar velit egestas id. Sed id egestas lectus. Phasellus ipsum
+			dui, interdum nec efficitur quis, imperdiet id sem.
+		</article>
+	</div>
+
+	<script>
+		(function () {
+			window.addEventListener('hashchange', e => {
+				// console.log(e);
+				let hash = window.location.hash.replace('#', '');
+				console.log('loading:', hash);
+				switch (hash) {
+					case 'history':
+					case 'geography':
+					case 'pollitics':
+						console.log('loaded', hash);
+						break;
+
+					default:
+						console.log('data not found for:', hash);
+						break;
+				}
+			})
+		})();
+	</script>
+</body>
+
+</html>

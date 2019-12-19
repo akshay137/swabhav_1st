@@ -44,12 +44,12 @@
 		<div ng-app="student-app">
 			<div ng-controller="student-controller">
 				<table class="table table-hover">
-					<caption>Student List</caption>
+					<caption class="sr-only">Student List</caption>
 					<thead class="thead-dark">
 						<th scope="col">#</th>
 						<th scope="col">Roll no.</th>
 						<th scope="col">Name</th>
-						<th scope="col">email</th>
+						<!-- <th scope="col">email</th> -->
 						<th scope="col">date</th>
 					</thead>
 					<tbody>
@@ -60,7 +60,7 @@
 							<th scope="row">{{$index}}</th>
 							<td>{{student.rollNo}}</td>
 							<td>{{student.name}}</td>
-							<td>{{student.email}}</td>
+							<!-- <td>{{student.email}}</td> -->
 							<td>{{student.date}}</td>
 						</tr>
 					</tbody>
@@ -146,6 +146,7 @@
 											<input type="date"
 												class="form-control" name="date"
 												id="sdate" placeholder="date"
+												ng-model="curStudent.ngdate"
 												required />
 										</div>
 									</div>
@@ -171,6 +172,7 @@
 									</div>
 									<div class="form-group">
 										<button type="submit" id="btnSubmit"
+											ng-disabled="disableButton"
 											class="btn btn-block btn-outline-primary">
 											<span class="h4" id="btnSubmitText">
 												{{modalBtnTxt}}
