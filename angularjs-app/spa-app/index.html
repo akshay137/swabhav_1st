@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Mini SPA</title>
+
+	<link rel="stylesheet" href="../bootstrap/css/bootstrap.css" />
+</head>
+
+<body ng-app="mini-spa">
+	<div class="container">
+		<h1>Index:</h1>
+
+		<nav class="nav nav-fill bg-dark">
+			<div class="nav-item">
+				<a class="nav-link" href="#!/home">Home</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#!/about">About</a>
+			</div>
+			<div class="nav-item">
+				<a class="nav-link" href="#!/career">Career</a>
+			</div>
+		</nav>
+
+		<div ng-view class="container"></div>
+	</div>
+
+	<script type="text/javascript" src="../angular.js"></script>
+	<script type="text/javascript" src="../angular-route.js"></script>
+	<script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>

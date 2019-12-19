@@ -18,7 +18,13 @@ public class Game {
     
     public GameResult play(int cellId)
     {
-	board.markCell(cellId, users[turn].getMark());
+	try {
+	    board.markCell(cellId, users[turn].getMark());
+	    changeTurn();
+	}
+	catch (SettinNonEmptyCell e) {
+	    return GameResult.INVALID_PLAY;
+	}
 	return resultAnalyzer.checkBoard(
 		users[turn].getMark(), cellId);
     }

@@ -1,0 +1,31 @@
+<section>
+	<div class="container">
+		<form name="addemp" novalidate>
+			<div class="form-group">
+				<label for="num">Number:</label>
+				<input class="form-control" type="number" id="num" name="eno"
+					placeholder="Enter number" ng-model="empno" required />
+				<span class="text-danger"
+					ng-show="addemp.eno.$dirty && addemp.eno.$invalid">
+					<span ng-show="addemp.eno.$error.required">*Required</span>
+					<span ng-show="addemp.eno.$error.number">*Invalid
+						entry</span>
+				</span>
+			</div>
+			<div class="form-group">
+				<label for="name">Name:</label>
+				<input class="form-control" type="text" id="name" name="ename"
+					placeholder="Enter name" ng-model="empname" required />
+				<span class="text-danger"
+					ng-show="addemp.ename.$dirty && addemp.ename.$invalid">
+					<span
+						ng-show="addemp.ename.$error.required">*Required</span>
+				</span>
+			</div>
+			<div class="form-group">
+				<button type="button" class="btn btn-primary"
+					ng-disabled="addemp.$invalid">Add</button>
+			</div>
+		</form>
+	</div>
+</section>

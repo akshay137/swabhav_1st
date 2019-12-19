@@ -41,16 +41,19 @@ public class GameController {
 	    printCurrentUser();
 	    int cellId = game.getCurrentUser().decideCell(
 		    game.getBoard());
-	    try
-	    {
+//	    try
+//	    {
 		res = game.play(cellId);
-		if (res == GameResult.GAME_RUNNING)
-		    game.changeTurn();
-	    }
-	    catch (SettinNonEmptyCell exception)
-	    {
-		System.err.println("Cell is already marked");
-	    }
+//		if (res == GameResult.GAME_RUNNING)
+//		    game.changeTurn();
+//	    }
+//	    catch (SettinNonEmptyCell exception)
+//	    {
+//		System.err.println("Cell is already marked");
+//	    }
+		if (res == GameResult.INVALID_PLAY) {
+		    System.err.println("Cell is already marked");
+		}
 	}
 	printGameBoard();
 	endGame(res);

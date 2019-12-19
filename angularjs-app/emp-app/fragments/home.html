@@ -1,0 +1,7 @@
+<section>
+	<h3 class="h3">Employee list:</h3>
+	<a class="btn btn-primary btn-block" href="#!/add">Add</a>
+	<div id="emp-list" ng-repeat="emp in employees track by $index">
+		<div>{{emp.name}}</div>
+	</div>
+</section>
