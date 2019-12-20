@@ -1,0 +1,41 @@
+<section>
+	<div class="container">
+		{{test}}
+		<h3 class="h3">Edit employee data</h3>
+		<form name="editemp" novalidate ng-submit="update()">
+			<div class="form-group">
+				<input class="form-control" type="number" ng-model="empid"
+					disabled />
+			</div>
+			<div class="form-group">
+				<label for="name">Name:</label>
+				<input class="form-control" type="text" id="name" name="ename"
+					placeholder="Enter name" ng-model="empname" required />
+				<span class="text-danger"
+					ng-show="editemp.ename.$dirty && editemp.ename.$invalid">
+					<span
+						ng-show="editemp.ename.$error.required">*Required</span>
+				</span>
+			</div>
+			<div class="form-group">
+				<label for="salary">Salary:</label>
+				<input class="form-control" type="number" id="salary"
+					name="esalary" placeholder="Enter salary"
+					ng-model="empsalary" required />
+				<span class="text-danger"
+					ng-show="editemp.esalary.$dirty && editemp.esalary.$invalid">
+					<span
+						ng-show="editemp.esalary.$error.required">*Required</span>
+					<span ng-show="editemp.esalary.$error.number">*Invalid
+						entry</span>
+				</span>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary"
+					ng-disabled="editemp.$invalid">
+					Update
+				</button>
+			</div>
+		</form>
+	</div>
+</section>

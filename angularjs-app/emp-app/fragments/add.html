@@ -1,17 +1,6 @@
 <section>
 	<div class="container">
-		<form name="addemp" novalidate>
-			<div class="form-group">
-				<label for="num">Number:</label>
-				<input class="form-control" type="number" id="num" name="eno"
-					placeholder="Enter number" ng-model="empno" required />
-				<span class="text-danger"
-					ng-show="addemp.eno.$dirty && addemp.eno.$invalid">
-					<span ng-show="addemp.eno.$error.required">*Required</span>
-					<span ng-show="addemp.eno.$error.number">*Invalid
-						entry</span>
-				</span>
-			</div>
+		<form name="addemp" ng-submit="addEmp()" novalidate>
 			<div class="form-group">
 				<label for="name">Name:</label>
 				<input class="form-control" type="text" id="name" name="ename"
@@ -23,8 +12,23 @@
 				</span>
 			</div>
 			<div class="form-group">
-				<button type="button" class="btn btn-primary"
-					ng-disabled="addemp.$invalid">Add</button>
+				<label for="salary">Salary:</label>
+				<input class="form-control" type="number" id="salary"
+					name="esalary" placeholder="Enter salary"
+					ng-model="empsalary" required />
+				<span class="text-danger"
+					ng-show="addemp.esalary.$dirty && addemp.esalary.$invalid">
+					<span
+						ng-show="addemp.esalary.$error.required">*Required</span>
+					<span ng-show="addemp.esalary.$error.number">*Invalid
+						entry</span>
+				</span>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary"
+					ng-disabled="addemp.$invalid">
+					Add
+				</button>
 			</div>
 		</form>
 	</div>
