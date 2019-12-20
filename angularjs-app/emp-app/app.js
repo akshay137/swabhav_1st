@@ -33,8 +33,10 @@
 					reject({ msg: "You passed something which I couldn't handle" });
 					return;
 				}
+				let ts = Date.now();
+				cached.timestamp = ts;
 				localStorage.setItem(LS_KEY, value);
-				localStorage.setItem(LS_TS, Date.now());
+				localStorage.setItem(LS_TS, ts);
 				resolve({ msg: 'Everything was fine and stil is!' });
 			});
 		}
@@ -51,6 +53,7 @@
 					ts = 0;
 				}
 				if (cached.timestamp < ts) {
+					console.log('loading from storage');
 					let lst = JSON.parse(localStorage.getItem(LS_KEY));
 					if (lst == null)
 						lst = [];
@@ -117,6 +120,8 @@
 	empapp.controller('home-controller', ['$scope', 'empsvc',
 		function ($scope, empsvc, $routeProvider) {
 			$scope.employees = [];
+			$scope.key = 'id';
+			$scope.rvs = false;
 			empsvc.get().then(res => {
 				// console.log(res);
 				$scope.employees = res;
@@ -127,17 +132,19 @@
 			}
 
 			$scope.delete = function (emp) {
-				empsvc.remove(emp).then(res => {
-					// console.log(res);
-					if (res.status) {
-						let i = $scope.employees.findIndex(em => em.id == emp.id);
-						if (i != -1) {
-							$scope.employees.splice(i, 1);
+				if (confirm('Are you sure?\n' + 'Deleting emp: #' + emp.id)) {
+					empsvc.remove(emp).then(res => {
+						// console.log(res);
+						if (res.status) {
+							let i = $scope.employees.findIndex(em => em.id == emp.id);
+							if (i != -1) {
+								$scope.employees.splice(i, 1);
+							}
 						}
-					}
-				}).catch(err => {
-					console.log('err', err);
-				})
+					}).catch(err => {
+						console.log('err', err);
+					});
+				}
 			}
 		}]
 	);
@@ -184,5 +191,51 @@
 			}
 		}]
 	);
+
+	empapp.directive('stTest', function () {
+		return {
+			template: 'custom directive'
+		}
+	});
+
+	empapp.directive('stHead', [
+		function () {
+			function link(scope, element, attrs) {
+				updateText();
+				// console.log(element);
+				element.addClass('navbar bg-dark text-light fixed-top');
+
+				function updateText() {
+					element.text('custom directive demo head:');
+				}
+
+				scope.$watch(attrs.year, function (value) {
+					updateText();
+				})
+			}
+
+			return { link: link };
+		}
+	]);
+
+	empapp.directive('stFooter', ['$rootScope',
+		function ($rootScope) {
+			function link(scope, element, attrs) {
+				updateText();
+				// console.log(element);
+				element.addClass('navbar bg-dark text-light fixed-bottom');
+
+				function updateText() {
+					element.text('custom directive demo: ©' + attrs.year);
+				}
+
+				scope.$watch(attrs.year, function (value) {
+					updateText();
+				})
+			}
+
+			return { link: link };
+		}
+	]);
 
 })(window.angular);

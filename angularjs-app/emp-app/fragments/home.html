@@ -1,16 +1,37 @@
 <section>
+	<!-- <st-test></st-test> -->
+	<st-head></st-head>
 	<h3 class="h3">Employee list:</h3>
-	<a class="btn btn-primary btn-block" href="#!/add">Add</a>
+	<a class="btn btn-primary btn-block" href="#!/add">
+		<span class="h3">Add new employee</span>
+	</a>
+	<hr />
 	<div class="container-sm">
-		<div id="emp-list" class="row"
-			ng-repeat="emp in employees track by $index">
-			<div class="col">{{emp.id}}</div>
-			<div class="col">{{emp.name}}</div>
-			<div class="col">{{emp.salary}}</div>
-			<a class="btn btn-secondary" href="#!/edit/{{emp.id}}">Edit</a>
-			<button class="btn btn-danger" ng-click="delete(emp)">
-				Delete
-			</button>
+		<div class="row h4 bg-primary py-2 border rounded">
+			<div class="col-sm" ng-click="key = 'id'; rvs = !rvs">
+				ID <sup>{{key == 'id' ? rvs ? 'v' : '^' : ''}}</sup>
+			</div>
+			<div class="col-sm" ng-click="key = 'name'; rvs = !rvs">
+				Name <sup>{{key == 'name' ? rvs ? 'v' : '^' : ''}}</sup>
+			</div>
+			<div class="col d-none d-md-block"
+				ng-click="key = 'salary'; rvs = !rvs">
+				salary <sup>{{key == 'salary' ? rvs ? 'v' : '^' : ''}}</sup>
+			</div>
+			<div class="col-sm text-right">Controls</div>
+		</div>
+		<div id="emp-list" class="row bg-dark text-light py-2 h5 border rounded"
+			ng-repeat="emp in employees | orderBy: key: rvs track by $index">
+			<div class="col-sm">#{{emp.id}}</div>
+			<div class="col-sm">{{emp.name}}</div>
+			<div class="col d-none d-md-block">{{emp.salary}}</div>
+			<div class="px-1 col-sm text-right">
+				<a class="btn btn-success" href="#!/edit/{{emp.id}}">Edit</a>
+				<button class="btn btn-danger" ng-click="delete(emp)">
+					Delete
+				</button>
+			</div>
 		</div>
 	</div>
+	<st-footer year="2020"></st-footer>
 </section>
