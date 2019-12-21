@@ -1,0 +1,49 @@
+<section class="container">
+	<!-- {{location}} -->
+	<div class="bg-primary h3 p-2 rounded-top text-light">
+		Product Detail: {{product.productName}}
+	</div>
+	<div class="border rounded-bottom">
+		<div class="row py-3">
+			<div class="col">
+				<table class="table-sm">
+					<tbody class="tbody">
+						<tr>
+							<th>Name:</th>
+							<td>{{product.productName}}</td>
+						</tr>
+						<tr>
+							<th>Code:</th>
+							<td>{{product.productCode}}</td>
+						</tr>
+						<tr>
+							<th>Description:</th>
+							<td>{{product.description}}</td>
+						</tr>
+						<tr>
+							<th>Availability:</th>
+							<td>{{product.releaseDate}}</td>
+						</tr>
+						<tr>
+							<th>Price:</th>
+							<td>{{product.price}}</td>
+						</tr>
+						<tr>
+							<th>Rating:</th>
+							<td>{{product.starRating}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<img src={{product.imgSrc}} />
+			</div>
+		</div>
+		<div class="container bg-light py-2">
+			<a class="btn btn-secondary text-light" href="#!/list">
+				<span class="font-weight-bolder">&lt;</span>
+				Back
+			</a>
+		</div>
+	</div>
+</section>

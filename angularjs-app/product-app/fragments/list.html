@@ -1,0 +1,53 @@
+<section class="container">
+	<!-- {{location}} -->
+	<div class="bg-primary h3 p-2 rounded-top text-light">
+		Product List
+	</div>
+	<div class="border rounded-bottom">
+		<div class="form-group px-2">
+			<label for="filtertxt">Filter By:</label>
+			<input class="form-control" name="filter" id="filtertxt"
+				placeholder="Filter by Name" ng-model="filtertxt" />
+			<hr />
+		</div>
+		<div class="container row" id="labels">
+			<div class="col-sm">
+				<button type="button" class="btn btn-primary"
+					ng-click="showImg = !showImg">
+					{{showImg ? 'Hide Image' : 'Show Image'}}
+				</button>
+			</div>
+			<div class="col-sm mt-2">Product</div>
+			<div class="col-sm mt-2 d-none d-md-block">Code</div>
+			<div class="col-sm mt-2 d-none d-md-block">Available</div>
+			<div class="col-sm mt-2">Price</div>
+			<div class="col-sm mt-2">Rating</div>
+		</div>
+		<hr />
+		<div ng-repeat="product in products | filter:{productName: filtertxt}">
+			<div class="row px-2">
+				<div class="col-sm">
+					<img class="img-thumbnail rounded" ng-show="showImg"
+						src={{product.imgSrc}}.thmb />
+				</div>
+				<div class="col-sm">
+					<a
+						href="#!/product/{{product.productId}}">{{product.productName}}</a>
+				</div>
+				<div class="col-sm d-none d-md-block">
+					{{product.productCode}}
+				</div>
+				<div class="col-sm d-none d-md-block">
+					{{product.releaseDate}}
+				</div>
+				<div class="col-sm">
+					{{product.price}}
+				</div>
+				<div class="col-sm">
+					<st-stars stars={{product.starRating}} />
+				</div>
+			</div>
+			<hr />
+		</div>
+	</div>
+</section>

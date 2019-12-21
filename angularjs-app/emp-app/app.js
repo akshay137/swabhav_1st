@@ -88,7 +88,7 @@
 				if (i != -1) {
 					copyEmp(emp, cached.data[i]);
 					saveData().then(res => {
-						resolve({ msg: 'Everyone lived happily ever after' });
+						resolve({ msg: 'and everyone lived happily ever after' });
 					}).catch(err => {
 						reject({
 							msg: `error occured during saving data: ${err.msg}`

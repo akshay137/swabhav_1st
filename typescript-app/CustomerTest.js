@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var customer_1 = require("./customer");
+var alexa = new customer_1.Customer(1, 'alexa');
+var siri = new customer_1.Customer(2, 'siri');
+var cortana = new customer_1.Customer(3, 'cortana');
+var mumbai = new customer_1.Address('Mumbai');
+console.log(alexa.ID, alexa.Name);
+console.log(siri.ID, siri.Name);
+console.log(cortana.ID, cortana.Name);
+console.log(mumbai.Address);

@@ -21,8 +21,14 @@
 				<div
 					ng-repeat="task in tasklist | filter: {done: false} track by $index">
 					<input type="checkbox" id={{task.id}} ng-model="task.done"
-						ng-change="saveTasks()" />
+						ng-change="saveTasks(task)" />
 					<label for={{task.id}}>{{task.detail}}</label>
+					<br />
+					<label for={{task.id}}>added:{{task.time | elapsed}}</label>
+					<label for={{task.id}}>
+						updated:{{task.utime | elapsed}}
+					</label>
+					<hr />
 				</div>
 			</div>
 			<div id="completed-list">
@@ -30,28 +36,43 @@
 				<div
 					ng-repeat="task in tasklist | filter: {done: true} track by $index">
 					<input type="checkbox" id={{task.id}} ng-model="task.done"
-						ng-change="saveTasks()" />
+						ng-change="saveTasks(task)" />
 					<del>
 						<label for={{task.id}}>{{task.detail}}</label>
+						<br />
+						<label for={{task.id}}>
+							finished:{{task.utime | elapsed}}
+						</label>
 					</del>
+					<hr />
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<script type="text/javascript" src="angular.js"></script>
+	<script type="text/javascript" src="js/moment.js"></script>
 	<script>
 		(function (angular) {
+			const dateFormat = 'DD-MM-YYYY hh:mm:ss a';
 			let todoApp = angular.module('todo-app', []);
+
+			todoApp.filter('elapsed', function () {
+				return function (value) {
+					return moment(value, dateFormat).fromNow();
+				}
+			});
 
 			todoApp.factory('tasksvc', ['$q',
 				function ($q) {
 					let svc = {};
 
 					svc.createTask = function (taskDetail) {
+						let t = moment().format(dateFormat);
 						return {
 							id: Date.now(),
-							time: Date.now(),
+							time: t,
+							utime: t,
 							detail: taskDetail,
 							done: false
 						};
@@ -100,7 +121,10 @@
 						$scope.saveTasks();
 					}
 
-					$scope.saveTasks = function () {
+					$scope.saveTasks = function (task) {
+						if (task != undefined) {
+							task.utime = moment().format(dateFormat);
+						}
 						tasksvc.saveTasks(KEY, $scope.tasklist);
 					}
 				}
