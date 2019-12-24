@@ -21,12 +21,16 @@
 	}]);
 
 	productapp.directive('stStars', [function () {
+		const BLACK_STAR = '\u2605';
+		const WHITE_STAR = '\u2605';
 		function link(scope, element, attrs) {
 			updateText();
 
 			function updateText(stars) {
+				element.text('');
 				for (let i = 0; i < stars; i++)
-					element.text(i);
+					element.append(BLACK_STAR);
+				element.append(`[${stars}]`);
 			}
 
 			scope.$watch(attrs.stars, function (value) {

@@ -9,7 +9,6 @@ public class Folder implements IStorageItem {
 	public Folder(String name)
 	{
 		this.name = name;
-		children = new ArrayList<IStorageItem>();
 	}
 	
 	public boolean addStorageItem(IStorageItem item)
@@ -24,6 +23,6 @@ public class Folder implements IStorageItem {
 		System.out.printf("%s%s\n", leadingSpace, this.name);
 		leadingSpace += "--";
 		for (IStorageItem item : children)
-			item.display(leadingSpace);
+				item.display(leadingSpace);
 	}
 }

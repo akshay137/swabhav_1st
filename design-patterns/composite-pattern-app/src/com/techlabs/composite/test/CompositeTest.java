@@ -26,6 +26,8 @@ public class CompositeTest {
 		fantasy.addStorageItem(new File("Lord of the rings.mp4", 3000));
 		fantasy.addStorageItem(new File("How to train your dragon.avi", 600));
 		folder.addStorageItem(fantasy);
+		
+		folder.addStorageItem(new File("rush hour 3.mkv", 300));
 	}
 	
 	public static void main(String[] args)

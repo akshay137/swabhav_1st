@@ -12,7 +12,8 @@ public class Reflector {
 	public static Object invokeMethod(Class<?> cls, Object instance,
 			String methodName, Object ...objects)
 	{
-		Method method = getMethod(cls, methodName, objects.length);
+		Method method = getMethod(cls, methodName, objects);
+		method.setAccessible(true);
 		try
 		{
 			return method.invoke(instance, objects);
@@ -41,17 +42,18 @@ public class Reflector {
 	}
 	
 	public static Method getMethod(Class<?> cls,
-			String methodName, int parameterCount)
+			String methodName, Object... parameters)
 	{
-		Method[] methods = cls.getDeclaredMethods();
-		for (Method method : methods)
-		{
-			if (method.getName().equals(methodName)
-					&& method.getParameterCount() == parameterCount)
-			{
-				return method;
-			}
+		Class<?> paramterCls[] = new Class[parameters.length];
+		for (int i = 0; i < parameters.length; i++) 
+			paramterCls[i] = parameters[i].getClass();
+		
+		try {
+			return cls.getDeclaredMethod(methodName, paramterCls);
 		}
-		return null;
+		catch (NoSuchMethodException | SecurityException exception) {
+			System.out.println(exception.getMessage());
+			return null;
+		}
 	}
 }

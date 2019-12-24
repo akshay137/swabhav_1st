@@ -10,9 +10,17 @@
 			controller: 'edit-controller',
 			templateUrl: 'fragments/edit.html'
 		});
+		$routeProvider.when('/login/:type/:id', {
+			controller: 'login-controller',
+			templateUrl: 'fragments/login.html'
+		});
 		$routeProvider.when('/add', {
 			controller: 'add-controller',
 			templateUrl: 'fragments/add.html'
+		});
+		$routeProvider.otherwise('/', {
+			controller: 'home-controller',
+			templateUrl: 'fragments/home.html'
 		});
 	}]);
 
@@ -117,6 +125,34 @@
 		return svc;
 	}]);
 
+	empapp.factory('authsvc', ['$q', function ($q) {
+		let svc = {};
+
+		const users = [
+			{ uname: 'abc', pass: 'def' },
+			{ uname: 'def', pass: '123' },
+			{ uname: 'cls', pass: '456' }
+		];
+
+		let authorized = [];
+
+		svc.auth = function (uname, passwd) {
+			return $q(function (resolve, reject) {
+				let i = users.find(user => {
+					return user.uname == uname && user.pass == passwd
+				});
+				console.log(i);
+				if (i == null) {
+					reject({ msg: 'No such user', valid: false });
+					return;
+				}
+				resolve({ msg: 'OK', valid: true });
+			});
+		}
+
+		return svc;
+	}]);
+
 	empapp.controller('home-controller', ['$scope', 'empsvc',
 		function ($scope, empsvc, $routeProvider) {
 			$scope.employees = [];
@@ -163,6 +199,31 @@
 		}]
 	);
 
+	empapp.controller('login-controller', ['$scope', '$location', '$routeParams',
+		'authsvc',
+		function ($scope, $location, $routeParams, authsvc) {
+			$scope.test = 'successfull verification is done here';
+			$scope.type = $routeParams.type;
+			$scope.id = $routeParams.id;
+
+			$scope.uname = '';
+			$scope.passwd = '';
+
+			$scope.auth = function () {
+				// authsvc.auth()
+				authsvc.auth($scope.uname, $scope.passwd)
+					.then(res => {
+						sessionStorage.setItem($scope.id, 'authorized');
+						$location.path('/edit/' + $scope.id);
+					}).catch(err => {
+						alert(err.msg);
+						$location.path('/');
+						sessionStorage.removeItem($scope.id);
+					});
+			}
+		}]
+	);
+
 	empapp.controller('edit-controller', ['$scope', 'empsvc',
 		'$location', '$routeParams',
 		function ($scope, empsvc, $location, $routeParams) {
@@ -173,6 +234,13 @@
 			}
 			$scope.empname = '';
 			$scope.empsalary = '';
+
+			if (sessionStorage.getItem($routeParams.id) != 'authorized') {
+				alert('Unauthorized access');
+				$location.path('/');
+				return;
+			}
+			sessionStorage.removeItem($routeParams.id);
 
 			empsvc.getId($scope.empid).then(res => {
 				// console.log(res);
