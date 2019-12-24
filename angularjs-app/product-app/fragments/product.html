@@ -26,11 +26,14 @@
 						</tr>
 						<tr>
 							<th>Price:</th>
-							<td>{{product.price}}</td>
+							<td>${{product.price}}</td>
 						</tr>
 						<tr>
 							<th>Rating:</th>
-							<td>{{product.starRating}}</td>
+							<td>
+								{{product.starRating}}
+								<st-stars stars={{product.starRating}} />
+							</td>
 						</tr>
 					</tbody>
 				</table>

@@ -21,20 +21,38 @@
 	}]);
 
 	productapp.directive('stStars', [function () {
-		const BLACK_STAR = '\u2605';
-		const WHITE_STAR = '\u2605';
+		const BLACK_STAR = '\u2605\u2605\u2605\u2605\u2605';
+		const WHITE_STAR = '\u2606\u2606\u2606\u2606\u2606';
 		function link(scope, element, attrs) {
 			updateText();
 
 			function updateText(stars) {
+				console.log('displaying stars');
 				element.text('');
-				for (let i = 0; i < stars; i++)
-					element.append(BLACK_STAR);
-				element.append(`[${stars}]`);
+				element.addClass('star-rating');
+
+				let topDiv = document.createElement('div');
+				topDiv.classList.add('star-rating-top');
+				topDiv.innerHTML = BLACK_STAR;
+				topDiv.style.width = Math.round(((stars * 10) * 2)) + '%';
+
+				let bottomDiv = document.createElement('div');
+				bottomDiv.classList.add('star-rating-bottom');
+				bottomDiv.innerHTML = WHITE_STAR;
+
+				element.append(topDiv);
+				element.append(bottomDiv);
+
+				element.text('');
+				let w = Math.round((stars * 10) * 2);
+				console.log(typeof (stars), stars, w);
+				element.append(`<div class="star-rating-top"
+					style="width: ${w}%	;">${BLACK_STAR}</div>`);
+				element.append(`<div class="star-rating-bottom">${WHITE_STAR}</div>`);
 			}
 
 			scope.$watch(attrs.stars, function (value) {
-				updateText(value);
+				updateText(parseFloat(value));
 			})
 		}
 		return { link: link };

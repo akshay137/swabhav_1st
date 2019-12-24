@@ -108,10 +108,10 @@
 			});
 		}
 
-		svc.remove = function (emp) {
+		svc.remove = function (id) {
 			return $q(function (resolve, reject) {
 				svc.get().then(res => {
-					let i = res.findIndex(em => em.id == emp.id);
+					let i = res.findIndex(em => em.id == id);
 					if (i == -1) {
 						reject({ msg: 'no employee', status: false });
 					}
@@ -166,22 +166,6 @@
 			$scope.addEmp = function () {
 				$routeProvider.path('/add');
 			}
-
-			$scope.delete = function (emp) {
-				if (confirm('Are you sure?\n' + 'Deleting emp: #' + emp.id)) {
-					empsvc.remove(emp).then(res => {
-						// console.log(res);
-						if (res.status) {
-							let i = $scope.employees.findIndex(em => em.id == emp.id);
-							if (i != -1) {
-								$scope.employees.splice(i, 1);
-							}
-						}
-					}).catch(err => {
-						console.log('err', err);
-					});
-				}
-			}
 		}]
 	);
 
@@ -200,8 +184,8 @@
 	);
 
 	empapp.controller('login-controller', ['$scope', '$location', '$routeParams',
-		'authsvc',
-		function ($scope, $location, $routeParams, authsvc) {
+		'authsvc', 'empsvc',
+		function ($scope, $location, $routeParams, authsvc, empsvc) {
 			$scope.test = 'successfull verification is done here';
 			$scope.type = $routeParams.type;
 			$scope.id = $routeParams.id;
@@ -213,13 +197,31 @@
 				// authsvc.auth()
 				authsvc.auth($scope.uname, $scope.passwd)
 					.then(res => {
-						sessionStorage.setItem($scope.id, 'authorized');
-						$location.path('/edit/' + $scope.id);
+						act();
 					}).catch(err => {
 						alert(err.msg);
 						$location.path('/');
 						sessionStorage.removeItem($scope.id);
 					});
+			}
+
+			function act() {
+				switch ($scope.type) {
+					case 'e':
+						sessionStorage.setItem($scope.id, 'authorized');
+						$location.path('/edit/' + $scope.id);
+						break;
+
+					case 'd':
+						empsvc.remove($scope.id).then(res => {
+							$location.path('/');
+						}).catch(err => {
+							alert(err.msg);
+							$location.path('/');
+						});
+						break;
+
+				}
 			}
 		}]
 	);

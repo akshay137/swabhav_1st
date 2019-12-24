@@ -7,6 +7,30 @@
 	<title>Product App</title>
 
 	<link rel="stylesheet" href="../bootstrap/css/bootstrap.css" />
+	<style>
+		.star-rating {
+			unicode-bidi: bidi-override;
+			width: 80px;
+			font-size: 16px;
+			padding: 0;
+			position: relative;
+			margin: 0 auto;
+			display: inline-block;
+		}
+
+		.star-rating-top {
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			overflow: hidden;
+			z-index: 1;
+		}
+
+		.star-rating-bottom {
+			z-index: 0;
+		}
+	</style>
 </head>
 
 <body>
