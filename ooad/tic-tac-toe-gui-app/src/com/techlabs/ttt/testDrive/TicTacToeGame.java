@@ -5,6 +5,6 @@ import com.techlabs.ttt.*;
 public class TicTacToeGame {
     public static void main(String[] args)
     {
-	new GameController(3);
+	new GameController(5);
     }
 }

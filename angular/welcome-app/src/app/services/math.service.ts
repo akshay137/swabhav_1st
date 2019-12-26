@@ -3,18 +3,20 @@ import { Injectable } from '@angular/core';
 import { LoggerService } from './logger.service'
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class MathService {
 
-  constructor(private loggersvc: LoggerService) { }
+	constructor(private loggersvc: LoggerService) {
+		console.log('MathService constructor');
+	}
 
-  cubeEven(n): number {
-    if (n % 2 != 0) {
-      this.loggersvc.log(`Number ${n} is not even.`);
-      // throw "Number not even";
-      return null;
-    }
-    return n * n * n;
-  }
+	cubeEven(n): number {
+		if (n % 2 != 0) {
+			this.loggersvc.log(`Number ${n} is not even.`);
+			// throw "Number not even";
+			return null;
+		}
+		return n * n * n;
+	}
 }

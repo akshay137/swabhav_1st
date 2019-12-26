@@ -1,0 +1,35 @@
+<section class="container">
+	<h1>HttpClient test</h1>
+	<div class="form-group">
+		<input type="number" class="form-control" [(ngModel)]="n"
+			placeholder="Enter a number" (keyup)="onKeyUp($event)" />
+		<br />
+		<button type="button" class="btn btn-large btn-primary"
+			(click)="hitAPI()" [disabled]="loading">
+			Get Fact
+		</button>
+		<br />
+		<div class="h4">
+			<input type="checkbox" [(ngModel)]="filterOdd" name="onlyOdd" />
+			<label>&nbsp;Odd only</label>
+		</div>
+	</div>
+	<hr />
+	<div class="container">
+		<table class="table">
+			<thead class="thead h3">
+				<th>#</th>
+				<th>Fact</th>
+				<th>time</th>
+			</thead>
+			<tbody class="h4">
+				<tr
+					*ngFor="let fact of facts.slice().reverse() | oddOrAll: filterOdd">
+					<th>{{fact.num}}</th>
+					<td>{{fact.fact}}</td>
+					<td>{{fact.time.fromNow()}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</section>

@@ -1,0 +1,9 @@
+<section>
+	<div>
+		<label>Toggle Me:</label>&nbsp;
+		<input type="button" [value]="isOff ? 0 : 1" (click)="handleClick()"
+			class="btn" [style.backgroundColor]="currentColor"
+			[style.color]="'white'"
+			style="padding: 1% 3%; border-radius: 1vw; font-size: 1.2em;" />
+	</div>
+</section>
