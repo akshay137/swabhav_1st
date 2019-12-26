@@ -1,0 +1,32 @@
+<section>
+	<h1>{{student.id}}</h1>
+	<h1 [innerHTML]='"Student Data"'></h1>
+	<h1 [innerHTML]="student.name"></h1>
+	<img [src]="student.profile" [style.maxWidth]="imgMaxWidth + 'px'"
+		[style.maxHeight]="imgMaxHeight + 'px'" />
+</section>
+<hr />
+<section class="container-sm">
+	<input type="button" (click)="loadManyStudents()" value="Load Many"
+		class="btn btn-primary" />
+
+	<table class="table">
+		<thead class="thead">
+			<th>Profile</th>
+			<th>Name</th>
+			<th>CGPA</th>
+		</thead>
+		<tbody>
+			<tr *ngFor="let student of students"
+				[class]="cgpaToGrade(student.cgpa)">
+				<td>
+					<img [src]="student.profile"
+						[style.maxWidth]="imgMaxWidth + 'px'"
+						[style.maxHeight]="imgMaxHeight + 'px'" />
+				</td>
+				<td>{{student.name}}</td>
+				<td>{{student.cgpa}}</td>
+			</tr>
+		</tbody>
+	</table>
+</section>

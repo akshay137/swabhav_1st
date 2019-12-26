@@ -24,26 +24,13 @@
 		const BLACK_STAR = '\u2605\u2605\u2605\u2605\u2605';
 		const WHITE_STAR = '\u2606\u2606\u2606\u2606\u2606';
 		function link(scope, element, attrs) {
-			updateText();
+			// updateText();
 
 			function updateText(stars) {
 				console.log('displaying stars');
+
 				element.text('');
 				element.addClass('star-rating');
-
-				let topDiv = document.createElement('div');
-				topDiv.classList.add('star-rating-top');
-				topDiv.innerHTML = BLACK_STAR;
-				topDiv.style.width = Math.round(((stars * 10) * 2)) + '%';
-
-				let bottomDiv = document.createElement('div');
-				bottomDiv.classList.add('star-rating-bottom');
-				bottomDiv.innerHTML = WHITE_STAR;
-
-				element.append(topDiv);
-				element.append(bottomDiv);
-
-				element.text('');
 				let w = Math.round((stars * 10) * 2);
 				console.log(typeof (stars), stars, w);
 				element.append(`<div class="star-rating-top"
@@ -52,7 +39,8 @@
 			}
 
 			scope.$watch(attrs.stars, function (value) {
-				updateText(parseFloat(value));
+				updateText((value));
+				// updateText((element[0].attributes['stars'].nodeValue));
 			})
 		}
 		return { link: link };

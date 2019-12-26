@@ -1,0 +1,29 @@
+<section>
+	<h1>Blue Ball Game</h1>
+</section>
+
+<section *ngIf="!gameRunning">
+	<!-- Rules -->
+	<ol>
+		<li>Click on any ball</li>
+		<li>If ball turns green it means blue ball is ahead</li>
+		<li>If ball turns red it means blue ball is back</li>
+		<li>Try to find blue ball in limited attempts</li>
+	</ol>
+	<button type="button" (click)="startGame()" class="btn btn-primary">
+		Start
+	</button>
+</section>
+
+<section *ngIf="gameRunning">
+	<h3>Attempts Remaining: {{attempts}}</h3>
+
+	<div>
+		<button *ngFor="let ball of balls" (click)="guessBall(ball.id)"
+			class="btn" [style.borderRadius]="'50%'"
+			[style.backgroundColor]="ball.currentColor" [style.width]="'8vw'"
+			[style.height]="'8vw'" [disabled]="ball.disabled">
+			{{ball.id}}
+		</button>
+	</div>
+</section>
