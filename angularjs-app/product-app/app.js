@@ -30,12 +30,15 @@
 				console.log('displaying stars');
 
 				element.text('');
-				element.addClass('star-rating');
+				// element.addClass('star-rating');
 				let w = Math.round((stars * 10) * 2);
 				console.log(typeof (stars), stars, w);
-				element.append(`<div class="star-rating-top"
-					style="width: ${w}%	;">${BLACK_STAR}</div>`);
-				element.append(`<div class="star-rating-bottom">${WHITE_STAR}</div>`);
+				let t = '';
+				t += `<div style="width: ${16 * stars}px; overflow: hidden;">`;
+				t += `<div style="width: ${16 * 5}px;">`;
+				t += `${BLACK_STAR}`;
+				t += `</div></div>`;
+				element.append(t);
 			}
 
 			scope.$watch(attrs.stars, function (value) {

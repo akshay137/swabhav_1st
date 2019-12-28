@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
 	selector: 'app-toggle',
@@ -11,6 +11,7 @@ export class ToggleComponent implements OnInit {
 	@Input('onColor') onColor: string;
 	@Input('offColor') offColor: string;
 	isOff: boolean;
+	@Output('stateChange') stateChange: EventEmitter<string>;
 
 	constructor() {
 		console.log(this.onColor, this.offColor);
@@ -19,6 +20,7 @@ export class ToggleComponent implements OnInit {
 		this.currentColor = this.offColor;
 		console.log(this.onColor, this.offColor);
 		this.isOff = true;
+		this.stateChange = new EventEmitter<string>();
 	}
 
 	ngOnInit() {
@@ -29,6 +31,7 @@ export class ToggleComponent implements OnInit {
 		this.isOff = !this.isOff;
 		this.currentColor = this.isOff ? this.offColor : this.onColor;
 		// console.log(this.currentColor);
+		this.stateChange.emit(`state changed to ${this.isOff ? 'off' : 'on'}`);
 	}
 
 }

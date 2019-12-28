@@ -1,6 +1,11 @@
 <section class="container">
 	<h1>Parent Child Test</h1>
 	<hr />
-	<app-toggle [onColor]="'blue'" [offColor]="'rgb(255, 86, 157)'">
+	<app-toggle [onColor]="'blue'" [offColor]="'rgb(255, 86, 157)'"
+		(stateChange)="stateChangeHandler($event)">
 	</app-toggle>
+	<hr />
+	<app-star [rating]="3.5" (onMouseOver)="onHoverStar($event)"
+		[title]="'stars: ' + starRating">
+	</app-star>
 </section>

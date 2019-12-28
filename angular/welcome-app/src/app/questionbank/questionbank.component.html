@@ -1,0 +1,40 @@
+<section>
+	<h1>Question Bank</h1>
+	<div [hidden]="showRes">
+		<!-- <div *ngFor="let ques of questions">
+			<h3>{{ques.id}}: {{ques.question}}</h3>
+		</div> -->
+		<div>
+			<h3>{{currentQ.id}}: {{currentQ.question}}</h3>
+			<div *ngFor="let option of currentQ.options; let i=index">
+				<input type="radio" name="option" [value]="i"
+					[(ngModel)]="answer" />
+				<label>{{option}}</label>
+			</div>
+		</div>
+		<div>
+			<button type="button" (click)="onNext()" [disabled]="answer == -1">
+				Next
+			</button>
+		</div>
+	</div>
+	<!-- result -->
+	<div [hidden]="!showRes">
+		{{score}}
+		<div
+			style="position: relative; height: 30px; color:white; text-align: center;">
+			<div style="position: relative; float: left; height: 100%;"
+				[style.backgroundColor]="'green'"
+				[style.width]="correctP + '%'">
+				{{correctP}}%
+			</div>
+			<div style="position: relative; float: right; height: 100%;"
+				[style.backgroundColor]="'red'" [style.width]="wrongP + '%'">
+				{{wrongP}}%
+			</div>
+		</div>
+		<button type="button" (click)="restart()">
+			Restart
+		</button>
+	</div>
+</section>

@@ -15,6 +15,8 @@ import { ServiceTestComponent } from './service-test/service-test.component';
 import { NumberapiComponent } from './numberapi/numberapi.component';
 import { ParentchildComponent } from './parentchild/parentchild.component';
 import { ToggleComponent } from './parentchild/toggle/toggle.component';
+import { StarComponent } from './parentchild/starrating/star.component';
+import { QuestionbankComponent } from './questionbank/questionbank.component';
 
 @NgModule({
 	declarations: [
@@ -28,7 +30,9 @@ import { ToggleComponent } from './parentchild/toggle/toggle.component';
 		ServiceTestComponent,
 		NumberapiComponent,
 		ParentchildComponent,
-		ToggleComponent
+		ToggleComponent,
+		StarComponent,
+		QuestionbankComponent
 	],
 	imports: [
 		BrowserModule,
@@ -36,6 +40,6 @@ import { ToggleComponent } from './parentchild/toggle/toggle.component';
 		HttpClientModule,
 	],
 	providers: [],
-	bootstrap: [ParentchildComponent]
+	bootstrap: [QuestionbankComponent]
 })
 export class AppModule { }
