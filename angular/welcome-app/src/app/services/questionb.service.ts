@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -25,12 +26,21 @@ export class QuestionbService {
 				question: 'javascript is ___ typed language.',
 				options: ['statically', 'dynamically', 'idiotically'],
 				answer: 1
-			}
+			},
+			{
+				id: 4,
+				question: 'this is _th question',
+				options: ['7th', '4th', '5th', '10th'],
+				answer: 1
+			},
 		];
 	}
 
-	getQuestions(): Question[] {
-		return this.questions;
+	getQuestions(): Observable<Question[]> {
+		// return this.questions;
+		return new Observable<Question[]>((observer) => {
+			observer.next(this.questions);
+		});
 	}
 
 	getQuestion(id: number): Question {

@@ -17,6 +17,7 @@ import { ParentchildComponent } from './parentchild/parentchild.component';
 import { ToggleComponent } from './parentchild/toggle/toggle.component';
 import { StarComponent } from './parentchild/starrating/star.component';
 import { QuestionbankComponent } from './questionbank/questionbank.component';
+import { HighlightTextDirective } from './highlight-text.directive';
 
 @NgModule({
 	declarations: [
@@ -32,7 +33,8 @@ import { QuestionbankComponent } from './questionbank/questionbank.component';
 		ParentchildComponent,
 		ToggleComponent,
 		StarComponent,
-		QuestionbankComponent
+		QuestionbankComponent,
+		HighlightTextDirective
 	],
 	imports: [
 		BrowserModule,
@@ -40,6 +42,6 @@ import { QuestionbankComponent } from './questionbank/questionbank.component';
 		HttpClientModule,
 	],
 	providers: [],
-	bootstrap: [QuestionbankComponent]
+	bootstrap: [WelcomeComponent]
 })
 export class AppModule { }

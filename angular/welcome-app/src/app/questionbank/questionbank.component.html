@@ -1,40 +1,70 @@
 <section>
-	<h1>Question Bank</h1>
-	<div [hidden]="showRes">
+	<h1 highlightText>Question Bank</h1>
+	<hr />
+	<div [hidden]="showRes"
+		style="background-color: #313131; color: white; border-radius: 5px;">
 		<!-- <div *ngFor="let ques of questions">
 			<h3>{{ques.id}}: {{ques.question}}</h3>
 		</div> -->
-		<div>
+		<div style="padding: 2%; padding-bottom: 0;">
 			<h3>{{currentQ.id}}: {{currentQ.question}}</h3>
+			<hr />
 			<div *ngFor="let option of currentQ.options; let i=index">
 				<input type="radio" name="option" [value]="i"
-					[(ngModel)]="answer" />
-				<label>{{option}}</label>
+					[(ngModel)]="answers[currQi]" (click)="enableNext()"
+					style="outline: none;" />
+				<label>&nbsp;{{option}}</label>
 			</div>
 		</div>
-		<div>
-			<button type="button" (click)="onNext()" [disabled]="answer == -1">
+		<hr style="background-color: white;" />
+		<div style="padding: 2%; padding-top: 0; text-align: center;">
+			<button type="button" (click)="onPre()" [disabled]="currQi == 0"
+				class="btn btn-warning" *ngIf="!finished">
+				Pre
+			</button>
+			&nbsp;
+			<button type="button" (click)="onNext()" [disabled]="!nextEnabled"
+				class="btn btn-success" *ngIf="!finished">
 				Next
 			</button>
+			&nbsp;
+			<button type="button" (click)="onFinish()" *ngIf="finished"
+				class="btn btn-success">
+				Finish
+			</button>
 		</div>
+		<!-- <div>
+			<div *ngFor="let ans of answers">
+				{{ans}}
+			</div>
+		</div> -->
 	</div>
 	<!-- result -->
-	<div [hidden]="!showRes">
-		{{score}}
-		<div
-			style="position: relative; height: 30px; color:white; text-align: center;">
+	<div [hidden]="!showRes" style="text-align: center;">
+		<h3 class="h3">correct: {{score}}/{{questions.length}}</h3>
+		<div style="position: relative; height: 30px; color:white; overflow: hidden"
+			class="h3">
 			<div style="position: relative; float: left; height: 100%;"
-				[style.backgroundColor]="'green'"
-				[style.width]="correctP + '%'">
+				[style.backgroundColor]="'green'" [style.width.%]="correctP">
 				{{correctP}}%
 			</div>
 			<div style="position: relative; float: right; height: 100%;"
-				[style.backgroundColor]="'red'" [style.width]="wrongP + '%'">
+				[style.backgroundColor]="'red'" [style.width.%]="wrongP">
 				{{wrongP}}%
 			</div>
 		</div>
-		<button type="button" (click)="restart()">
-			Restart
+		<hr />
+		<details>
+			<summary>Result summary:</summary>
+			<p *ngFor="let ans of answers; let i = index">
+				correct: {{questions[i].answer}} /
+				answer: {{ans}}
+			</p>
+		</details>
+		<hr />
+		<button type="button" (click)="restart()" class="btn btn-success">
+			<span class="h4">Restart</span>
 		</button>
 	</div>
+	<hr class="bg-dark" />
 </section>

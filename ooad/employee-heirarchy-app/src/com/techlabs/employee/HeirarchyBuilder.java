@@ -14,26 +14,36 @@ public class HeirarchyBuilder {
     
     public List<IEmployeeComposite> buildHeirarchy()
     {
-	List<IEmployeeComposite> emps = new ArrayList<IEmployeeComposite>();
+	Map<Integer, IEmployeeComposite> empsmap = 
+		new HashMap<Integer, IEmployeeComposite>();
 	for (Employee e : list)
 	{
 	    IEmployeeComposite ec = new EmployeeComposite(e);
+	    empsmap.put(e.getId(), ec);
 	    if (e.getManagerId() == 0)
 		this.root.add(ec);
-	    emps.add(ec);
 	}
-	for (IEmployeeComposite ec : emps)
+	for (IEmployeeComposite ec : empsmap.values())
 	{
 	    int managerId = ((EmployeeComposite)ec).getEmployee().getManagerId();
-	    for (IEmployeeComposite e : emps)
-	    {
-		if (((EmployeeComposite)e).getEmployee().getId() == managerId)
-		{
-		    e.add(ec);
-		    break;
-		}
-	    }
+	    if (managerId == 0)
+		continue;
+	    IEmployeeComposite e = empsmap.get(managerId);
+	    if (e != null)
+		e.add(ec);
 	}
 	return this.root;
+    }
+    
+    public Map<Integer, List<Employee>> build() {
+	Map<Integer, List<Employee>> map = new HashMap<Integer, List<Employee>>();
+	for (Employee e : list) {
+	    map.put(e.getId(), new ArrayList<Employee>());
+	}
+	for (Employee e : list) {
+	    List<Employee> lst = map.get(e.getManagerId());
+	    lst.add(e);
+	}
+	return map;
     }
 }
