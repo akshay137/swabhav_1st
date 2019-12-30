@@ -83,6 +83,7 @@
 			success: displayStudentList,
 			error: (res) => {
 				console.log('err:', res);
+				alert("Could not connect");
 			}
 		});
 	}

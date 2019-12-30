@@ -1,0 +1,24 @@
+<section class="container">
+	<h1 class="h1 bg-dark text-light text-center p-2 rounded-bottom">
+		Single Page App
+	</h1>
+	<!-- <hr /> -->
+	<nav class="navbar h4">
+		<div class="nav-item">
+			<a class="nav-link" [routerLink]="'/home'">Home</a>
+		</div>
+		<div class="nav-item">
+			<a class="nav-link" routerLink="/about">About</a>
+		</div>
+		<div class="nav-item">
+			<a class="nav-link" routerLink="/career">Career</a>
+		</div>
+		<div class="nav-item">
+			<a class="nav-link" [routerLink]="['/dept', 15]">Department</a>
+		</div>
+	</nav>
+	<hr />
+	<article class="border border-dark rounded	 py-2">
+		<router-outlet></router-outlet>
+	</article>
+</section>
