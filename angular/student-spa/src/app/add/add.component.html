@@ -1,1 +1,57 @@
-<p>add works!</p>
+<section class="container">
+	<a [routerLink]="['/home']" class="btn btn-success">
+		Home
+	</a>
+	<h3 class="h3">Add new student</h3>
+	<div class="container">
+		<form name="addst" #add="ngForm" (ngSubmit)="addStudent()">
+			<div class="form-group">
+				<label for="name">Name:</label>
+				<input type="text" class="form-control" id="name"
+					placeholder="Enter name" name="name"
+					[(ngModel)]="student.name" required />
+			</div>
+			<div class="form-group">
+				<label for="rollno">RollNo:</label>
+				<input type="number" class="form-control" id="rollno"
+					placeholder="Enter roll number" name="rollno"
+					[(ngModel)]="student.rollNo" required />
+			</div>
+			<div class="form-group">
+				<label for="email">Email:</label>
+				<input type="email" class="form-control" id="email"
+					placeholder="Enter email" name="email"
+					[(ngModel)]="student.email" required />
+			</div>
+			<div class="form-group">
+				<label for="date">Date:</label>
+				<input type="date" class="form-control" id="date"
+					placeholder="Enter date" name="date"
+					[(ngModel)]="student.date" required />
+			</div>
+			<div class="form-group">
+				<label for="age">Age:</label>
+				<input type="number" class="form-control" id="age"
+					placeholder="Enter age" name="age" [(ngModel)]="student.age"
+					required />
+			</div>
+			<div class="form-group">
+				<div>
+					<input type="radio" name="gender" id="male"
+						[(ngModel)]="student.isMale" [value]="true" checked />
+					<label for="male">Male</label>
+				</div>
+				<div>
+					<input type="radio" name="gender" id="female"
+						[(ngModel)]="student.isMale" [value]="false" />
+					<label for="male">Female</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block">
+					<span class="h4">Add</span>
+				</button>
+			</div>
+		</form>
+	</div>
+</section>

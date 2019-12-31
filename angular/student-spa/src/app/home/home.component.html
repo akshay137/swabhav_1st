@@ -1,5 +1,36 @@
 <section>
-	<div *ngFor="let student of students">
-		{{student.name}}
+	<div *ngIf="students.length > 0">
+		<div class="container">
+			<a [routerLink]="'/add'" class="btn btn-primary float-right">Add</a>
+		</div>
+		<div>
+			<h3>Number of students found: {{students.length}}</h3>
+		</div>
+		<hr />
+		<table class="table">
+			<thead class="thead">
+				<th>#</th>
+				<th>Roll No.</th>
+				<th>Name</th>
+				<th></th>
+			</thead>
+			<tbody class="tbody">
+				<tr *ngFor="let student of students; let i = index">
+					<td>{{i + 1}}</td>
+					<td>{{student.rollNo}}</td>
+					<td>{{student.name}}</td>
+					<td>
+						<a [routerLink]="['/edit', student.id]"
+							class="btn btn-success">
+							Edit
+						</a>
+						<a [routerLink]="['/delete', student.id]"
+							class="btn btn-danger">
+							Delete
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </section>
