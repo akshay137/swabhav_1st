@@ -9,22 +9,30 @@ import { catchError } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
+	loaded: boolean;
 	students: Student[];
+	currStudent: Student;
 
 	constructor(private studentsvc: StudentService) {
 		this.students = [];
+		this.currStudent = this.studentsvc.getEmpty();
 	}
 
 	ngOnInit() {
+		this.loaded = false;
 		this.studentsvc.getStudents()
-			.pipe(catchError(err => {
-				console.log(err);
-				return null;
-			})).subscribe((data: Student[]) => {
+			.subscribe((data: Student[]) => {
 				this.students = data;
+				this.loaded = true;
 			}, err => {
 				console.log(err);
+				alert('Somthing went wrong');
+				this.loaded = true;
 			});
+	}
+
+	setCurrentStudent(student: Student) {
+		this.currStudent = student;
 	}
 
 }

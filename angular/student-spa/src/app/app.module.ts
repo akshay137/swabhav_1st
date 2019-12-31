@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { EditComponent } from './edit/edit.component';
 import { AddComponent } from './add/add.component';
 import { DeleteComponent } from './delete/delete.component';
+import { LoaderviewComponent } from './loaderview/loaderview.component';
 
 @NgModule({
 	declarations: [
@@ -18,7 +19,8 @@ import { DeleteComponent } from './delete/delete.component';
 		HomeComponent,
 		EditComponent,
 		AddComponent,
-		DeleteComponent
+		DeleteComponent,
+		LoaderviewComponent
 	],
 	imports: [
 		BrowserModule,

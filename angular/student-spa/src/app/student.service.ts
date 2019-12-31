@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError, observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
 
@@ -19,7 +19,7 @@ export class StudentService {
 				observer.next(data);
 			}, (err) => {
 				console.log('Error:', err);
-				return throwError(`Something went wrong. ${err.statusText}`);
+				observer.error(`Something went wrong. ${err.statusText}`);
 			});
 		});
 	}
@@ -30,7 +30,7 @@ export class StudentService {
 				observer.next('' + res);
 			}, err => {
 				console.log('Error:', err);
-				return throwError(`Something went wrong. ${err.statusText}`);
+				observer.error(`Something went wrong. ${err.statusText}`);
 			});
 		});
 	}
@@ -42,7 +42,7 @@ export class StudentService {
 					observer.next('' + res);
 				}, err => {
 					console.log('Error in update', err);
-					return throwError(`Something went wrong. ${err.statusText}`);
+					observer.error(`Something went wrong. ${err.statusText}`);
 				});
 		});
 	}
@@ -54,25 +54,35 @@ export class StudentService {
 					observer.next('' + res);
 				}, err => {
 					console.log('Error in update', err);
-					return throwError(`Something went wrong. ${err.statusText}`);
+					observer.error(`Something went wrong. ${err.statusText}`);
 				});
 		});
 	}
 
+	getEmpty(): Student {
+		return {
+			id: '',
+			name: '',
+			email: '',
+			date: '',
+			isMale: true,
+			rollNo: 0,
+			age: 0
+		};
+	}
+
 	getStudentById(id: string) {
 		return new Observable<Student>(observer => {
-			if (this.students) {
-				let st = this.students.find(student => student.id == id);
-				if (st != null) {
-					observer.next(st);
-					return;
-				}
-			}
-			this.http.get<Student>(`${api}${id}`).subscribe(res => {
+			this.http.get<Student[]>(`${api}${id}`).subscribe(res => {
 				console.log(res);
-				observer.next(res[0]);
+				if (res.length == 0) {
+					observer.error(`No student found`);
+				}
+				else {
+					observer.next(res[0]);
+				}
 			}, err => {
-				return throwError(`Something went wrong: ${err.statusText}`);
+				observer.error(`Something went wrong: ${err.statusText}`);
 			});
 		});
 	}

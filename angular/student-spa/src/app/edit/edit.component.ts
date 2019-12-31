@@ -11,47 +11,45 @@ import { catchError } from 'rxjs/operators';
 })
 export class EditComponent implements OnInit {
 	student: Student;
+	loaded: boolean;
 
 	constructor(private route: ActivatedRoute, private router: Router,
 		private studentsvc: StudentService) {
 	}
 
 	ngOnInit() {
-		this.student = {
-			id: '',
-			name: '',
-			age: 0,
-			date: '',
-			email: '',
-			isMale: true,
-			rollNo: 0
-		};
+		this.student = this.studentsvc.getEmpty();
+		this.loaded = false;
 		this.route.paramMap.subscribe((params: ParamMap) => {
 			let id = params.get('id');
 			this.studentsvc.getStudentById(id)
-				.pipe(
-					catchError(err => {
-						console.log('Error:', err);
-						this.router.navigate(['/home']);
-						return null;
-					})
-				).subscribe(res => {
+				.subscribe((res: Student) => {
 					console.log(res);
 					this.student = res;
+					this.loaded = true;
+				}, err => {
+					this.loaded = true;
+					console.log('Error:', err);
+					alert(err);
+					this.router.navigate(['/home']);
+					return null;
 				})
 		});
 	}
 
 	editStudent() {
 		console.log(this.student);
+		this.loaded = false;
 		this.studentsvc.updateStudent(this.student)
-			.pipe(catchError(err => {
-				console.log(err);
-				return null;
-			}))
 			.subscribe(res => {
 				console.log(res);
+				this.loaded = true;
 				this.router.navigate(['/home']);
+			}, err => {
+				console.log(err);
+				this.loaded = true;
+				alert('Something went wrong');
+				return null;
 			});
 	}
 

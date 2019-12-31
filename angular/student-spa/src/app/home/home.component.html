@@ -1,25 +1,28 @@
 <section>
+	<app-loaderview [loaded]="loaded"></app-loaderview>
+	<div class="container">
+		<a [routerLink]="'/add'" class="btn btn-primary float-right">Add</a>
+	</div>
+	<div>
+		<h3>Number of students found: {{students.length}}</h3>
+	</div>
 	<div *ngIf="students.length > 0">
-		<div class="container">
-			<a [routerLink]="'/add'" class="btn btn-primary float-right">Add</a>
-		</div>
-		<div>
-			<h3>Number of students found: {{students.length}}</h3>
-		</div>
 		<hr />
 		<table class="table">
 			<thead class="thead">
-				<th>#</th>
-				<th>Roll No.</th>
+				<th class="d-none d-md-table-cell">#</th>
+				<th class="d-none d-md-table-cell">Roll No.</th>
 				<th>Name</th>
-				<th></th>
+				<th>Controls</th>
 			</thead>
 			<tbody class="tbody">
-				<tr *ngFor="let student of students; let i = index">
-					<td>{{i + 1}}</td>
-					<td>{{student.rollNo}}</td>
-					<td>{{student.name}}</td>
-					<td>
+				<tr *ngFor="let student of students; let i = index"
+					data-toggle="modal" data-target="#studentDetail"
+					(click)="setCurrentStudent(student)">
+					<td class="d-none d-md-table-cell">{{i + 1}}</td>
+					<td class="d-none d-md-table-cell">{{student.rollNo}}</td>
+					<td class="text-break">{{student.name}}</td>
+					<td class="btn-group">
 						<a [routerLink]="['/edit', student.id]"
 							class="btn btn-success">
 							Edit
@@ -32,5 +35,69 @@
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<div class="modal fade" id="studentDetail" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">{{currStudent.name}}</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table class="table">
+						<!-- <thead class="thead">
+							<th>Property</th>
+							<th>Value</th>
+						</thead> -->
+						<tbody class="tbody">
+							<tr>
+								<th>ID:</th>
+								<td>{{currStudent.id}}</td>
+							</tr>
+							<tr>
+								<th>Name:</th>
+								<td>{{currStudent.name}}</td>
+							</tr>
+							<tr>
+								<th>Roll No:</th>
+								<td>{{currStudent.rollNo}}</td>
+							</tr>
+							<tr>
+								<th>Date:</th>
+								<td>{{currStudent.date}}</td>
+							</tr>
+							<tr>
+								<th>Age:</th>
+								<td>{{currStudent.age}}</td>
+							</tr>
+							<tr>
+								<th>Email:</th>
+								<td>{{currStudent.email}}</td>
+							</tr>
+							<tr>
+								<th>Gender:</th>
+								<td>{{currStudent.isMale ? 'Male' : 'Female'}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<hr />
+					<div class="container text-center btn-group">
+						<a [routerLink]="['/edit', currStudent.id]"
+							class="btn btn-success" data-dismiss="modal">
+							Edit
+						</a>
+						<a [routerLink]="['/delete', currStudent.id]"
+							class="btn btn-danger" data-dismiss="modal">
+							Delete
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>

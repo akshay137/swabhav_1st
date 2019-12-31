@@ -10,23 +10,34 @@ import { catchError } from 'rxjs/operators';
 })
 export class DeleteComponent implements OnInit {
 
+	loaded: boolean;
+
 	constructor(private route: ActivatedRoute, private router: Router,
 		private studentsvc: StudentService) {
 	}
 
 	ngOnInit() {
-		this.route.paramMap.subscribe((params: ParamMap) => {
-			let id = params.get('id');
-			this.studentsvc.deleteStudent(id)
-				.pipe(catchError(err => {
-					console.log('error', err);
-					return null;
-				}))
-				.subscribe(res => {
-					console.log(res);
-					this.router.navigate(['/home']);
-				})
-		});
+		if (confirm('Are you sure')) {
+			this.loaded = false;
+			this.route.paramMap.subscribe((params: ParamMap) => {
+				let id = params.get('id');
+				this.studentsvc.deleteStudent(id)
+					.subscribe(res => {
+						console.log(res);
+						this.loaded = true;
+						this.router.navigate(['/home']);
+					}, err => {
+						console.log('error', err);
+						alert(err);
+						this.loaded = true;
+						this.router.navigate(['/home']);
+						return null;
+					});
+			});
+		} else {
+			this.router.navigate(['/home']);
+			// this.loaded = true;
+		}
 	}
 
 }
