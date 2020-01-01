@@ -1,0 +1,50 @@
+<section class="container">
+	<div class="rounded border border-primary">
+		<h3 class="h3 text-light bg-primary px-1 py-2">
+			Product Detail: {{product.productName}}
+		</h3>
+		<div class="row pb-2">
+			<div class="col">
+				<table class="table">
+					<tbody class="tbody">
+						<tr>
+							<th>Name:</th>
+							<td>{{product.productName}}</td>
+						</tr>
+						<tr>
+							<th>Code:</th>
+							<td>{{product.productCode}}</td>
+						</tr>
+						<tr>
+							<th>Description:</th>
+							<td>{{product.description}}</td>
+						</tr>
+						<tr>
+							<th>Availability:</th>
+							<td>{{product.releaseDate}}</td>
+						</tr>
+						<tr>
+							<th>Price:</th>
+							<td>${{product.price}}</td>
+						</tr>
+						<tr>
+							<th>5 Star rating:</th>
+							<td>
+								<app-star [rating]="product.starRating">
+								</app-star>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col">
+				<img [src]="product.imgSrc" class="img-fluid" />
+			</div>
+		</div>
+		<div class="footer py-2 px-1">
+			<a [routerLink]="'/list'" class="btn btn-light">
+				<span class="h4 font-weight-bold">&lt;</span> Back
+			</a>
+		</div>
+	</div>
+</section>

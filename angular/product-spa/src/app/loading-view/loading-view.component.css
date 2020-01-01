@@ -1,0 +1,21 @@
+.loader {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, 0.85);
+	color: white;
+}
+
+.spinner-10 {
+	width: 10vh;
+	height: 10vh;
+	border-width: 1.5vh;
+	font-weight: bolder;
+}
+
+.spinner-10-center {
+	margin-top: 45vh;
+}

@@ -1,0 +1,51 @@
+<section class="container">
+	<app-loading-view [loading]="loading"></app-loading-view>
+	<div class="rounded border border-primary">
+		<h3 class="h3 text-light bg-primary px-1 py-2">Product List</h3>
+		<div class="container">
+			<div class="form-group row">
+				<label for="filter" class="col-2">Filter by:</label>
+				<input class="form-control col-4" name="filterby" id="filter"
+					type="text" placeholder="filter list"
+					[(ngModel)]="filter" />
+			</div>
+			<table class="table">
+				<thead class="thead text-primary">
+					<th>
+						<button type="button" class="btn btn-primary"
+							(click)="showImage = !showImage">
+							{{showImage ? 'Hide' : 'Show'}} Image
+						</button>
+					</th>
+					<th>Product</th>
+					<th class="d-none d-md-table-cell">Code</th>
+					<th class="d-none d-md-table-cell">Availabe</th>
+					<th>Price</th>
+					<th class="d-none d-sm-table-cell">5 star rating</th>
+				</thead>
+				<tbody class="tbody">
+					<tr *ngFor="let product of products | filterByName: filter">
+						<td>
+							<img [src]="product.imgSrc + '.thmb'"
+								*ngIf="showImage"
+								class="img-thumbnail list-img" />
+						</td>
+						<td>
+							<a [routerLink]="['/product', product.productId]">
+								{{product.productName}}
+							</a>
+						</td>
+						<td class="d-none d-md-table-cell">
+							{{product.productCode}}</td>
+						<td class="d-none d-md-table-cell">
+							{{product.releaseDate}}</td>
+						<td>${{product.price}}</td>
+						<td class="d-none d-sm-table-cell">
+							<app-star [rating]="product.starRating"></app-star>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
