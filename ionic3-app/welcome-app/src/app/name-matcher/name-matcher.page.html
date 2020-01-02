@@ -1,0 +1,42 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>NameMatcher</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-item>
+			<ion-label>Person 1:</ion-label>
+			<span>&nbsp;</span>
+			<ion-input type="text" [(ngModel)]="person1" name="person1"
+				placeholder="Enter name here" class="c-input"
+				(ngModelChange)="calculateMatch()"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label>Person 2:</ion-label>
+			<span>&nbsp;</span>
+			<ion-input type="text" [(ngModel)]="person2" name="person2"
+				placeholder="Enter name here" class="c-input"
+				(ngModelChange)="calculateMatch()"></ion-input>
+		</ion-item>
+	</ion-list>
+	<!-- card -->
+	<br />
+	<div class="card-holder">
+		<ion-card class="ion-text-center match-card">
+			<ion-card-header>
+				<h2>
+					{{person1 || '??'}}
+					<ion-icon name="heart" color="danger"></ion-icon>
+					{{person2 || '??'}}
+				</h2>
+			</ion-card-header>
+			<ion-card-content>
+				<h1>
+					{{match}}%
+				</h1>
+			</ion-card-content>
+		</ion-card>
+	</div>
+</ion-content>
