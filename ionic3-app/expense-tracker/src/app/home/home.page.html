@@ -1,0 +1,37 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			Expense Tracker
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="ion-padding">
+		<ion-list>
+			<ion-item *ngFor="let expense of expenses">
+				<ion-card [routerLink]="['/edit', expense.id]">
+					<ion-card-header>
+						<ion-card-title>
+							${{expense.amount}}
+						</ion-card-title>
+					</ion-card-header>
+					<ion-card-content>
+						<ion-label>{{expense.date}}</ion-label>-
+						<ion-label>{{expense.description}}</ion-label>
+						<ion-label>
+							{{getName(expense.category)}}
+						</ion-label>
+					</ion-card-content>
+				</ion-card>
+			</ion-item>
+		</ion-list>
+	</div>
+
+	<!-- new expense -->
+	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+		<ion-fab-button [routerLink]="['/new']">
+			<ion-icon name="add"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
+</ion-content>

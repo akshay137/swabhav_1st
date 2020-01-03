@@ -1,0 +1,43 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-button color="light" [routerLink]="['/home']">
+			<ion-icon name="arrow-back"></ion-icon>
+		</ion-button>
+		<ion-label>{{title}}</ion-label>
+
+		<ion-button color="light" (click)="deleteExpense()">
+			<ion-icon name="trash"></ion-icon>
+		</ion-button>
+		<ion-button color="light" (click)="updateExpense()">
+			<ion-icon name="checkmark"></ion-icon>
+		</ion-button>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<h1>{{expense.date}}</h1>
+	<div>
+		<ion-label color="primary">Date</ion-label>
+		<ion-input type="date" name="date" [(ngModel)]="expense.date">
+		</ion-input>
+	</div>
+	<div>
+		<ion-label color="primary">Amount</ion-label>
+		<ion-input type="number" name="amount" [(ngModel)]="expense.amount">
+		</ion-input>
+	</div>
+	<div>
+		<ion-label color="primary">Description</ion-label>
+		<ion-input type="text" name="description"
+			[(ngModel)]="expense.description"></ion-input>
+	</div>
+	<div>
+		<ion-label color="primary">Category</ion-label>
+		<ion-select [(ngModel)]="expense.category">
+			<ion-select-option *ngFor="let cat of categories; let i = index"
+				[value]="i">
+				{{cat}}
+			</ion-select-option>
+		</ion-select>
+	</div>
+</ion-content>
