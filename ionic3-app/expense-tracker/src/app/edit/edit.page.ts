@@ -17,9 +17,7 @@ export class EditPage implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router) {
 		this.expense = this.expensesvc.getEmpty();
-		this.categories = Object.keys(Category).filter((val, i, arr) => {
-			return i >= arr.length / 2;
-		});
+		this.categories = this.expensesvc.getCategories();
 		this.title = 'Edit';
 	}
 

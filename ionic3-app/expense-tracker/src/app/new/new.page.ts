@@ -15,6 +15,7 @@ export class NewPage implements OnInit {
 	constructor(private expensesvc: ExpensesService,
 		private router: Router) {
 		this.expense = this.expensesvc.getEmpty();
+		this.expense.id = Date.now();
 		this.categories = Object.keys(Category).filter((val, i, arr) => {
 			return i >= arr.length / 2;
 		});

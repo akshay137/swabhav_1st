@@ -1,39 +1,44 @@
 <ion-header>
-	<ion-toolbar>
-		<ion-button color="light" [routerLink]="['/home']">
+	<ion-toolbar colol="light">
+		<ion-button icon-only color="light" [routerLink]="['/home']"
+			slot="start" fill="clear">
 			<ion-icon name="arrow-back"></ion-icon>
 		</ion-button>
-		<ion-label>New Expense</ion-label>
+		<ion-title color="dark">New Expense</ion-title>
 
-		<ion-button color="light" (click)="addExpense()">
+		<ion-button icon-only color="light" (click)="addExpense()" slot="end"
+			fill="clear">
 			<ion-icon name="checkmark"></ion-icon>
 		</ion-button>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<div>
-		<ion-label color="primary">Date</ion-label>
-		<ion-input type="date" name="date" [(ngModel)]="expense.date">
-		</ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Amount</ion-label>
-		<ion-input type="number" name="amount" [(ngModel)]="expense.amount">
-		</ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Description</ion-label>
-		<ion-input type="text" name="description"
-			[(ngModel)]="expense.description"></ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Category</ion-label>
-		<ion-select [(ngModel)]="expense.category">
-			<ion-select-option *ngFor="let cat of categories; let i = index"
-				[value]="i">
-				{{cat}}
-			</ion-select-option>
-		</ion-select>
+	<div class="ion-padding">
+		<div>
+			<ion-label color="primary">Date</ion-label>
+			<ion-input type="date" name="date" [(ngModel)]="expense.date">
+			</ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Amount</ion-label>
+			<ion-input type="number" class="iir" name="amount"
+				[(ngModel)]="expense.amount">
+			</ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Description</ion-label>
+			<ion-input type="text" name="description"
+				[(ngModel)]="expense.description"></ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Category</ion-label>
+			<ion-select [(ngModel)]="expense.category">
+				<ion-select-option *ngFor="let cat of categories; let i = index"
+					[value]="i">
+					{{cat}}
+				</ion-select-option>
+			</ion-select>
+		</div>
 	</div>
 </ion-content>

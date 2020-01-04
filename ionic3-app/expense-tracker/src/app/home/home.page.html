@@ -7,26 +7,26 @@
 </ion-header>
 
 <ion-content>
-	<div class="ion-padding">
-		<ion-list>
-			<ion-item *ngFor="let expense of expenses">
-				<ion-card [routerLink]="['/edit', expense.id]">
-					<ion-card-header>
-						<ion-card-title>
-							${{expense.amount}}
-						</ion-card-title>
-					</ion-card-header>
-					<ion-card-content>
-						<ion-label>{{expense.date}}</ion-label>-
-						<ion-label>{{expense.description}}</ion-label>
-						<ion-label>
-							{{getName(expense.category)}}
-						</ion-label>
-					</ion-card-content>
-				</ion-card>
-			</ion-item>
-		</ion-list>
-	</div>
+	<!-- <div class="ion-padding"> -->
+	<ion-list>
+		<ion-item *ngFor="let expense of expenses"
+			[routerLink]="['/edit', expense.id]">
+			<ion-label style="width: 100%;">
+				<h1>${{expense.amount}}</h1>
+				<p color="medium">
+					{{expense.date | date: 'MMM dd,yyyy'}}
+				</p>
+				<ion-label color="dark">
+					{{expense.description}}
+				</ion-label>
+			</ion-label>
+			<ion-label class="ion-text-end" color="medium"
+				style="font-size: 0.9rem;">
+				{{getName(expense.category)}}
+			</ion-label>
+		</ion-item>
+	</ion-list>
+	<!-- </div> -->
 
 	<!-- new expense -->
 	<ion-fab vertical="bottom" horizontal="end" slot="fixed">

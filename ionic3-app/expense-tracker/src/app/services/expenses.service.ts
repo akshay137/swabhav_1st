@@ -8,24 +8,17 @@ import { Observable, observable } from 'rxjs';
 export class ExpensesService {
 
 	list: Expense[];
+	categories: string[];
 
 	constructor(private storagesvc: StorageService) {
-		this.list = [
-			{
-				id: 1,
-				date: '3/01/2019',
-				amount: 10.5,
-				category: Category.Food,
-				description: 'ate some food'
-			},
-			{
-				id: 2,
-				date: '2/01/2019',
-				amount: 20.5,
-				category: Category.Travel,
-				description: 'got lost while returning'
-			},
-		];
+		this.list = [];
+		this.categories = Object.keys(Category).filter((val, i, arr) => {
+			return i >= arr.length / 2;
+		});
+	}
+
+	getCategories() {
+		return this.categories;
 	}
 
 	getEmpty(): Expense {
@@ -33,14 +26,24 @@ export class ExpensesService {
 			id: 0,
 			amount: 0,
 			category: Category.Misc,
-			date: '',
+			date: new Date(),
 			description: ''
 		}
 	}
 
 	getAllExpenses() {
 		return new Observable<Expense[]>(observer => {
-			observer.next(this.list);
+			this.storagesvc.getStoredExpenses()
+				.subscribe((res: Expense[]) => {
+					this.list = res;
+					console.log(res);
+					if (this.list == null)
+						this.list = [];
+					observer.next(this.list);
+				}, err => {
+					console.log(err);
+					alert(err.msg);
+				});
 		});
 	}
 
@@ -63,6 +66,7 @@ export class ExpensesService {
 	addExpense(expense: Expense) {
 		return new Observable(observer => {
 			this.list.push(expense);
+			this.storagesvc.saveExpenses(this.list);
 			observer.next();
 			observer.complete();
 		})
@@ -76,6 +80,7 @@ export class ExpensesService {
 				observer.complete();
 			} else {
 				this.list.splice(i, 1);
+				this.storagesvc.saveExpenses(this.list);
 				observer.next();
 				observer.complete();
 			}
@@ -85,7 +90,7 @@ export class ExpensesService {
 	private copyExpense(src: Expense, dst: Expense) {
 		dst.id = src.id;
 		dst.amount = src.amount;
-		dst.category = src.amount;
+		dst.category = src.category;
 		dst.date = src.date;
 		dst.description = src.description
 	}
@@ -95,6 +100,7 @@ export class ExpensesService {
 			let exp = this.list.find(e => id == e.id);
 			if (exp) {
 				this.copyExpense(expense, exp);
+				this.storagesvc.saveExpenses(this.list);
 				observer.next();
 				observer.complete();
 			} else {
@@ -107,7 +113,8 @@ export class ExpensesService {
 
 export interface Expense {
 	id: number;
-	date: string;
+	// date: string;
+	date: Date;
 	amount: number;
 	description?: string;
 	category: Category;
