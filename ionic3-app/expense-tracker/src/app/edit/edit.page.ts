@@ -38,24 +38,31 @@ export class EditPage implements OnInit {
 	}
 
 	deleteExpense() {
-		this.expensesvc.deleteExpense(this.expense.id)
-			.subscribe(res => {
-				console.log(res);
-				this.router.navigate(['/home']);
-			}, err => {
-				console.log(err);
-				this.router.navigate(['/home']);
-			});
+		if (confirm('Are you sure?')) {
+			this.expensesvc.deleteExpense(this.expense.id)
+				.subscribe(res => {
+					console.log(res);
+					this.router.navigate(['/home']);
+				}, err => {
+					console.log(err);
+					this.router.navigate(['/home']);
+				});
+		}
 	}
 
 	updateExpense() {
-		this.expensesvc.updateExpense(this.expense.id, this.expense)
-			.subscribe(res => {
-				console.log(res);
-				this.router.navigate(['/home']);
-			}, err => {
-				console.log(err);
-			});
+		let res = this.expensesvc.isValid(this.expense);
+		if (res.valid) {
+			this.expensesvc.updateExpense(this.expense.id, this.expense)
+				.subscribe(res => {
+					console.log(res);
+					this.router.navigate(['/home']);
+				}, err => {
+					console.log(err);
+				});
+		} else {
+			alert(res.msg);
+		}
 	}
 
 }

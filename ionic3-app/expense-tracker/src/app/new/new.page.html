@@ -17,19 +17,21 @@
 	<div class="ion-padding">
 		<div>
 			<ion-label color="primary">Date</ion-label>
-			<ion-input type="date" name="date" [(ngModel)]="expense.date">
+			<ion-input type="date" name="date" [(ngModel)]="expense.date"
+				required>
 			</ion-input>
 		</div>
 		<div>
 			<ion-label color="primary">Amount</ion-label>
 			<ion-input type="number" class="iir" name="amount"
-				[(ngModel)]="expense.amount">
+				[(ngModel)]="expense.amount" required>
 			</ion-input>
 		</div>
 		<div>
 			<ion-label color="primary">Description</ion-label>
 			<ion-input type="text" name="description"
-				[(ngModel)]="expense.description"></ion-input>
+				[(ngModel)]="expense.description" required>
+			</ion-input>
 		</div>
 		<div>
 			<ion-label color="primary">Category</ion-label>

@@ -14,25 +14,31 @@ export class NewPage implements OnInit {
 
 	constructor(private expensesvc: ExpensesService,
 		private router: Router) {
-		this.expense = this.expensesvc.getEmpty();
-		this.expense.id = Date.now();
 		this.categories = Object.keys(Category).filter((val, i, arr) => {
 			return i >= arr.length / 2;
 		});
 	}
 
 	ngOnInit() {
+		this.expense = this.expensesvc.getEmpty();
 	}
 
 	addExpense() {
-		console.log('adding');
-		this.expensesvc.addExpense(this.expense)
-			.subscribe(res => {
-				// console.log(res);
-				this.router.navigate(['/home']);
-			}, err => {
-				console.log(err);
-			});
+		console.log('adding', this.expense);
+		this.expense.id = Date.now();
+		let res = this.expensesvc.isValid(this.expense);
+		if (res.valid) {
+			this.expensesvc.addExpense(this.expense)
+				.subscribe(res => {
+					// console.log(res);
+					this.router.navigate(['/home']);
+					this.expense = this.expensesvc.getEmpty();
+				}, err => {
+					console.log(err);
+				});
+		} else {
+			alert(res.msg);
+		}
 	}
 
 }

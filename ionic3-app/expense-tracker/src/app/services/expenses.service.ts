@@ -26,7 +26,7 @@ export class ExpensesService {
 			id: 0,
 			amount: 0,
 			category: Category.Misc,
-			date: new Date(),
+			date: null,
 			description: ''
 		}
 	}
@@ -108,6 +108,19 @@ export class ExpensesService {
 				observer.complete();
 			}
 		});
+	}
+
+	isValid(expense: Expense) {
+		if (expense.amount <= 0) {
+			return { valid: false, msg: 'amount should be greater than zero' };
+		}
+		if (!expense.date) {
+			return { valid: false, msg: 'No date given' };
+		}
+		if (typeof (expense.description) != 'string' || expense.description.length == 0) {
+			return { valid: false, msg: 'No description provided' };
+		}
+		return { valid: true, msg: 'Everything is OK' };
 	}
 }
 

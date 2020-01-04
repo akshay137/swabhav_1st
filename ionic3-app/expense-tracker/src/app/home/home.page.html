@@ -8,21 +8,32 @@
 
 <ion-content>
 	<!-- <div class="ion-padding"> -->
-	<ion-list>
+	<ion-list class="bottom-spacing">
 		<ion-item *ngFor="let expense of expenses"
 			[routerLink]="['/edit', expense.id]">
-			<ion-label style="width: 100%;">
-				<h1>${{expense.amount}}</h1>
-				<p color="medium">
-					{{expense.date | date: 'MMM dd,yyyy'}}
-				</p>
-				<ion-label color="dark">
-					{{expense.description}}
-				</ion-label>
-			</ion-label>
-			<ion-label class="ion-text-end" color="medium"
-				style="font-size: 0.9rem;">
-				{{getName(expense.category)}}
+			<ion-label>
+				<ion-grid>
+					<ion-row>
+						<ion-col>
+							${{expense.amount}}
+						</ion-col>
+						<ion-col>
+							<ion-label color="medium" class="ion-text-end">
+								{{getName(expense.category)}}
+							</ion-label>
+						</ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-label color="medium">
+							{{expense.date | date: 'MMM dd,yyyy'}}
+						</ion-label>
+					</ion-row>
+					<ion-row>
+						<ion-label class="ion-text-wrap">
+							{{expense.description}}
+						</ion-label>
+					</ion-row>
+				</ion-grid>
 			</ion-label>
 		</ion-item>
 	</ion-list>

@@ -1,46 +1,51 @@
 <ion-header>
 	<ion-toolbar color="light">
 		<ion-button icon-only color="light" [routerLink]="['/home']"
-			slot="start" fill="clear">
+			slot="start" fill="clear" size="small">
 			<ion-icon name="arrow-back"></ion-icon>
 		</ion-button>
-		<ion-title>{{title}}</ion-title>
-		<ion-button icon-only color="light" (click)="deleteExpense()"
-			slot="secondary" fill="clear">
-			<ion-icon name="trash"></ion-icon>
-		</ion-button>
-		<ion-button icon-only color="light" (click)="updateExpense()"
-			slot="secondary" fill="clear">
-			<ion-icon name="checkmark"></ion-icon>
-		</ion-button>
-
+		<ion-title no-padding>{{title}}</ion-title>
+		<ion-label slot="end">
+			<ion-button icon-only fill="clear" size="small"
+				(click)="deleteExpense()">
+				<ion-icon name="trash">
+				</ion-icon>
+			</ion-button>
+			<ion-button icon-only fill="clear" size="small"
+				(click)="updateExpense()">
+				<ion-icon name="checkmark">
+				</ion-icon>
+			</ion-button>
+		</ion-label>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<h1>{{expense.date | date: 'yyyy-MM-dd'}}</h1>
-	<div>
-		<ion-label color="primary">Date</ion-label>
-		<ion-input type="date" name="date" [(ngModel)]="expense.date">
-		</ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Amount</ion-label>
-		<ion-input type="number" name="amount" [(ngModel)]="expense.amount">
-		</ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Description</ion-label>
-		<ion-input type="text" name="description"
-			[(ngModel)]="expense.description"></ion-input>
-	</div>
-	<div>
-		<ion-label color="primary">Category</ion-label>
-		<ion-select [(ngModel)]="expense.category">
-			<ion-select-option *ngFor="let cat of categories; let i = index"
-				[value]="i">
-				{{cat}}
-			</ion-select-option>
-		</ion-select>
+	<div class="ion-padding">
+		<h1>{{expense.date | date: 'yyyy-MM-dd'}}</h1>
+		<div>
+			<ion-label color="primary">Date</ion-label>
+			<ion-input type="date" name="date" [(ngModel)]="expense.date">
+			</ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Amount</ion-label>
+			<ion-input type="number" name="amount" [(ngModel)]="expense.amount">
+			</ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Description</ion-label>
+			<ion-input type="text" name="description"
+				[(ngModel)]="expense.description"></ion-input>
+		</div>
+		<div>
+			<ion-label color="primary">Category</ion-label>
+			<ion-select [(ngModel)]="expense.category">
+				<ion-select-option *ngFor="let cat of categories; let i = index"
+					[value]="i">
+					{{cat}}
+				</ion-select-option>
+			</ion-select>
+		</div>
 	</div>
 </ion-content>
