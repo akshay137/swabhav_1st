@@ -1,0 +1,64 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>
+			My Notes
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="ion-padding">
+		<ion-list>
+			<ion-reorder-group (ionItemReorder)="onReorder($event)"
+				disabled="true">
+				<ion-item-sliding *ngFor="let note of notes">
+					<ion-item [routerLink]="['/edit', note.id]">
+						<ion-grid>
+							<ion-row>
+								<ion-col>
+									<ion-label color="dark">
+										{{note.title}}
+									</ion-label>
+									<ion-label color="medium"
+										class="ion-text-wrap">
+										{{note.description}}
+									</ion-label>
+									<!-- <ion-label color="medium">
+										{{note.id}} {{note.order}}
+									</ion-label> -->
+								</ion-col>
+								<ion-col>
+									<ion-label class="ion-text-end"
+										style="font-size: 2rem;">
+										<ion-icon name="play"></ion-icon>
+									</ion-label>
+								</ion-col>
+							</ion-row>
+						</ion-grid>
+						<ion-reorder slot="end"></ion-reorder>
+					</ion-item>
+					<ion-item-options side="end">
+						<ion-item-option color="danger"
+							(click)="delete(note.id)">
+							<ion-icon name="trash"></ion-icon>
+							Delete
+						</ion-item-option>
+					</ion-item-options>
+				</ion-item-sliding>
+			</ion-reorder-group>
+		</ion-list>
+	</div>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-button color="danger" slot="start" [routerLink]="['/add']">
+			<ion-icon name="create"></ion-icon>
+			New Note
+		</ion-button>
+		<ion-button color="light" slot="end" (click)="toggleReorder()">
+			<ion-icon name="shuffle"></ion-icon>
+			Reorder
+		</ion-button>
+	</ion-toolbar>
+</ion-footer>
