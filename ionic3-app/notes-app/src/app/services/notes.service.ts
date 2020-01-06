@@ -8,18 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class NotesService {
 	notes: Note[];
-	newOrder: number;
 
 	constructor(private storage: StorageService) {
 		this.notes = [];
-		this.newOrder = 0;
-	}
-
-	private getMaxOrder() {
-		this.notes.forEach(note => {
-			if (this.newOrder < note.order)
-				this.newOrder = note.order;
-		})
 	}
 
 	getAllNotes() {
@@ -28,7 +19,6 @@ export class NotesService {
 				this.notes = res;
 				if (!this.notes)
 					this.notes = [];
-				this.getMaxOrder();
 				observer.next(this.notes);
 				observer.complete();
 			}, err => {
@@ -79,14 +69,12 @@ export class NotesService {
 
 	addNote(note: Note) {
 		note.id = Date.now();
-		note.order = ++this.newOrder;
 		this.notes.push(note);
 		return this.saveNotes();
 	}
 
 	private copyNote(src: Note, dst: Note) {
 		dst.id = src.id;
-		dst.order = src.order;
 		dst.description = src.description;
 		dst.title = src.title;
 	}
@@ -108,7 +96,6 @@ export class NotesService {
 	getEmpty(): Note {
 		return {
 			id: 0,
-			order: 0,
 			description: '',
 			title: ''
 		}
@@ -117,8 +104,6 @@ export class NotesService {
 	validate(note: Note) {
 		if (typeof (note.title) != 'string' || note.title.length <= 0)
 			return { isValid: false, msg: 'title is empty' };
-		if (typeof (note.order) != 'number' || note.order < 0)
-			return { isValid: false, msg: 'Order is not valid' };
 		return { isValid: true, msg: 'Everythin seems to be OK' };
 	}
 
@@ -128,24 +113,22 @@ export class NotesService {
 				observer.error({ msg: 'No notes to reorder' });
 				observer.complete();
 			} else {
-				let n1 = this.notes.find(note => note.id === from);
-				if (!n1) {
-					observer.error({ msg: 'No note found' });
+				if (from == to) {
 					observer.complete();
 					return;
 				}
-				let n2 = this.notes.find(note => note.id === to);
-				if (!n2) {
-					observer.error({ msg: 'No note found' });
+				if (from >= this.notes.length || to >= this.notes.length) {
+					observer.error('No such note was found');
 					observer.complete();
 					return;
 				}
-				let temp = n1.order;
-				n1.order = n2.order;
-				n2.order = temp;
-				this.notes = this.notes.sort((n1, n2) => {
-					return Math.min(Math.max(n1.order - n2.order, -1), 1);
-				})
+				if (from > to) {
+					this.notes.splice(to, 0, this.notes[from]);
+					this.notes.splice(from + 1, 1);
+				} else {
+					this.notes.splice(from, 0, this.notes[to]);
+					this.notes.splice(to + 1, 1);
+				}
 				this.saveNotes().subscribe(res => {
 					observer.next(res);
 					observer.complete();
@@ -181,7 +164,6 @@ export class NotesService {
 
 export interface Note {
 	id: number;
-	order: number;
 	title: string;
 	description: string;
 }

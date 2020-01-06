@@ -25,7 +25,8 @@ export class HomePage implements OnInit {
 	delete(id: number) {
 		if (confirm('Are you sure?')) {
 			this.notesvc.deleteNote(id).subscribe(res => {
-				alert('Note deleted');
+				// alert('Note deleted');
+				console.log(res);
 			}, err => {
 				alert(err.msg);
 			});
@@ -44,10 +45,8 @@ export class HomePage implements OnInit {
 	}
 
 	private switchNotes(from: number, to: number) {
-		let note1 = this.notes[from];
-		let note2 = this.notes[to];
-		this.notesvc.changeOrder(note1.id, note2.id).subscribe(res => {
-			console.log('reordered');
+		this.notesvc.changeOrder(from, to).subscribe(res => {
+			console.log('reordered', res);
 		}, err => {
 			console.log(err);
 			alert('Reordring falied due to internal issue');

@@ -25,7 +25,7 @@ export class AddPage implements OnInit {
 			return;
 		}
 		this.notesvc.addNote(this.note).subscribe(res => {
-			alert('Note added successfully');
+			// alert('Note added successfully');
 			this.router.navigate(['/home']);
 		}, err => {
 			alert(err.msg);
