@@ -27,9 +27,23 @@ public class ExpenseService {
 
 	public Expense getExpenseById(long id) {
 		for (Expense e : this.expenses) {
-			if (e.getExpensId() == id)
+			if (e.getExpenseId() == id)
 				return e;
 		}
 		return null;
+	}
+
+	public void deleteExpense(Expense expense) {
+		this.expenses.remove(expense);
+	}
+
+	public boolean updateExpense(Expense expense) {
+		Expense old = getExpenseById(expense.getExpenseId());
+		if (old == null) {
+			return false;
+		}
+		old.setAs(expense);
+
+		return true;
 	}
 }

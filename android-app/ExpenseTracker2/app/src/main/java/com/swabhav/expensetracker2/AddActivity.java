@@ -1,6 +1,7 @@
 package com.swabhav.expensetracker2;
 
 import android.content.Intent;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.os.Bundle;
@@ -70,11 +71,27 @@ public class AddActivity extends AppCompatActivity {
 
 	private void addExpense() {
 		String description = this.descriptionEt.getText().toString();
-		double amount = Double.parseDouble(this.amountEt.getText().toString());
-		System.out.println(cats.getSelectedItem());
+		String amountStr = this.amountEt.getText().toString();
+		if (amountStr.length() == 0) {
+			Toast.makeText(this, "Amount not valid", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		double amount = 0.0;
+		try {
+			amount = Double.parseDouble(amountStr);
+		}
+		catch (Exception ignored) {
+			Toast.makeText(this, "Invalid amount", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Expense e = new Expense(amount, description, new Date(), (Category)cats.getSelectedItem());
 		ExpenseService.getInstance().addExpense(e);
 		onBackPressed();
 		return;
+	}
+
+	public void showDatePicker(View v) {
+		DialogFragment datePicker = DatePicker.getNewInstance(null, (EditText) v);
+		datePicker.show(getSupportFragmentManager(), "DatePicker_Add");
 	}
 }

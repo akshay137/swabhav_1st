@@ -2,7 +2,14 @@
     <string name="app_name">Expense Tracker 2</string>
     <string name="action_settings">Settings</string>
     <string name="price">$no price</string>
+    <string name="date">No Date</string>
     <string name="description">No Description</string>
     <string name="category">No Cat</string>
     <string name="add_expense">Add new Expense</string>
+    <string name="edit_expense">Edit expense</string>
+    <string name="delete_expense">Delete expense</string>
+    <string name="delete_dialogue">Are you sure?</string>
+    <string name="delete_title">Delete</string>
+    <string name="confirm">Yes</string>
+    <string name="deny">No</string>
 </resources>

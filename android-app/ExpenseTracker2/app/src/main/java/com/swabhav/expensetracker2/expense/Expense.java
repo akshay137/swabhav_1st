@@ -3,7 +3,7 @@ package com.swabhav.expensetracker2.expense;
 import java.util.*;
 
 public class Expense {
-	private long expensId;
+	private long expenseId;
 	private double price;
 	private String description;
 	private Date date;
@@ -12,7 +12,7 @@ public class Expense {
 	private static long idGenerator = 0;
 
 	public Expense(double price, String description, Date date, Category category) {
-		this.expensId = idGenerator++;
+		this.expenseId = idGenerator++;
 		this.price = price;
 		this.date = date;
 		this.description = description;
@@ -31,8 +31,8 @@ public class Expense {
 		this(price, "", new Date(), Category.Misc);
 	}
 
-	public long getExpensId() {
-		return expensId;
+	public long getExpenseId() {
+		return expenseId;
 	}
 
 	public double getPrice() {
@@ -65,5 +65,22 @@ public class Expense {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public void setAs(Expense expense) {
+		this.category = expense.getCategory();
+		this.date = expense.getDate();
+		this.description = expense.getDescription();
+		this.price = expense.getPrice();
+	}
+
+	@Override
+	public int hashCode() {
+		return (int)this.expenseId;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		return this.expenseId == ((Expense)other).getExpenseId();
 	}
 }
