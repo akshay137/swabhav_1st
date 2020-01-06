@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Expense Tracker 2</string>
+    <string name="action_settings">Settings</string>
+    <string name="price">$no price</string>
+    <string name="description">No Description</string>
+    <string name="category">No Cat</string>
+    <string name="add_expense">Add new Expense</string>
+</resources>
