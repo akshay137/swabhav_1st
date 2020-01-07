@@ -9,10 +9,8 @@ public class Expense {
 	private Date date;
 	private Category category;
 
-	private static long idGenerator = 0;
-
 	public Expense(double price, String description, Date date, Category category) {
-		this.expenseId = idGenerator++;
+		this.expenseId = new Date().getTime();
 		this.price = price;
 		this.date = date;
 		this.description = description;
@@ -29,6 +27,10 @@ public class Expense {
 
 	public Expense(double price) {
 		this(price, "", new Date(), Category.Misc);
+	}
+
+	public Expense() {
+		this(0.0, "", new Date(), Category.Misc);
 	}
 
 	public long getExpenseId() {

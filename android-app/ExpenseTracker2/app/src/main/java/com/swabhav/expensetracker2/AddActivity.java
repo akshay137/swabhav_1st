@@ -3,7 +3,6 @@ package com.swabhav.expensetracker2;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.*;
-import android.support.v7.widget.*;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -13,7 +12,7 @@ import com.swabhav.expensetracker2.expense.Category;
 import com.swabhav.expensetracker2.expense.Expense;
 import com.swabhav.expensetracker2.expense.ExpenseService;
 
-import java.util.*;
+import java.text.SimpleDateFormat;
 
 public class AddActivity extends AppCompatActivity {
 
@@ -21,6 +20,8 @@ public class AddActivity extends AppCompatActivity {
 	private EditText amountEt;
 	private EditText descriptionEt;
 	private Spinner cats;
+
+	private Expense expense;
 
 	private Intent homeIntent;
 
@@ -33,12 +34,7 @@ public class AddActivity extends AppCompatActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-		dateEt = findViewById(R.id.dateEt);
-		amountEt = findViewById(R.id.amountEt);
-		descriptionEt = findViewById(R.id.descriptionEt);
-		cats = findViewById(R.id.categorySpinner);
-		cats.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.select_dialog_item,
-				Category.values()));
+		init();
 	}
 
 	@Override
@@ -59,7 +55,6 @@ public class AddActivity extends AppCompatActivity {
 		System.out.println(item.getItemId());
 		switch (item.getItemId()) {
 			case R.id.addNote:
-				Toast.makeText(this, "Adding new expense", Toast.LENGTH_SHORT).show();
 				addExpense();
 				break;
 
@@ -69,8 +64,19 @@ public class AddActivity extends AppCompatActivity {
 		return true;
 	}
 
+	private void init() {
+		dateEt = findViewById(R.id.dateEt);
+		amountEt = findViewById(R.id.amountEt);
+		descriptionEt = findViewById(R.id.descriptionEt);
+		cats = findViewById(R.id.categorySpinner);
+		cats.setAdapter(new ArrayAdapter<Category>(this, android.R.layout.select_dialog_item,
+				Category.values()));
+		this.expense = new Expense();
+	}
+
 	private void addExpense() {
 		String description = this.descriptionEt.getText().toString();
+		this.expense.setDescription(description);
 		String amountStr = this.amountEt.getText().toString();
 		if (amountStr.length() == 0) {
 			Toast.makeText(this, "Amount not valid", Toast.LENGTH_SHORT).show();
@@ -84,8 +90,15 @@ public class AddActivity extends AppCompatActivity {
 			Toast.makeText(this, "Invalid amount", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		Expense e = new Expense(amount, description, new Date(), (Category)cats.getSelectedItem());
-		ExpenseService.getInstance().addExpense(e);
+		this.expense.setPrice(amount);
+		this.expense.setCategory((Category)this.cats.getSelectedItem());
+		String dateStr = this.dateEt.getText().toString();
+		try {
+			this.expense.setDate(new SimpleDateFormat("MMM dd, yyyy").parse(dateStr));
+		}
+		catch (Exception ignored) { }
+		ExpenseService.getInstance().addExpense(expense);
+		Toast.makeText(this, "Add successful", Toast.LENGTH_SHORT).show();
 		onBackPressed();
 		return;
 	}

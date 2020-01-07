@@ -1,11 +1,9 @@
 package com.swabhav.expensetracker2;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.app.*;
+import android.os.*;
 import android.support.v4.app.DialogFragment;
-import android.widget.EditText;
+import android.widget.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
