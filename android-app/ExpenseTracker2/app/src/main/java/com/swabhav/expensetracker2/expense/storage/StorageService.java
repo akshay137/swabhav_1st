@@ -12,8 +12,7 @@ public class StorageService {
 	private ExpenseDatabase db;
 
 	private StorageService(Context context) {
-		db = Room.databaseBuilder(context, ExpenseDatabase.class, "expenses-db")
-				.allowMainThreadQueries().build();
+		db = Room.databaseBuilder(context, ExpenseDatabase.class, "expenses-db").build();
 	}
 
 	public static StorageService getInstance(Context context) {

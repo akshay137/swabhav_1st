@@ -12,6 +12,7 @@ import com.swabhav.expensetracker2.expense.Category;
 import com.swabhav.expensetracker2.expense.Expense;
 import com.swabhav.expensetracker2.expense.ExpenseService;
 import com.swabhav.expensetracker2.expense.Formatters;
+import com.swabhav.expensetracker2.expense.storage.DBResonse;
 
 import java.text.Normalizer;
 import java.text.SimpleDateFormat;
@@ -99,10 +100,18 @@ public class AddActivity extends AppCompatActivity {
 			this.expense.setDate(Formatters.getInstance().parseDate(dateStr));
 		}
 		catch (Exception ignored) { }
-		ExpenseService.getInstance(this).addExpense(expense);
-		Toast.makeText(this, "Add successful", Toast.LENGTH_SHORT).show();
-		onBackPressed();
-		return;
+
+		final DBProgress progress = new DBProgress(this, "Add", "Please Wait");
+		progress.show();
+		ExpenseService.getInstance(this).addExpense(expense, new DBResonse() {
+			@Override
+			public void onComplete(Object response) {
+				Toast.makeText(AddActivity.this,
+						"Add successful", Toast.LENGTH_SHORT).show();
+				progress.dismiss();
+				onBackPressed();
+			}
+		});
 	}
 
 	public void showDatePicker(View v) {

@@ -1,6 +1,7 @@
 package com.swabhav.expensetracker2.expense;
 
 import android.content.*;
+import android.os.*;
 
 import com.swabhav.expensetracker2.expense.storage.*;
 
@@ -14,12 +15,8 @@ public class ExpenseService {
 	private StorageService storageService;
 
 	private ExpenseService(Context context) {
-//		this.expenses = new ArrayList<Expense>();
 		this.storageService = StorageService.getInstance(context);
-		this.expenses = this.storageService.getAll();
-		if (this.expenses == null) {
-			this.expenses = new ArrayList<Expense>();
-		}
+		this.expenses = new ArrayList<>();
 	}
 
 	public static ExpenseService getInstance(Context context) {
@@ -28,14 +25,13 @@ public class ExpenseService {
 		return instance;
 	}
 
-	public List<Expense> getExpenses() {
-		return this.expenses;
+	public void getExpenses(DBResonse onComplete) {
+		new DatabaseRead().execute(onComplete);
 	}
 
-	public boolean addExpense(Expense expense) {
-		boolean ret = this.expenses.add(expense);
-		this.saveExpenses();
-		return ret;
+	public void addExpense(Expense expense, DBResonse response) {
+		this.expenses.add(expense);
+		this.saveExpenses(response);
 	}
 
 	public Expense getExpenseById(long id) {
@@ -46,24 +42,85 @@ public class ExpenseService {
 		return null;
 	}
 
-	public void deleteExpense(Expense expense) {
+	public void deleteExpense(Expense expense, DBResonse response) {
 		this.expenses.remove(expense);
-		this.storageService.delete(expense);
-		this.saveExpenses();
+		new DatabaseDelete(expense).execute(response);
 	}
 
-	public boolean updateExpense(Expense expense) {
+	public void updateExpense(Expense expense, DBResonse response) {
 		Expense old = getExpenseById(expense.getExpenseId());
 		if (old == null) {
-			return false;
+			return;
 		}
 		old.setAs(expense);
-		this.saveExpenses();
-
-		return true;
+		this.saveExpenses(response);
 	}
 
-	public void saveExpenses() {
-		this.storageService.insertAll(this.expenses);
+	public void saveExpenses(DBResonse response) {
+		new DatabaseSave().execute(response);
+//		this.storageService.insertAll(this.expenses);
+	}
+
+//	Async tasks
+	private class DatabaseRead extends AsyncTask<DBResonse, Void, List<Expense>> {
+		DBResonse[] responses;
+		@Override
+		protected List<Expense> doInBackground(DBResonse... responses) {
+			this.responses = responses;
+			ExpenseService.this.expenses = ExpenseService.this.storageService.getAll();
+			return ExpenseService.this.expenses;
+		}
+
+		@Override
+		protected void onPostExecute(List<Expense> expenses) {
+			for (DBResonse response : this.responses)
+				response.onComplete(expenses);
+			return;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... unused) {
+			return;
+		}
+	}
+
+	private class DatabaseSave extends AsyncTask<DBResonse, Void, Void> {
+		DBResonse[] responses;
+
+		@Override
+		protected Void doInBackground(DBResonse... responses) {
+			this.responses = responses;
+			ExpenseService.this.storageService.insertAll(ExpenseService.this.expenses);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void unused) {
+			for (DBResonse response : this.responses)
+				response.onComplete(unused);
+		}
+	}
+
+	private class DatabaseDelete extends AsyncTask<DBResonse, Void, Void> {
+		private Expense expense;
+		private DBResonse[] responses;
+
+		public DatabaseDelete(Expense expense) {
+			this.expense = expense;
+		}
+
+		@Override
+		protected Void doInBackground(DBResonse... responses) {
+			this.responses = responses;
+			ExpenseService.this.storageService.delete(this.expense);
+			ExpenseService.this.storageService.insertAll(ExpenseService.this.expenses);
+			return null;
+		}
+
+		@Override
+		public void onPostExecute(Void unused) {
+			for (DBResonse response : this.responses)
+				response.onComplete(unused);
+		}
 	}
 }

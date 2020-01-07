@@ -12,6 +12,7 @@ import android.widget.*;
 import java.util.*;
 
 import com.swabhav.expensetracker2.expense.*;
+import com.swabhav.expensetracker2.expense.storage.DBResonse;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,13 +45,21 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void generateListView() {
-		Category[] cats = Category.values();
 		this.container = findViewById(R.id.container);
 		this.container.removeAllViews();
-		List<Expense> expenseList = ExpenseService.getInstance(this).getExpenses();
-		for (Expense expense : expenseList) {
-			ExpenseView ev = new ExpenseView(this, expense);
-			this.container.addView(ev);
-		}
+		final DBProgress progress = new DBProgress(this,
+				"Loading", "Fetching records");
+		progress.show();
+		ExpenseService.getInstance(this).getExpenses(new DBResonse() {
+			@Override
+			public void onComplete(Object response) {
+				List<Expense> expenseList = (List<Expense>)response;
+				for (Expense expense : expenseList) {
+					ExpenseView ev = new ExpenseView(MainActivity.this, expense);
+					MainActivity.this.container.addView(ev);
+				}
+				progress.dismiss();
+			}
+		});
 	}
 }
