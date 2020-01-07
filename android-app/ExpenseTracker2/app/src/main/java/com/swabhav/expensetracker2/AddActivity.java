@@ -8,14 +8,8 @@ import android.view.*;
 import android.widget.*;
 import android.support.v7.widget.Toolbar;
 
-import com.swabhav.expensetracker2.expense.Category;
-import com.swabhav.expensetracker2.expense.Expense;
-import com.swabhav.expensetracker2.expense.ExpenseService;
-import com.swabhav.expensetracker2.expense.Formatters;
+import com.swabhav.expensetracker2.expense.*;
 import com.swabhav.expensetracker2.expense.storage.DBResonse;
-
-import java.text.Normalizer;
-import java.text.SimpleDateFormat;
 
 public class AddActivity extends AppCompatActivity {
 

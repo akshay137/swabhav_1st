@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.*;
-import android.support.v7.widget.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
