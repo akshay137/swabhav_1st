@@ -50,7 +50,7 @@ public class EditActivity extends AppCompatActivity {
 			onBackPressed();
 			return;
 		}
-		this.expense = ExpenseService.getInstance().getExpenseById(expenseId);
+		this.expense = ExpenseService.getInstance(this).getExpenseById(expenseId);
 		if (this.expense == null) {
 			Toast.makeText(this, "Expense not found", Toast.LENGTH_SHORT).show();
 			onBackPressed();
@@ -68,7 +68,7 @@ public class EditActivity extends AppCompatActivity {
 		alert.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				ExpenseService.getInstance().deleteExpense(EditActivity.this.expense);
+				ExpenseService.getInstance(getApplicationContext()).deleteExpense(EditActivity.this.expense);
 				Toast.makeText(EditActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
 				onBackPressed();
 			}
@@ -82,7 +82,7 @@ public class EditActivity extends AppCompatActivity {
 	}
 
 	private void setData() {
-		this.dateEt.setText(new SimpleDateFormat("MMM dd, yyyy").format(this.expense.getDate()));
+		this.dateEt.setText(Formatters.getInstance().formatDate(this.expense.getDate()));
 		this.amountEt.setText(Double.toString(this.expense.getPrice()));
 		this.descriptionEt.setText(this.expense.getDescription());
 		this.cats.setSelection(this.expense.getCategory().ordinal());
@@ -134,7 +134,7 @@ public class EditActivity extends AppCompatActivity {
 			return;
 		}
 		this.expense.setPrice(amount);
-		ExpenseService.getInstance().updateExpense(this.expense);
+		ExpenseService.getInstance(this).updateExpense(this.expense);
 
 		Toast.makeText(this, "Edit successfull", Toast.LENGTH_SHORT).show();
 		onBackPressed();

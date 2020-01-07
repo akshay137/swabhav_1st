@@ -1,20 +1,41 @@
 package com.swabhav.expensetracker2.expense;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import androidx.room.*;
+
+@Entity(tableName = "expenses")
 public class Expense {
+	@PrimaryKey
 	private long expenseId;
+
+	@ColumnInfo(name = "price")
 	private double price;
+
+	@ColumnInfo(name = "description")
 	private String description;
+
+	@ColumnInfo(name = "date")
+	private String dateStr;
+
+	@Ignore
 	private Date date;
+
+	@ColumnInfo(name = "category")
+	private String catStr;
+
+	@Ignore
 	private Category category;
 
 	public Expense(double price, String description, Date date, Category category) {
 		this.expenseId = new Date().getTime();
 		this.price = price;
 		this.date = date;
+		this.dateStr = new SimpleDateFormat("MMM dd, yyyy").format(this.date);
 		this.description = description;
 		this.category = category;
+		this.catStr = this.category.toString();
 	}
 
 	public Expense(double price, String description) {
@@ -63,10 +84,12 @@ public class Expense {
 
 	public void setDate(Date date) {
 		this.date = date;
+		this.dateStr = Formatters.getInstance().formatDate(this.date);
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
+		this.catStr = this.category.toString();
 	}
 
 	public void setAs(Expense expense) {
@@ -74,6 +97,28 @@ public class Expense {
 		this.date = expense.getDate();
 		this.description = expense.getDescription();
 		this.price = expense.getPrice();
+	}
+
+	public void setExpenseId(long expenseId) {
+		this.expenseId = expenseId;
+	}
+
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public String getCatStr() {
+		return catStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+		this.date = Formatters.getInstance().parseDate(this.dateStr);
+	}
+
+	public void setCatStr(String catStr) {
+		this.catStr = catStr;
+		this.category = Category.valueOf(catStr);
 	}
 
 	@Override

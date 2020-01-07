@@ -5,6 +5,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.swabhav.expensetracker2.expense.Expense;
+import com.swabhav.expensetracker2.expense.Formatters;
 
 import java.text.SimpleDateFormat;
 
@@ -47,6 +48,6 @@ public class ExpenseView extends LinearLayout {
 		priceView.setText(Double.toString(this.expense.getPrice()));
 		descriptionView.setText(this.expense.getDescription());
 		categoryView.setText(this.expense.getCategory().toString());
-		dateView.setText(new SimpleDateFormat("MMM dd, yyyy").format(this.expense.getDate()));
+		dateView.setText(Formatters.getInstance().formatDate(this.expense.getDate()));
 	}
 }

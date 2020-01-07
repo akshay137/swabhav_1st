@@ -11,7 +11,9 @@ import android.support.v7.widget.Toolbar;
 import com.swabhav.expensetracker2.expense.Category;
 import com.swabhav.expensetracker2.expense.Expense;
 import com.swabhav.expensetracker2.expense.ExpenseService;
+import com.swabhav.expensetracker2.expense.Formatters;
 
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 
 public class AddActivity extends AppCompatActivity {
@@ -94,10 +96,10 @@ public class AddActivity extends AppCompatActivity {
 		this.expense.setCategory((Category)this.cats.getSelectedItem());
 		String dateStr = this.dateEt.getText().toString();
 		try {
-			this.expense.setDate(new SimpleDateFormat("MMM dd, yyyy").parse(dateStr));
+			this.expense.setDate(Formatters.getInstance().parseDate(dateStr));
 		}
 		catch (Exception ignored) { }
-		ExpenseService.getInstance().addExpense(expense);
+		ExpenseService.getInstance(this).addExpense(expense);
 		Toast.makeText(this, "Add successful", Toast.LENGTH_SHORT).show();
 		onBackPressed();
 		return;

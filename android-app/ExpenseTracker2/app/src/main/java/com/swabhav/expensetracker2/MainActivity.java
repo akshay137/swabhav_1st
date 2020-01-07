@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 		Category[] cats = Category.values();
 		this.container = findViewById(R.id.container);
 		this.container.removeAllViews();
-		List<Expense> expenseList = ExpenseService.getInstance().getExpenses();
+		List<Expense> expenseList = ExpenseService.getInstance(this).getExpenses();
 		for (Expense expense : expenseList) {
 			ExpenseView ev = new ExpenseView(this, expense);
 			this.container.addView(ev);

@@ -1,5 +1,9 @@
 package com.swabhav.expensetracker2.expense;
 
+import android.content.*;
+
+import com.swabhav.expensetracker2.expense.storage.*;
+
 import java.util.*;
 
 public class ExpenseService {
@@ -7,13 +11,20 @@ public class ExpenseService {
 
 	private List<Expense> expenses;
 
-	private ExpenseService() {
-		this.expenses = new ArrayList<Expense>();
+	private StorageService storageService;
+
+	private ExpenseService(Context context) {
+//		this.expenses = new ArrayList<Expense>();
+		this.storageService = StorageService.getInstance(context);
+		this.expenses = this.storageService.getAll();
+		if (this.expenses == null) {
+			this.expenses = new ArrayList<Expense>();
+		}
 	}
 
-	public static ExpenseService getInstance() {
+	public static ExpenseService getInstance(Context context) {
 		if (instance == null)
-			instance = new ExpenseService();
+			instance = new ExpenseService(context);
 		return instance;
 	}
 
@@ -22,7 +33,9 @@ public class ExpenseService {
 	}
 
 	public boolean addExpense(Expense expense) {
-		return this.expenses.add(expense);
+		boolean ret = this.expenses.add(expense);
+		this.saveExpenses();
+		return ret;
 	}
 
 	public Expense getExpenseById(long id) {
@@ -35,6 +48,8 @@ public class ExpenseService {
 
 	public void deleteExpense(Expense expense) {
 		this.expenses.remove(expense);
+		this.storageService.delete(expense);
+		this.saveExpenses();
 	}
 
 	public boolean updateExpense(Expense expense) {
@@ -43,7 +58,12 @@ public class ExpenseService {
 			return false;
 		}
 		old.setAs(expense);
+		this.saveExpenses();
 
 		return true;
+	}
+
+	public void saveExpenses() {
+		this.storageService.insertAll(this.expenses);
 	}
 }
