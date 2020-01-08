@@ -1,10 +1,10 @@
 package com.swabhav.percentcalculator.model;
 
-public class SimplePercentage extends PercentageCalculator {
+public class SimplePercentage implements PercentageCalculator {
 
 	@Override
-	public double calculate() {
-		return this.getY() * (this.getX() / 100.0);
+	public double calculate(double x, double y) {
+		return y * (x / 100.0);
 	}
 
 	@Override

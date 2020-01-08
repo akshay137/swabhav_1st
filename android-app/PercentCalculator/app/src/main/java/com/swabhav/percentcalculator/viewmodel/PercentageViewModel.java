@@ -12,6 +12,8 @@ public class PercentageViewModel extends BaseObservable {
 
 	private PercentageCalculator calculator;
 	private String answer;
+	private String x;
+	private String y;
 	private Context context;
 
 	private ObservableList<PercentageCalculator> calculatorList;
@@ -29,17 +31,6 @@ public class PercentageViewModel extends BaseObservable {
 		this.calculator = this.calculatorList.get(0);
 	}
 
-	public void onCalculatorSelected(AdapterView<?> parent, View v, int pos, long id) {
-		double x = this.calculator.getX();
-		double y = this.calculator.getY();
-		this.calculator = (PercentageCalculator) parent.getSelectedItem();
-		this.calculator.setX(x);
-		this.calculator.setY(y);
-		this.notifyPropertyChanged(BR.x);
-		this.notifyPropertyChanged(BR.y);
-		System.out.println(this.calculator);
-	}
-
 	@Bindable
 	public ObservableList<PercentageCalculator> getCalculatorList() {
 		return this.calculatorList;
@@ -54,31 +45,45 @@ public class PercentageViewModel extends BaseObservable {
 
 	@Bindable
 	public String getX() {
-		return Double.toString(this.calculator.getX());
-	}
-
-	public void setValueOfX(EditText s) {
-		try {
-			double x = Double.parseDouble(s.getText().toString());
-			this.calculator.setX(x);
-		} catch (Exception ignored) {}
+		return this.x;
 	}
 
 	@Bindable
-	public String getY() {
-		return Double.toString(this.calculator.getY());
-	}
+	public void setX(String x) { this.x = x; }
 
-	public void setValueOfY(EditText s) {
-		try {
-			double y = Double.parseDouble(s.getText().toString());
-			this.calculator.setY(y);
-		} catch (Exception ignored) {}
+	@Bindable
+	public String getY() { return this.y; }
+
+	@Bindable
+	public void setY(String y) { this.y = y; }
+
+	@Bindable
+	public String getAnswer() { return this.answer; }
+
+	public void onCalculatorSelected(AdapterView<?> parent, View v, int pos, long id) {
+		this.calculator = (PercentageCalculator) parent.getSelectedItem();
+		System.out.println(this.calculator);
 	}
 
 	public void onCalculate() {
+		double xValue = 0;
+		double yValue = 0;
 		try {
-			double value = this.calculator.calculate();
+			xValue = Double.parseDouble(this.x);
+		} catch (Exception ignored) {
+			Toast.makeText(this.context, "Could not parse X", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		try {
+			yValue = Double.parseDouble(this.y);
+		} catch (Exception ignored) {
+			Toast.makeText(this.context, "Could not parse Y", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		try {
+			double value = this.calculator.calculate(xValue, yValue);
 			if (Double.isNaN(value)) {
 				this.answer = "You eneterd something which I could not make sense of";
 			} else {
@@ -89,10 +94,4 @@ public class PercentageViewModel extends BaseObservable {
 		}
 		notifyPropertyChanged(BR.answer);
 	}
-
-	@Bindable
-	public String getAnswer() {
-		return this.answer;
-	}
-
 }

@@ -1,14 +1,14 @@
 package com.swabhav.percentcalculator.model;
 
-public class PercentDifference extends PercentageCalculator {
+public class PercentDifference implements PercentageCalculator {
 
 	@Override
-	public double calculate() {
-		return -(1.0 - (this.getY() / this.getX())) * 100.0;
+	public double calculate(double x, double y) {
+		return -(1.0 - (y / x)) * 100.0;
 	}
 
 	@Override
 	public String toString() {
-		return "X is % increase/decrease from Y";
+		return "Y is % increase/decrease from X";
 	}
 }

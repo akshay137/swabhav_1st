@@ -1,10 +1,10 @@
 package com.swabhav.percentcalculator.model;
 
-public class ReversePercentage extends PercentageCalculator {
+public class ReversePercentage implements PercentageCalculator {
 
 	@Override
-	public double calculate() {
-		return (this.getX() / this.getY()) * 100.0;
+	public double calculate(double x, double y) {
+		return (x / y) * 100.0;
 	}
 
 	@Override
