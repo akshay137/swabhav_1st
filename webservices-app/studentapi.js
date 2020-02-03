@@ -16,6 +16,7 @@
 		date: $('#sdate'),
 		gender: $('input[name=gender]')
 	};
+	let selectedStudent = null;
 
 	studentFormData.gender.on('change', (e) => {
 		console.log(e.target.value, studentFormData.gender.val());
@@ -25,6 +26,11 @@
 	const addStudent = function (student) {
 		// console.log(student);
 		let div = document.createElement('div');
+		div.addEventListener('click', function () {
+			selectedStudent = div;
+			div.classList.remove('bg-dark', 'text-light');
+			div.classList.add('bg-light', 'text-dark');
+		});
 		div.classList.add('row', 'bg-dark',
 			'text-light', 'h5', 'py-2', 'border', 'rounded');
 
@@ -125,6 +131,7 @@
 		studentFormData.btn.attr('disabled', false);
 		if (type === 'add') {
 			resetModal();
+			selectedStudent = null;
 		} else {
 			updateModalForCorrection(target);
 		}
@@ -164,6 +171,12 @@
 	$(document).ready(() => {
 		getStudentList();
 		studentModal.on('show.bs.modal', updateModal);
+		studentModal.on('hide.bs.modal', () => {
+			if (selectedStudent == null)
+				return;
+			selectedStudent.classList.remove('bg-light', 'text-dark');
+			selectedStudent.classList.add('bg-dark', 'text-light');
+		});
 		studentForm.submit(onSubmit);
 	});
 })();
