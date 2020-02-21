@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	"fmt"
 	"io"
@@ -23,11 +22,6 @@ func savePage(url, file string, out chan *Page) {
 		return
 	}
 
-	f, err := os.Create(file)
-	if err != nil {
-		out <- nil
-		return
-	}
 	bs, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		res.Body.Close()
@@ -36,8 +30,13 @@ func savePage(url, file string, out chan *Page) {
 	}
 	out <- &Page{url, file, string(bs)}
 	res.Body = ioutil.NopCloser(bytes.NewBuffer(bs))
-	w := bufio.NewWriter(f)
-	io.Copy(w, res.Body)
+	f, err := os.Create(file)
+	if err != nil {
+		out <- nil
+		return
+	}
+	// w := bufio.NewWriter(f)
+	io.Copy(f, res.Body)
 	f.Close()
 }
 
