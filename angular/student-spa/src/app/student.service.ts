@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 
-const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
+// const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
+const api = 'http://127.0.0.1:8080/api/students/'
 
 @Injectable({
 	providedIn: 'root'

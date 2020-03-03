@@ -1,6 +1,7 @@
 (function () {
 	'use strict';
-	const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
+	// const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
+	const api = 'http://127.0.0.1:8080/api/students/'
 	const studentList = $('#student-list #list');
 	const studentModal = $('#student-form-modal');
 	const studentModalTitle = $('#student-modal-title');
