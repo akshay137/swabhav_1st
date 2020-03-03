@@ -55,10 +55,11 @@ func (c *Controller) add(w http.ResponseWriter, r *http.Request) {
 	log.Println("add")
 	w.Header().Set("Content-Type", "application/json")
 	if isRequestDataJson(r) {
-		var st Student
-		err := json.NewDecoder(r.Body).Decode(&st)
+		st := &Student{}
+		err := json.NewDecoder(r.Body).Decode(st)
 		if err != nil {
-			log.Println("error", err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			return
 		}
 		id := c.svc.Add(st.Name, st.Email, st.Date, st.RollNo, st.Age, st.IsMale)
 		json.NewEncoder(w).Encode(id)
@@ -79,7 +80,11 @@ func (c *Controller) update(w http.ResponseWriter, r *http.Request) {
 		st := &Student{
 			ID: id,
 		}
-		json.NewDecoder(r.Body).Decode(st)
+		err := json.NewDecoder(r.Body).Decode(st)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		if c.svc.Update(id, st) {
 			w.WriteHeader(http.StatusOK)
 		} else {
