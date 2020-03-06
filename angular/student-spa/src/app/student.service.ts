@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 
 // const api = 'http://gsmktg.azurewebsites.net/api/v1/techlabs/test/students/';
 const api = 'http://127.0.0.1:8080/api/students/'
+// const api = 'http://192.168.0.13:8080/api/'
 
 @Injectable({
 	providedIn: 'root'
@@ -90,7 +91,7 @@ export class StudentService {
 }
 
 export interface Student {
-	id: string;
+	id?: string;
 	name: string;
 	date: string;
 	age: number;

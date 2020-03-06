@@ -12,7 +12,10 @@ export class AddComponent implements OnInit {
 
 	loaded: boolean;
 	student: Student;
-	constructor(private studentsvc: StudentService, private router: Router) { }
+	constructor(
+		private studentsvc: StudentService,
+		private router: Router
+	) { }
 
 	ngOnInit() {
 		this.student = this.studentsvc.getEmpty();

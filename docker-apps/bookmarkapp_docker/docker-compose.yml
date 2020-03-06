@@ -1,0 +1,7 @@
+version: '2'
+services: 
+    app:
+        container_name: bookmarkapp
+        network_mode: host
+        build: .
+        restart: on-failure

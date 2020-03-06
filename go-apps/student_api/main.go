@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"runtime"
+	"sync"
 	"syscall"
 	"time"
 
@@ -20,13 +22,17 @@ func main() {
 
 	r := mux.NewRouter()
 	sc := student.NewStudentController()
+	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(
+			fmt.Sprintf("go version%s\n", runtime.Version())))
+	})
 	sc.RegisterRoutes(r)
 	origins := handlers.AllowedOrigins([]string{"*"})
 	headers := handlers.AllowedHeaders([]string{"Content-Type", "Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 	server := &http.Server{
 		Handler:      handlers.CORS(headers, methods, origins)(r),
-		Addr:         "127.0.0.1:8080",
+		Addr:         ":8080",
 		WriteTimeout: 10 * time.Second,
 		ReadTimeout:  10 * time.Second,
 	}
@@ -38,9 +44,17 @@ func main() {
 		fmt.Println("signal", s)
 		ctx, cancle := context.WithTimeout(context.Background(), time.Second)
 		// server.Close()
+		// fmt.Println("Server closed")
 		defer cancle()
 		server.Shutdown(ctx)
 	}()
 
-	log.Fatal(server.ListenAndServe())
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		log.Println(server.ListenAndServe())
+		wg.Done()
+	}()
+	wg.Wait()
+	fmt.Println("Closing student api")
 }

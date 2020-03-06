@@ -14,8 +14,8 @@ import (
 func main() {
 	fmt.Println("Tic Tac Toe")
 	bSize := int32(3)
-	p1 := game.NewPlayer("hello", board.Cross)
-	p2 := game.NewPlayer("bye", board.Zero)
+	p1 := game.NewPlayer("p1", board.Cross)
+	p2 := game.NewPlayer("p2", board.Zero)
 	p := [2]*game.Player{p1, p2}
 	g := game.NewGame(bSize, p)
 
@@ -63,12 +63,12 @@ func getInput(reader *bufio.Reader, size int32) int32 {
 	}
 	tx, err := strconv.ParseInt(s[0], 10, 32)
 	x := int32(tx)
-	if err != nil || x >= size {
+	if err != nil || x >= size || x < 0 {
 		return -1
 	}
 	ty, err := strconv.ParseInt(s[1], 10, 32)
 	y := int32(ty)
-	if err != nil || y >= size {
+	if err != nil || y >= size || y < 0 {
 		return -1
 	}
 	return x*size + y

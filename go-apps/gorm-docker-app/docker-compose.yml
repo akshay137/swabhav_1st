@@ -1,0 +1,30 @@
+version: '2'
+services:
+    app:
+        container_name: gormapp
+        build: .
+        restart: always
+        environment: 
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=swabhav
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=root
+            - MYSQL_HOST=127.0.0.1
+        # links:
+        #     - mysql
+        # depends_on:
+        #     - mysql
+        network_mode: host
+
+    # mysql:
+    #     image: mysql
+    #     container_name: mysql
+    #     volumes:
+    #         - dbdata:/var/lib/mysql
+    #     restart: on-failure
+    #     networks:
+    #         - fullstack
+    #     ports:
+    #         - "3307:3306"
+# volumes:
+#     dbdata:
