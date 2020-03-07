@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+    nginx:
+        container_name: nginx-angular
+        image: nginx-angular
+        build:
+            context: ./student-spa
+            dockerfile: client.dockerfile
+        ports:
+            - "80:80"
+            - "443:443"
+        depends_on:
+            - go
+        network_mode: host
+        # networks:
+        #     - app-network
+    go:
+        container_name: go-service
+        image: go-service
+        build:
+            context: ./student_api
+            dockerfile: server.dockerfile
+        ports:
+            - "8080:8080"
+        # networks:
+        #     - app-network
+        network_mode: host
+
+# networks: 
+#     app-network:
+#         driver: bridge
