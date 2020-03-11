@@ -10,11 +10,13 @@ import (
 // DecodePartialJSON decodes json partially if errors or completely
 func DecodePartialJSON(data []byte, out interface{}) error {
 	// unmarshal json
+	fmt.Println("decoding", out)
 	var jsonMap map[string]json.RawMessage
 	err := json.Unmarshal(data, &jsonMap)
 	if err != nil {
 		return err
 	}
+	fmt.Println(jsonMap)
 
 	// iterate over fields of struct
 	v := reflect.Indirect(reflect.ValueOf(out))
@@ -24,12 +26,16 @@ func DecodePartialJSON(data []byte, out interface{}) error {
 		field := v.Field(i)
 		jsonName := getJsonName(sf.Tag.Get("json"))
 		if jsonName != "" {
+			fmt.Println(jsonName, field)
 			if value, ok := jsonMap[jsonName]; ok {
 				// set value to field
 				if !field.IsValid() {
 					continue
 				}
-				unmarshal(&field, value)
+				err := unmarshal(&field, value)
+				if err != nil {
+					fmt.Println(err.Error())
+				}
 			}
 		}
 	}
@@ -105,6 +111,38 @@ func unmarshal(f *reflect.Value, val json.RawMessage) error {
 		}
 		f.SetBool(b)
 		break
+
+	case reflect.Struct:
+		fmt.Println("Decoding inner struct")
+		st := reflect.Indirect(reflect.ValueOf(f))
+		err := DecodePartialJSON(val, &st)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		// if f.CanSet() {
+		// 	fmt.Println("can set")
+		// }
+		CopyStruct(f, &st)
+		// fmt.Println("st", st)
+		// reflect.Copy(*f, st)
+		break
+	}
+	return nil
+}
+
+func CopyStruct(src, dst *reflect.Value) error {
+	if src.Kind() != dst.Kind() {
+		return fmt.Errorf("Both structs should be same")
+	}
+	fCount := src.NumField()
+	for i := 0; i < fCount; i++ {
+		sf := src.Field(i)
+		df := dst.Field(i)
+		if sf.Kind() == reflect.Struct {
+			CopyStruct(&sf, &df)
+		} else if df.CanSet() {
+			df.Set(sf)
+		}
 	}
 	return nil
 }

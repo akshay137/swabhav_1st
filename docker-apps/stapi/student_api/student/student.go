@@ -7,6 +7,11 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+type Test struct {
+	ID   string `json:"id"`
+	data int    `json:"data"`
+}
+
 type Student struct {
 	repository.ModelBase
 	// ID     string `json:"id"`
@@ -16,6 +21,7 @@ type Student struct {
 	Age    int    `json:"age"`
 	Date   string `json:"date"`
 	IsMale bool   `json:"isMale"`
+	Tst    Test   `json:"tst"`
 }
 
 // NewStudent returns new student
