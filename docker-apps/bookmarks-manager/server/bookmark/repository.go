@@ -1,6 +1,8 @@
 package bookmark
 
 import (
+	"fmt"
+
 	uuid "github.com/satori/go.uuid"
 
 	"github.com/akshay137/bookmarksmanager/repository"
@@ -56,4 +58,9 @@ func (br *Repository) GetRecent(uow *repository.UnitOfWork, out interface{},
 		db = db.Preload(association)
 	}
 	return db.Order("updateOn desc").Limit(limit).Find(out).Error
+}
+
+func (br *Repository) DeleteByField(uow *repository.UnitOfWork, out interface{},
+	fieldName string, field interface{}) error {
+	return uow.DB.Delete(out, fmt.Sprintf("%s=?", fieldName), field).Error
 }

@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 
@@ -30,8 +29,10 @@ func (ac *Controller) Service() *Service {
 
 // RegisterRoutes registers api endpoints for authorization service
 func (ac *Controller) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/api/bm/users/register/", ac.registerUser).Methods("POST")
-	router.HandleFunc("/api/bm/users/login/", ac.loginUser).Methods("POST")
+	authRouter := router.PathPrefix("/api/bm/users").Subrouter()
+	authRouter.HandleFunc("/{u_id}", ac.getUser).Methods("GET")
+	authRouter.HandleFunc("/register/", ac.registerUser).Methods("POST")
+	authRouter.HandleFunc("/login/", ac.loginUser).Methods("POST")
 }
 
 func (ac *Controller) registerUser(w http.ResponseWriter, r *http.Request) {
@@ -56,8 +57,7 @@ func (ac *Controller) registerUser(w http.ResponseWriter, r *http.Request) {
 		web.WriteHTTPError(http.StatusInternalServerError, "Something went wrong", &w)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(user.ID)
+	web.EncodeJSONObject(user.ID, &w)
 }
 
 func (ac *Controller) loginUser(w http.ResponseWriter, r *http.Request) {
@@ -81,6 +81,23 @@ func (ac *Controller) loginUser(w http.ResponseWriter, r *http.Request) {
 		web.WriteHTTPError(http.StatusForbidden, err.Error(), &w)
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(user.ID)
+	web.EncodeJSONObject(user.ID, &w)
+	// w.WriteHeader(http.StatusOK)
+	// json.NewEncoder(w).Encode(user.ID)
+}
+
+func (ac *Controller) getUser(w http.ResponseWriter, r *http.Request) {
+	log.Println("Get User")
+	v := mux.Vars(r)
+	uid, ok := v["u_id"]
+	if !ok || len(uid) != 36 {
+		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
+		return
+	}
+	user, err := ac.svc.GetUserById(uid)
+	if err != nil {
+		web.WriteHTTPError(http.StatusNotFound, err.Error(), &w)
+		return
+	}
+	web.EncodeJSONObject(user, &w)
 }

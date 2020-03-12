@@ -90,6 +90,11 @@ func (cs *ServiceCategory) Delete(uid, cid string) error {
 		uow.Complete()
 		return err
 	}
+	err = cs.repo.DeleteByField(uow, &Bookmark{}, "category", cid)
+	if err != nil {
+		uow.Complete()
+		return err
+	}
 	err = cs.repo.Delete(uow, cat)
 	if err != nil {
 		uow.Complete()
