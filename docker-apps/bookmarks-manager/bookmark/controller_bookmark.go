@@ -10,6 +10,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 
+	"github.com/akshay137/bookmarksmanager/auth"
 	"github.com/akshay137/bookmarksmanager/web"
 )
 
@@ -17,41 +18,58 @@ const uuidLength = 36
 
 // Controller bookmark controller
 type Controller struct {
-	svc *Service
+	svc     *Service
+	svcCat  *ServiceCategory
+	authsvc *auth.Service
 }
 
 // NewBookmarkController returns new bookmark controller instance
-func NewBookmarkController(db *gorm.DB) *Controller {
+func NewBookmarkController(db *gorm.DB, authsvc *auth.Service) *Controller {
 	return &Controller{
-		svc: NewBookmarkService(db),
+		authsvc: authsvc,
+		svc:     NewBookmarkService(db),
+		svcCat:  NewCategoryService(db),
 	}
 }
 
 // RegisterRoutes registers api endpoints for bookmarks
 func (bc *Controller) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/",
-		bc.getAllBookmarks).Methods("GET")
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/recent/{count}",
-		bc.getNBookmarks).Methods("GET")
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/",
-		bc.addBookmark).Methods("POST")
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/{bm_id}",
-		bc.getBookmark).Methods("GET")
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/{bm_id}",
-		bc.deleteBookmark).Methods("DELETE")
-	router.HandleFunc("/api/bm/users/{u_id}/bookmarks/{bm_id}",
-		bc.updateBookmark).Methods("PUT")
+	bmRouter := router.PathPrefix("/api/bm/users/{u_id}").Subrouter()
+	bmRouter.Use(bc.authMiddlerWare)
+
+	bmRouter.HandleFunc("/bookmarks/", bc.getAllBookmarks).Methods("GET")
+	bmRouter.HandleFunc("/bookmarks/recent/{count}", bc.getNBookmarks).
+		Methods("GET")
+	bmRouter.HandleFunc("/bookmarks/", bc.addBookmark).Methods("POST")
+	bmRouter.HandleFunc("/bookmarks/{bm_id}", bc.getBookmark).Methods("GET")
+	bmRouter.HandleFunc("/bookmarks/{bm_id}", bc.deleteBookmark).
+		Methods("DELETE")
+	bmRouter.HandleFunc("/bookmarks/{bm_id}", bc.updateBookmark).Methods("PUT")
+
+	bc.RegisterCategoryRoutes(bmRouter)
+}
+
+func (bc *Controller) authMiddlerWare(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		v := mux.Vars(r)
+		uid, ok := v["u_id"]
+		if !ok || len(uid) != uuidLength {
+			web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
+			return
+		}
+		log.Printf("uid: %s\n", uid)
+		if !bc.authsvc.IsUserValid(uid) {
+			web.WriteHTTPError(http.StatusForbidden, "user not valid", &w)
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
 }
 
 func (bc *Controller) getAllBookmarks(w http.ResponseWriter, r *http.Request) {
 	log.Println("Get All Bookmarks")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
-		return
-	}
-	log.Printf("uid: %s\n", uid)
+	uid := v["u_id"]
 	bms, err := bc.svc.GetAll(uid)
 	if err != nil {
 		web.WriteHTTPError(http.StatusInternalServerError, "Something went wrong", &w)
@@ -63,18 +81,14 @@ func (bc *Controller) getAllBookmarks(w http.ResponseWriter, r *http.Request) {
 func (bc *Controller) getNBookmarks(w http.ResponseWriter, r *http.Request) {
 	log.Println("Get recent bookmarks")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
-		return
-	}
+	uid := v["u_id"]
 	limit, ok := v["count"]
 	if !ok {
 		web.WriteHTTPError(http.StatusBadRequest, "Invalid count", &w)
 		return
 	}
 	count, err := strconv.Atoi(limit)
-	if err != nil {
+	if err != nil || count <= 0 {
 		web.WriteHTTPError(http.StatusBadRequest, "Invalid count", &w)
 		return
 	}
@@ -89,11 +103,7 @@ func (bc *Controller) getNBookmarks(w http.ResponseWriter, r *http.Request) {
 func (bc *Controller) getBookmark(w http.ResponseWriter, r *http.Request) {
 	log.Println("Get Bookmark")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "invalid user id", &w)
-		return
-	}
+	uid := v["u_id"]
 	bid, ok := v["bm_id"]
 	if !ok || len(uid) != uuidLength {
 		web.WriteHTTPError(http.StatusBadRequest, "invalid bookmark id", &w)
@@ -111,11 +121,7 @@ func (bc *Controller) getBookmark(w http.ResponseWriter, r *http.Request) {
 func (bc *Controller) addBookmark(w http.ResponseWriter, r *http.Request) {
 	log.Println("Add bookmark")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
-		return
-	}
+	uid := v["u_id"]
 	err := r.ParseForm()
 	if err != nil {
 		web.WriteHTTPError(http.StatusBadRequest, "Error parsing form", &w)
@@ -135,11 +141,7 @@ func (bc *Controller) addBookmark(w http.ResponseWriter, r *http.Request) {
 func (bc *Controller) deleteBookmark(w http.ResponseWriter, r *http.Request) {
 	log.Println("Delete bookmark")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
-		return
-	}
+	uid := v["u_id"]
 	bid, ok := v["bm_id"]
 	if !ok || len(bid) != uuidLength {
 		web.WriteHTTPError(http.StatusBadRequest, "Invalid bookmark id", &w)
@@ -156,11 +158,7 @@ func (bc *Controller) deleteBookmark(w http.ResponseWriter, r *http.Request) {
 func (bc *Controller) updateBookmark(w http.ResponseWriter, r *http.Request) {
 	log.Println("Update bookmark")
 	v := mux.Vars(r)
-	uid, ok := v["u_id"]
-	if !ok || len(uid) != uuidLength {
-		web.WriteHTTPError(http.StatusBadRequest, "Invalid user id", &w)
-		return
-	}
+	uid := v["u_id"]
 	bid, ok := v["bm_id"]
 	if !ok || len(bid) != uuidLength {
 		web.WriteHTTPError(http.StatusBadRequest, "Invalid bookmark id", &w)

@@ -27,12 +27,6 @@ func NewAuthService(db *gorm.DB) *Service {
 	}
 }
 
-// // NewUser returns new user
-// func NewUser(name, email, password string) *User {
-// 	passHash := sha512.Sum512([]byte(password))
-// 	return newUser(name, email, string(passHash[:]))
-// }
-
 // AddUser adds new user
 func (as *Service) AddUser(name, email, password string) (*User, error) {
 	user := NewUser(name, email, password)
@@ -84,4 +78,19 @@ func (as *Service) AuthenticateUser(user *User, email, password string) error {
 		return fmt.Errorf("Incorrect password")
 	}
 	return nil
+}
+
+// IsUserValid checks if user exists
+func (as *Service) IsUserValid(id string) bool {
+	ID, err := uuid.FromString(id)
+	if err != nil {
+		return false
+	}
+	user := &User{}
+	uow := repository.NewUnitOfWork(as.db, true)
+	err = as.repo.Get(uow, user, ID, nil)
+	if err != nil {
+		return false
+	}
+	return user.ID != uuid.Nil
 }

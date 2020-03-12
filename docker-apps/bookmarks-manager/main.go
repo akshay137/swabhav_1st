@@ -37,7 +37,7 @@ func main() {
 
 	authCtrl := auth.NewAuthController(db)
 	authCtrl.RegisterRoutes(r)
-	bmCtrl := bookmark.NewBookmarkController(db)
+	bmCtrl := bookmark.NewBookmarkController(db, authCtrl.Service())
 	bmCtrl.RegisterRoutes(r)
 
 	server := http.Server{

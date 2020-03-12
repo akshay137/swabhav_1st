@@ -23,6 +23,11 @@ func NewAuthController(db *gorm.DB) *Controller {
 	}
 }
 
+// Service returns service
+func (ac *Controller) Service() *Service {
+	return ac.svc
+}
+
 // RegisterRoutes registers api endpoints for authorization service
 func (ac *Controller) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/api/bm/users/register/", ac.registerUser).Methods("POST")

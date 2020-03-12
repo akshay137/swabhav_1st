@@ -18,10 +18,13 @@ type Service struct {
 // NewBookmarkService returns new bookmark service instance
 func NewBookmarkService(db *gorm.DB) *Service {
 	db.AutoMigrate(&Bookmark{})
+	db.AutoMigrate(&Category{})
 	db.Model(&Bookmark{}).AddForeignKey("user_id", "users(id)",
 		"CASCADE", "CASCADE")
-	// db.Model(&Bookmark{}).AddForeignKey("category", "categorys(id)",
-	// 	"CASCADE", "CASCADE")
+	db.Model(&Bookmark{}).AddForeignKey("category", "categories(id)",
+		"CASCADE", "CASCADE")
+	db.Model(&Category{}).AddForeignKey("user_id", "users(id)",
+		"CASCADE", "CASCADE")
 	return &Service{
 		db:   db,
 		repo: NewBookmarkRepository(),
@@ -78,6 +81,12 @@ func (bs *Service) Add(uid, cid, name, url string) (*Bookmark, error) {
 	}
 	bm := NewBookmark(name, url, CID, UID)
 	uow := repository.NewUnitOfWork(bs.db, false)
+	cat := &Category{}
+	err = bs.repo.GetByID(uow, cat, UID, CID, nil)
+	if err != nil {
+		uow.Complete()
+		return nil, fmt.Errorf("no such category")
+	}
 	err = bs.repo.Add(uow, bm)
 	if err != nil {
 		uow.Complete()

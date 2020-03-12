@@ -30,12 +30,12 @@ func (br *Repository) GetAllByUser(uow *repository.UnitOfWork, out interface{},
 
 // GetByID returns entity for current user by matching entities id
 func (br *Repository) GetByID(uow *repository.UnitOfWork, out interface{},
-	uid uuid.UUID, bid uuid.UUID, preloads []string) error {
+	uid uuid.UUID, eid uuid.UUID, preloads []string) error {
 	db := uow.DB
 	for _, association := range preloads {
 		db = db.Preload(association)
 	}
-	return db.First(out, "id=? AND user_id=?", bid, uid).Error
+	return db.First(out, "id=? AND user_id=?", eid, uid).Error
 }
 
 // GetAllByCategory returns all bookmarks under a cateogry for given user
