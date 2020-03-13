@@ -48,6 +48,27 @@ func (bs *Service) GetAll(uid string) ([]Bookmark, error) {
 	return bms, nil
 }
 
+// GetAllByCategory returns all bookmarks by category
+func (bs *Service) GetAllByCategory(uid string, cid string) ([]Bookmark, error) {
+	UID, err := uuid.FromString(uid)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid user id")
+	}
+	CID, err := uuid.FromString(cid)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid category id")
+	}
+	uow := repository.NewUnitOfWork(bs.db, true)
+	bms := []Bookmark{}
+	err = bs.repo.GetAllByCategory(uow, &bms, UID, CID, nil)
+	if err != nil {
+		uow.Complete()
+		return nil, err
+	}
+	uow.Commit()
+	return bms, nil
+}
+
 // Get returns single bookmark for given user and bookmark id
 func (bs *Service) Get(uid string, bid string) (*Bookmark, error) {
 	UID, err := uuid.FromString(uid)

@@ -57,7 +57,8 @@ func (br *Repository) GetRecent(uow *repository.UnitOfWork, out interface{},
 	for _, association := range preloads {
 		db = db.Preload(association)
 	}
-	return db.Order("updateOn desc").Limit(limit).Find(out).Error
+	return db.Order("updateOn desc").Limit(limit).
+		Find(out, "user_id=?", uid).Error
 }
 
 func (br *Repository) DeleteByField(uow *repository.UnitOfWork, out interface{},

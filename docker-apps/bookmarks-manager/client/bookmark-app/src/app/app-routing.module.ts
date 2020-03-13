@@ -11,11 +11,11 @@ const routes: Routes = [
 		path: 'dashboard',
 		loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
 	},
-	// {
-	// 	path: '',
-	// 	redirectTo: 'home',
-	// 	pathMatch: 'full'
-	// }
+	{
+		path: '',
+		redirectTo: 'home',
+		pathMatch: 'full'
+	}
 ];
 
 @NgModule({

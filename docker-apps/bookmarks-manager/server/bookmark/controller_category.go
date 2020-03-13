@@ -8,6 +8,8 @@ import (
 )
 
 func (bc *Controller) RegisterCategoryRoutes(router *mux.Router) {
+	// router is a subrouter with path prefix
+	// /api/bm/users/{u_id}
 	router.HandleFunc("/category/", bc.getCategories).Methods("GET")
 	router.HandleFunc("/category/", bc.addCategory).Methods("POST")
 	router.HandleFunc("/category/{c_id}", bc.getCatByID).Methods("GET")

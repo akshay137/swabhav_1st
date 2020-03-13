@@ -1,1 +1,191 @@
-<p>dashboard works!</p>
+<div class="container">
+	<div class="navbar navbar-dark navbar-expand-md sticky-top bg-dark">
+		<div class="navbar-brand text-light">
+			@{{user && user.name || 'UserName'}}
+		</div>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbar-content">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- navbar-content -->
+		<div class="collapse navbar-collapse" id="navbar-content">
+			<ul class="navbar-nav text-light text-right ml-auto">
+				<!-- <li class="nav-item">
+					<a class="nav-link" [routerLink]="['/dashboard']">
+						Home
+					</a>
+				</li> -->
+				<li class="nav-item">
+					<a class="btn" (click)="logout()">LogOut</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- content -->
+	<div class="container">
+		<div class="container" role="recent-list">
+			<div>
+				<h3 class="h3" data-toggle="collapse"
+					data-target="#bookmark-list">
+					Recent
+				</h3>
+			</div>
+			<hr />
+			<div class="container collapse" id="bookmark-list">
+				<table class="table border">
+					<tr class="">
+						<th>Name</th>
+						<th>URL</th>
+					</tr>
+					<tr *ngFor="let bm of recentBookmarks"
+						(click)="redirect(bm.url)" class="pointer">
+						<td>
+							{{bm.name}}
+						</td>
+						<td>
+							{{bm.url}}
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- </div> -->
+		</div>
+
+		<div class="container" role="category-list">
+			<h3 class="h3">Categories</h3>
+			<button class="btn btn-primary" data-toggle="modal"
+				data-target="#category-modal">
+				Add category
+			</button>
+			<hr />
+			<div class="container">
+				<select (change)="loadBookmarks($event)" class="custom-select">
+					<option *ngFor="let cat of categories" [value]="cat.id">
+						{{cat.name}}
+					</option>
+				</select>
+				<button type="button" class="btn btn-danger btn-block"
+					(click)="deleteCategory()">
+					Delete category
+				</button>
+				<br /><br />
+				<table class="table border">
+					<tr class="">
+						<th>Name</th>
+						<th>URL</th>
+					</tr>
+					<tr *ngFor="let bm of currentBms" (click)="redirect(bm.url)"
+						class="pointer">
+						<td>
+							{{bm.name}}
+						</td>
+						<td>
+							{{bm.url}}
+						</td>
+					</tr>
+				</table>
+				<!-- <div *ngFor="let cat of categories">
+					<div (click)="getBookmarks(cat.id)">
+						<h3 class="h3">
+							{{cat.name}}
+						</h3>
+					</div>
+					<button class="btn btn-primary"
+						(click)="showAddBookmark(cat.id)">
+						Add bookmark
+					</button>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+	<div class="fixed-bottom text-right p-2">
+		<button class="btn btn-primary btn-lg rounded-circle"
+			(click)="showAddBookmark()">
+			<!-- Add bookmark -->
+			+
+		</button>
+	</div>
+	<!-- add/edit category modal -->
+	<div class="modal fade" id="category-modal" role="add category">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Category</h4>
+					<button class="close" type="button" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<!-- body -->
+					<form name="category" [formGroup]="catForm">
+						<div class="form-group">
+							<label for="user_id" class="">User ID</label>
+							<input type="text" name="user_id" id="user_id"
+								value="" class="form-control"
+								formControlName="user_id">
+						</div>
+						<div class="form-group">
+							<label for="name" class="">Name</label>
+							<input type="text" name="name" id="name"
+								placeholder="Category name" class="form-control"
+								formControlName="name">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<!-- buttons -->
+					<button class="btn btn-success btn-block"
+						[disabled]="!catForm.valid" (click)="addCategory()">
+						Add
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- add/edit bookmark modal -->
+	<div class="modal fade" id="bookmark-modal" role="add bookmark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Bookmark</h3>
+					<button type="button" class="close" data-dismiss="modal">
+						<span>&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form name="bookmark" [formGroup]="bmForm">
+						<div class="form-group">
+							<label for="name" class="">Name</label>
+							<input type="text" name="name" id="name"
+								placeholder="Bookmark name" class="form-control"
+								formControlName="name">
+						</div>
+						<div class="form-group">
+							<label for="url" class="">URL</label>
+							<input type="url" name="url" id="url"
+								placholder="URL" class="form-control"
+								placeholder="URL" formControlName="url">
+						</div>
+						<div class="form-group">
+							<label for="category" class="">
+								Category ID
+							</label>
+							<input type="text" name="category" id="category"
+								class="form-control" formControlName="category">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-block"
+						[disabled]="!bmForm.valid" (click)="addBookmark()">
+						Add
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

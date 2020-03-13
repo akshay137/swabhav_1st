@@ -38,6 +38,8 @@ func (bc *Controller) RegisterRoutes(router *mux.Router) {
 	bmRouter.Use(bc.authMiddlerWare)
 
 	bmRouter.HandleFunc("/bookmarks/", bc.getAllBookmarks).Methods("GET")
+	bmRouter.HandleFunc("/bookmarks/category/{c_id}",
+		bc.getAllByCategory).Methods("GET")
 	bmRouter.HandleFunc("/bookmarks/recent/{count}", bc.getNBookmarks).
 		Methods("GET")
 	bmRouter.HandleFunc("/bookmarks/", bc.addBookmark).Methods("POST")
@@ -71,6 +73,23 @@ func (bc *Controller) getAllBookmarks(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
 	uid := v["u_id"]
 	bms, err := bc.svc.GetAll(uid)
+	if err != nil {
+		web.WriteHTTPError(http.StatusInternalServerError, "Something went wrong", &w)
+		return
+	}
+	web.EncodeJSONObject(bms, &w)
+}
+
+func (bc *Controller) getAllByCategory(w http.ResponseWriter, r *http.Request) {
+	log.Println("Get All Bookmarks by category")
+	v := mux.Vars(r)
+	uid := v["u_id"]
+	cid, ok := v["c_id"]
+	if !ok || len(cid) != uuidLength {
+		web.WriteHTTPError(http.StatusBadRequest, "Invalid category id", &w)
+		return
+	}
+	bms, err := bc.svc.GetAllByCategory(uid, cid)
 	if err != nil {
 		web.WriteHTTPError(http.StatusInternalServerError, "Something went wrong", &w)
 		return

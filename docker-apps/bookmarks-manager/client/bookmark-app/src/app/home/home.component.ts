@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
 
 	private passType: string = 'password';
 
+	private msg: string = '';
+
 	private loginForm: FormGroup;
 	private registerForm: FormGroup;
 
@@ -71,6 +73,7 @@ export class HomeComponent implements OnInit {
 			this.router.navigate(['/dashboard'])
 		}).catch(err => {
 			console.log('error', err.error)
+			this.setMessage(err.error.message);
 		})
 	}
 
@@ -84,7 +87,12 @@ export class HomeComponent implements OnInit {
 				this.router.navigate(['/dashboard'])
 			}).catch(err => {
 				console.log(err.error)
+				this.setMessage(err.error.message);
 			})
+	}
+
+	setMessage(msg: string) {
+		this.msg = `*${msg}`;
 	}
 
 }
