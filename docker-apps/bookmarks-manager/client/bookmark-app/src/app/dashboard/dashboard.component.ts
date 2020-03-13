@@ -148,6 +148,14 @@ export class DashboardComponent implements OnInit {
 		$('#category-modal').modal('show');
 	}
 
+	showEditCategory() {
+		this.catForm.reset();
+		this.catForm.controls['user_id'].setValue(this.user.id);
+		this.catForm.controls['name'].setValue(
+			this.findInArray(this.categories, 'id', this.currentCat).name);
+		$('#category-modal').modal('show');
+	}
+
 	showAddBookmark(cat_id: string) {
 		if (!this.categories || this.categories.length == 0) {
 			alert("Please add category first");
@@ -202,4 +210,8 @@ export class DashboardComponent implements OnInit {
 			})
 	}
 
+
+	findInArray(arr: Array<any>, attr: string, value: any): any {
+		return arr.find(e => e[attr] === value);
+	}
 }

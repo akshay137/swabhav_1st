@@ -37,15 +37,18 @@
 				<table class="table border">
 					<tr class="">
 						<th>Name</th>
-						<th>URL</th>
+						<th class="d-none d-md-table-cell">URL</th>
+						<th>Visit</th>
 					</tr>
-					<tr *ngFor="let bm of recentBookmarks"
-						(click)="redirect(bm.url)" class="pointer">
+					<tr *ngFor="let bm of recentBookmarks">
 						<td>
 							{{bm.name}}
 						</td>
-						<td>
+						<td class="d-none d-md-table-cell">
 							{{bm.url}}
+						</td>
+						<td (click)="redirect(bm.url)" class="pointer">
+							visit
 						</td>
 					</tr>
 				</table>
@@ -55,8 +58,7 @@
 
 		<div class="container" role="category-list">
 			<h3 class="h3">Categories</h3>
-			<button class="btn btn-primary" data-toggle="modal"
-				data-target="#category-modal">
+			<button class="btn btn-primary" (click)="showAddCategory()">
 				Add category
 			</button>
 			<hr />
@@ -66,45 +68,48 @@
 						{{cat.name}}
 					</option>
 				</select>
-				<button type="button" class="btn btn-danger btn-block"
-					(click)="deleteCategory()">
-					Delete category
-				</button>
+				<div class="row">
+					<div class="col pr-0">
+						<button type="button" class="btn btn-danger btn-block"
+							(click)="deleteCategory()">
+							Delete category
+						</button>
+					</div>
+					<div class="col pl-0">
+						<button type="button" (click)="showEditCategory()"
+							class="btn btn-secondary btn-block">
+							Edit category
+						</button>
+					</div>
+				</div>
 				<br /><br />
+				<!-- <app-bookmarklist list="currentBms"></app-bookmarklist> -->
 				<table class="table border">
 					<tr class="">
 						<th>Name</th>
-						<th>URL</th>
+						<th class="d-none d-md-table-cell">URL</th>
+						<th>Visit</th>
 					</tr>
-					<tr *ngFor="let bm of currentBms" (click)="redirect(bm.url)"
-						class="pointer">
+					<tr *ngFor="let bm of currentBms">
 						<td>
 							{{bm.name}}
 						</td>
-						<td>
+						<td class="d-none d-md-table-cell">
 							{{bm.url}}
+						</td>
+						<td (click)="redirect(bm.url)" class="pointer">
+							visit
 						</td>
 					</tr>
 				</table>
-				<!-- <div *ngFor="let cat of categories">
-					<div (click)="getBookmarks(cat.id)">
-						<h3 class="h3">
-							{{cat.name}}
-						</h3>
-					</div>
-					<button class="btn btn-primary"
-						(click)="showAddBookmark(cat.id)">
-						Add bookmark
-					</button>
-				</div> -->
 			</div>
 		</div>
 	</div>
 
 	<div class="fixed-bottom text-right p-2">
+		<!-- Add bookmark -->
 		<button class="btn btn-primary btn-lg rounded-circle"
 			(click)="showAddBookmark()">
-			<!-- Add bookmark -->
 			+
 		</button>
 	</div>
