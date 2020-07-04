@@ -7,7 +7,7 @@ import org.junit.jupiter.api.*;
 
 public class ResultAnalyzerTest {
     
-    private final int size = 7890;
+    private final int size = 3;
     
     @Test
     public void testGameRunning()

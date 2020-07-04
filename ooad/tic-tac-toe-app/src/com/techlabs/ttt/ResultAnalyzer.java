@@ -59,8 +59,8 @@ public class ResultAnalyzer implements IResultAnalyzer{
 	if (cellId / size != cellId % size)
 	    return false;
 	Cell[] cells = board.getGrid();
-	for (int i = 0; i < size; i++)
-	    if (cells[i * size + i].getMark() != mark)
+	for (int i = 0; i < cells.length; i += (size + 1))
+	    if (cells[i].getMark() != mark)
 		return false;
 	return true;
     }
@@ -75,10 +75,10 @@ public class ResultAnalyzer implements IResultAnalyzer{
 	if (row != (size - 1 - column))
 	    return false;
 	Cell[] cells = board.getGrid();
-	for (int i = 0; i < size; i++)
+	for (int i = size - 1; i < cells.length - 1; i += (size - 1))
 	{
-	    int index = (i * size) + (size - 1 - i);
-	    if (cells[index].getMark() != mark)
+//	    int index = (i * size) + (size - 1 - i);
+	    if (cells[i].getMark() != mark)
 		return false;
 	}
 	return true;
